@@ -69,6 +69,7 @@ const LoginForm = () => {
                 <input type="email" value={user_email} onChange={(e) => {
                   handleUserEmail(e.target.value);
                 }}/>
+                
               </div>
 
               <div>
@@ -77,6 +78,9 @@ const LoginForm = () => {
                   handleUserPassword(e.target.value);
                 }}/>
               </div>
+              {user_emailError? user_emailError: ""}
+              <br />
+              {user_passwordError? user_passwordError: ""}
               <br/>
              <input type="submit" class="nes-btn is-primary" value="Login"  /> 
 

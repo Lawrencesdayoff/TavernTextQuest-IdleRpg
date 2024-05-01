@@ -24,13 +24,16 @@ const CharacterCreator = () => {
   const user_id = sessionStorage.getItem("token");
 
   const navigate = useNavigate();
+  const returnToHome = (e) => {
+    navigate("/dashboard");
+  };
 
 
   const handleFirstName = (e) => {
     console.log(e.length);
     setFirstname(e);
     if (e.length < 4) {
-      setFirstnameError("User symptoms must be at least 4 characters long");
+      setFirstnameError("First name must be at least 4 characters long");
     } else {
       setFirstnameError(false);
     }
@@ -39,7 +42,7 @@ const CharacterCreator = () => {
     console.log(e.length);
     setLastname(e);
     if (e.length < 4) {
-      setLastnameError("User symptoms must be at least 4 characters long");
+      setLastnameError("Last name must be at least 4 characters long");
     } else {
       setLastnameError(false);
     }
@@ -67,22 +70,22 @@ const CharacterCreator = () => {
 
 
 
-//   const isFormValid = () => {
-//     if (( user_lastnameError ||  user_firstnameError) == true) {
-//       console.log("There exists an error");
-//       return setSubmitState(true);
-//     } else if (( user_lastnameError ||user_firstnameError) === "") {
-//       console.log("There is a field missing");
-//       return setSubmitState(true);
-//     } else if (
-//       user_firstnameError == (false || "") &&
-//       user_lastnameError == (false || "") 
-//     ) {
-//       console.log(invalidform);
-//       return setSubmitState(false);
-//     } else console.log(invalidform);
-//     return setSubmitState(true);
-//   };
+  const isFormValid = () => {
+    if (( user_lastnameError ||  user_firstnameError) == true) {
+      console.log("There exists an error");
+      return setSubmitState(true);
+    } else if (( user_lastnameError ||user_firstnameError) === "") {
+      console.log("There is a field missing");
+      return setSubmitState(true);
+    } else if (
+      user_firstnameError == (false || "") &&
+      user_lastnameError == (false || "") 
+    ) {
+      console.log(invalidform);
+      return setSubmitState(false);
+    } else console.log(invalidform);
+    return setSubmitState(true);
+  };
 
   const createPC = (e) => {
     e.preventDefault();
@@ -104,10 +107,13 @@ const CharacterCreator = () => {
 
     return(
     <>
-    <form onSubmit={createPC}  id = "charactercreation">
+    <form onSubmit={createPC} onChange={isFormValid} id = "charactercreation">
      
         <div class = "col">
-        
+        {user_firstnameError? user_firstnameError: ""}
+              <br />
+              {user_lastnameError? user_lastnameError: ""}
+              <br />
           <label> First Name: </label>
           <input type="text" value={PC_firstname} onChange={(e) => {
             handleFirstName(e.target.value);
@@ -148,6 +154,8 @@ const CharacterCreator = () => {
       <input type="submit" class="nes-btn is-primary" value="Register" />
       </div>
     </form>
+          <br></br>
+    <button class="nes-btn is-primary" onClick={returnToHome}>to Dashboard</button>
   </>
 )}
 

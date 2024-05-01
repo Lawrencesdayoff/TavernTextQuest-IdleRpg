@@ -14,6 +14,25 @@ const CharacterUpdate = () => {
     const returnToHome = (e) => {
         navigate("/dashboard");
       };
+      const handleFirstName = (e) => {
+        console.log(e.length);
+        setFirstname(e);
+        if (e.length < 4) {
+          setFirstnameError("User symptoms must be at least 4 characters long");
+        } else {
+          setFirstnameError(false);
+        }
+      };
+      const handleLastName = (e) => {
+        console.log(e.length);
+        setLastname(e);
+        if (e.length < 4) {
+          setLastnameError("User symptoms must be at least 4 characters long");
+        } else {
+          setLastnameError(false);
+        }
+      };
+    
     useEffect(() => {
         axios
           .get(`http://localhost:9999/api/getoneCharacter/${id}`)
@@ -35,15 +54,17 @@ const CharacterUpdate = () => {
         e.preventDefault();
           axios
             .put("http://localhost:9999/api/updateCharacter/" + id, {
-              patientname,
-              age,
-              symptoms,
+              PC_firstname,
+              PC_lastname,
+              PC_race,
+              PC_pronouns,
+              PC_bio
             })
             .then((res) => {
               console.log(res);
               console.log(res.data);
             });
-          navigate("/patient/" + id + "/details");
+          navigate("/dashboard");
           
           
 

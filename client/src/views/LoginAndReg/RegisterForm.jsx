@@ -36,7 +36,7 @@ const RegisterForm = (props) => {
     console.log(e.length);
     setFirstname(e);
     if (e.length < 4) {
-      setFirstnameError("User symptoms must be at least 4 characters long");
+      setFirstnameError("first name must be at least 4 characters long");
     } else {
       setFirstnameError(false);
     }
@@ -45,7 +45,7 @@ const RegisterForm = (props) => {
     console.log(e.length);
     setLastname(e);
     if (e.length < 4) {
-      setLastnameError("User symptoms must be at least 4 characters long");
+      setLastnameError("last name must be at least 4 characters long");
     } else {
       setLastnameError(false);
     }
@@ -164,6 +164,15 @@ const RegisterForm = (props) => {
             }}/>
           </div>
           <br />
+          {user_usernameError? user_usernameError: ""}
+              <br />
+              {user_firstnameError? user_firstnameError: ""}
+              <br />
+              {user_lastnameError? user_lastnameError: ""}
+              <br />
+              {user_emailError? user_emailError: ""}
+              <br />
+              {user_passwordError? user_passwordError: ""}
         <input type="submit" class="nes-btn is-primary" value="Register" disabled={invalidform} />
       </form>
     </>
