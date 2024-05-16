@@ -48,25 +48,25 @@ const CharacterCreator = () => {
     }
   };
 
-//   const onIncrement = (e) => {
-//     if (userPoints == 0){
-//         console.log("No more points left")
-//     }
-//     else
-//     setUserPoints(userPoints - 1);
-//   }
+  const onIncrement = (e) => {
+    if (userPoints == 0){
+        console.log("No more points left")
+    }
+    else
+    setUserPoints(userPoints - 1);
+  }
 
-//   const onDecrement  = (e, fun) => {
-//     if (e <= 5){
-//         console.log("cannot decrease stat further")
-//     }
-//     if (userPoints == 25){
-//         console.log("Point reserve full")
-//     }
-//     else
-//     setUserPoints(userPoints + 1);
+  const onDecrement  = (e, fun) => {
+    if (e <= 5){
+        console.log("cannot decrease stat further")
+    }
+    if (userPoints == 25){
+        console.log("Point reserve full")
+    }
+    else
+    setUserPoints(userPoints + 1);
 
-//   }
+  }
 
 
 
@@ -107,6 +107,7 @@ const CharacterCreator = () => {
 
     return(
     <>
+    <div class = "row">
     <form onSubmit={createPC} onChange={isFormValid} id = "charactercreation">
      
         <div class = "col">
@@ -149,13 +150,42 @@ const CharacterCreator = () => {
 <bn />
 <textarea name="PC_bio" cols="40" rows="5" onChange={(e) => setBio(e.target.value)}></textarea>
     </div>
+
+<div class = "col">
+<div>
+  <label>Strength: </label>
+</div>
+<div>
+  <label>Constitution: </label>
+</div>
+<div>
+  <label>Agility: </label>
+</div>
+<div class = "row">
+  <label>Perception: </label>
+  <a><button class= "nes-btn is-primary"> - </button></a>
+  <p>###</p>
+  <a><button class= "nes-btn is-primary"> + </button></a>
+</div>
+<div>
+  <label>Intellect: </label>
+</div>
+<div>
+  <label>Magick: </label>
+</div>
+<div>
+  <label>Wisdom: </label>
+</div>
+</div>
         <br />
         <div class = "col">
       <input type="submit" class="nes-btn is-primary" value="Register" />
       </div>
+      <button class="nes-btn is-primary" onClick={returnToHome}>to Dashboard</button>
+
     </form>
           <br></br>
-    <button class="nes-btn is-primary" onClick={returnToHome}>to Dashboard</button>
+    </div>
   </>
 )}
 

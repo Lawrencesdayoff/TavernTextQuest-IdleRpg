@@ -36,35 +36,35 @@ const CharacterSchema = new Schema(
             required: [true, "address is required"],
             minLength: [4, "Minimum length of address must be greater than 2 characters"],
             maxLength: [255, "Maximum length of address has to be less than 255"]
-        }
-        // PC_strength: {
-        //     type: Number,
-        //     required: [true, "Must have at least one point in every skill"]
-        // },
-        // PC_constitution: {
-        //     type: Number,
-        //     required: [true, "Must have at least one point in every skill"]
-        // },
-        // PC_agility: {
-        //     type: Number,
-        //     required: [true, "Must have at least one point in every skill"]
-        // },
-        // PC_perception: {
-        //     type: Number,
-        //     required: [true, "Must have at least one point in every skill"]
-        // },
-        // PC_intellect: {
-        //     type: Number,
-        //     required: [true, "Must have at least one point in every skill"]
-        // },
-        // PC_magick: {
-        //     type: Number,
-        //     required: [true, "Must have at least one point in every skill"]
-        // },
-        // PC_wisdom: {
-        //     type: Number,
-        //     required: [true, "Must have at least one point in every skill"]
-        // },
+        },
+        PC_strength: {
+            type: Number,
+            required: [true, "Must have at least one point in every skill"]
+        },
+        PC_constitution: {
+            type: Number,
+            required: [true, "Must have at least one point in every skill"]
+        },
+        PC_agility: {
+            type: Number,
+            required: [true, "Must have at least one point in every skill"]
+        },
+        PC_perception: {
+            type: Number,
+            required: [true, "Must have at least one point in every skill"]
+        },
+        PC_intellect: {
+            type: Number,
+            required: [true, "Must have at least one point in every skill"]
+        },
+        PC_magick: {
+            type: Number,
+            required: [true, "Must have at least one point in every skill"]
+        },
+        PC_wisdom: {
+            type: Number,
+            required: [true, "Must have at least one point in every skill"]
+        },
     },
     { timestamps: true}
 );
