@@ -48,15 +48,16 @@ const CharacterCreator = () => {
     }
   };
 
-  const onIncrement = (e) => {
+  const onIncrement = (e, func) => {
     if (userPoints == 0){
         console.log("No more points left")
     }
     else
     setUserPoints(userPoints - 1);
+    func()
   }
 
-  const onDecrement  = (e, fun) => {
+  const onDecrement  = (e, func) => {
     if (e <= 5){
         console.log("cannot decrease stat further")
     }
@@ -65,7 +66,7 @@ const CharacterCreator = () => {
     }
     else
     setUserPoints(userPoints + 1);
-
+    
   }
 
 
@@ -152,6 +153,7 @@ const CharacterCreator = () => {
     </div>
 
 <div class = "col">
+  <p> Availble Points: {userPoints} </p>
 <div>
   <label>Strength: </label>
 </div>
@@ -163,9 +165,9 @@ const CharacterCreator = () => {
 </div>
 <div class = "row">
   <label>Perception: </label>
-  <a><button class= "nes-btn is-primary"> - </button></a>
-  <p>###</p>
-  <a><button class= "nes-btn is-primary"> + </button></a>
+  <a><button class= "nes-btn is-primary" onClick = {(e) => onDecrement(e, setPerception(PC_perception - 1))}> - </button></a>
+  <p>{PC_perception}</p>
+  <a><button class= "nes-btn is-primary" onClick = {(e) => onIncrement(e, setPerception(PC_perception + 1))}> + </button></a>
 </div>
 <div>
   <label>Intellect: </label>
