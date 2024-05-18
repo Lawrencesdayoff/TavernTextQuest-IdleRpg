@@ -5,7 +5,7 @@ import "./App.css";
 import LoginAndReg from "./views/LoginAndReg/LoginAndReg";
 import Dashboard from "./views/Dashboard";
 import "nes.css/css/nes.min.css";
-import "bootstrap/dist/css/bootstrap-grid.css"
+// import "bootstrap/dist/css/bootstrap-grid.css"
 import AuthProvider from "./views/LoginAndReg/AuthProvider";
 import CharacterCreator from "./views/CharacterCreator";
 import CharacterUpdate from "./views/CharacterUpdate";

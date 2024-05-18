@@ -6,6 +6,9 @@ import Tabs from "../Tabs.jsx";
 import LoginForm from "./LoginForm.jsx";
 const LoginAndReg = () =>
 {
+
+
+    // Use Use effect to make tab switch instant
     const [activeTab, setActiveTab] = useState(0);
     const handleLoginRegTabs = (change) => {
         setActiveTab(change);

@@ -117,3 +117,45 @@ justify-content:space-between;
   overflow-y: scroll;  text-align: justify;
   
 }
+
+.char-screen{
+  width:100%;
+  height:100%;
+  padding:100px;
+  display: flex;
+  justify-content: space-around;
+  align-items:flex-start;
+  flex-direction: row;
+  border: solid 1px black;
+}
+
+.char-column{
+  float:left;
+flex-direction: column;
+}
+.skill-column{
+  float:right;
+  flex-direction: column;
+
+}
+
+.skill-field{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+.vertical-center {
+  margin: 0;
+  transform: translateY(-25%);
+}
+
+.cc-footer{
+float:inline-end;
+margin: 50px;
+height: 10%;
+display: flex;
+justify-content: space-around;
+
+
+}
