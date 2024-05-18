@@ -3,8 +3,8 @@ async function createPC(req, res) {
     try{
        
         console.log("Create new PC");
-        const {user_id, PC_firstname, PC_lastname, PC_race, PC_pronouns, PC_bio, 
-            // PC_strength, PC_constitution, PC_agility, PC_perception, PC_intellect, PC_magick, PC_wisdom
+        const {user_id, PC_image, PC_firstname, PC_lastname, PC_race, PC_pronouns, PC_bio, 
+            PC_strength, PC_constitution, PC_agility, PC_perception, PC_intellect, PC_magick, PC_wisdom
         } = req.body;
         
         console.log({"user:" : user_id,
@@ -12,18 +12,18 @@ async function createPC(req, res) {
                     "race:": PC_race,
                 "pronouns:": PC_pronouns,
             "bio:" : PC_bio,
-            // "strength:" : PC_strength,
-            // "constitution:" : PC_constitution,
-            // "agility:": PC_agility,
-            // "perception:" : PC_perception,
-            // "intellect": PC_intellect,
-            // "magick:" : PC_magick,
-            // "wisdom:" : PC_wisdom
+            "strength:" : PC_strength,
+            "constitution:" : PC_constitution,
+            "agility:": PC_agility,
+            "perception:" : PC_perception,
+            "intellect": PC_intellect,
+            "magick:" : PC_magick,
+            "wisdom:" : PC_wisdom
         });
         
         const newPC = await Character.create({
-            user_id, PC_firstname, PC_lastname, PC_race, PC_pronouns, PC_bio 
-            // PC_strength, PC_constitution, PC_agility, PC_perception, PC_intellect, PC_magick, PC_wisdom
+            user_id, PC_image, PC_firstname, PC_lastname, PC_race, PC_pronouns, PC_bio,
+            PC_strength, PC_constitution, PC_agility, PC_perception, PC_intellect, PC_magick, PC_wisdom
         });
         
         return res.status(201).json(newPC);

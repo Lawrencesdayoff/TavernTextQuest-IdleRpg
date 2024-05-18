@@ -139,18 +139,18 @@ const CharacterCreator = () => {
     axios.post("http://localhost:9999/api/newCharacter", {
         user_id: user_id,
         PC_image: PC_image,
-        PC_firstname,
-        PC_lastname,
-        PC_race,
-        PC_pronouns,
-        PC_bio,
-        PC_strength,
-        PC_constitution,
-        PC_agility,
-        PC_perception,
-        PC_intellect,
-        PC_magick,
-        PC_wisdom
+        PC_firstname: PC_firstname,
+        PC_lastname: PC_lastname,
+        PC_race: PC_race,
+        PC_pronouns: PC_pronouns,
+        PC_bio: PC_bio,
+        PC_strength: PC_strength,
+        PC_constitution: PC_constitution,
+        PC_agility: PC_agility,
+        PC_perception: PC_perception,
+        PC_intellect: PC_intellect,
+        PC_magick: PC_magick,
+        PC_wisdom: PC_wisdom
       })
       .then((res) => {
         console.log(res);
@@ -168,6 +168,7 @@ const CharacterCreator = () => {
     <form onSubmit={createPC}  id = "charactercreation">
       <a><button class="nes-btn is-primary" onClick={(e) => movePrevious(e)}> Arrow Left </button></a>
       <img src = {PC_image} alt = "alternate text"></img>
+      <input type = "hidden" name = "PC_image" form = "charactercreator" value= {PC_image}/>
       <a><button class="nes-btn is-primary" onClick={(e) => moveNext(e)}> Arrow Right </button></a>
         <div class = "char-column">
           <div>
@@ -213,43 +214,43 @@ const CharacterCreator = () => {
               <div class = "skill-field">
                 <label>Strength: </label>
                 <a><button class= "nes-btn is-primary vertical-center" onClick = {(e) => onDecrement(e, PC_strength, setStrength)}> - </button></a>
-                <p>{PC_strength}</p>
+                <p>{PC_strength}</p>  <input type = "hidden" name = "PC_strength" form = "charactercreator" value= {PC_strength}/>
                 <a><button class= "nes-btn is-primary vertical-center" onClick = {(e) => onIncrement(e, PC_strength, setStrength)}> + </button></a>
               </div>
               <div class = "skill-field">
                 <label>Constitution: </label>
                 <a><button class= "nes-btn is-primary vertical-center" onClick = {(e) => onDecrement(e, PC_constitution, setConstitution)}> - </button></a>
-                <p>{PC_constitution}</p>
+                <p>{PC_constitution}</p>  <input type = "hidden" name = "PC_constitution" form = "charactercreator" value= {PC_constitution}/>
                 <a><button class= "nes-btn is-primary vertical-center" onClick = {(e) => onIncrement(e, PC_constitution, setConstitution)}> + </button></a>
               </div>
               <div class = "skill-field">
                 <label>Agility: </label>
                 <a><button class= "nes-btn is-primary vertical-center" onClick = {(e) => onDecrement(e, PC_agility, setAgility)}> - </button></a>
-                <p>{PC_agility}</p>
+                <p>{PC_agility}</p>  <input type = "hidden" name = "PC_agility" form = "charactercreator" value= {PC_agility}/>
                 <a><button class= "nes-btn is-primary vertical-center" onClick = {(e) => onIncrement(e, PC_agility, setAgility)}> + </button></a>
               </div>
               <div class = "skill-field">
                 <label>Perception: </label>
                 <a><button class= "nes-btn is-primary vertical-center" onClick = {(e) => onDecrement(e, PC_perception, setPerception)}> - </button></a>
-                <p>{PC_perception}</p>
+                <p>{PC_perception}</p>  <input type = "hidden" name = "PC_perception" form = "charactercreator" value= {PC_perception}/>
                 <a><button class= "nes-btn is-primary vertical-center" onClick = {(e) => onIncrement(e, PC_perception, setPerception)}> + </button></a>
               </div>
               <div class = "skill-field">
                 <label>Intellect: </label>
                 <a><button class= "nes-btn is-primary vertical-center" onClick = {(e) => onDecrement(e, PC_intellect, setIntellect)}> - </button></a>
-                <p>{PC_intellect}</p>
+                <p>{PC_intellect}</p>  <input type = "hidden" name = "PC_intellect" form = "charactercreator" value= {PC_intellect}/>
                 <a><button class= "nes-btn is-primary vertical-center" onClick = {(e) => onIncrement(e, PC_intellect, setIntellect)}> + </button></a>
               </div>
               <div class = "skill-field">
                 <label>Magick: </label>
                 <a><button class= "nes-btn is-primary vertical-center" onClick = {(e) => onDecrement(e, PC_magick, setMagick)}> - </button></a>
-                <p>{PC_magick}</p>
+                <p>{PC_magick}</p>  <input type = "hidden" name = "PC_magick" form = "charactercreator" value= {PC_magick}/>
                 <a><button class= "nes-btn is-primary vertical-center" onClick = {(e) => onIncrement(e, PC_magick, setMagick)}> + </button></a>
               </div>
               <div class = "skill-field">
                 <label>Wisdom: </label>
                 <a><button class= "nes-btn is-primary vertical-center" onClick = {(e) => onDecrement(e, PC_wisdom, setWisdom)}> - </button></a>
-                <p>{PC_wisdom}</p>
+                <p>{PC_wisdom}</p> <input type = "hidden" name = "PC_wisdom" form = "charactercreator" value= {PC_wisdom}/>
                 <a><button class= "nes-btn is-primary vertical-center" onClick = {(e) => onIncrement(e, PC_wisdom, setWisdom)}> + </button></a>
               </div>
               <button class= "nes-btn is-primary" onClick = {(e) => {resetStats(e)}}>Reset</button>

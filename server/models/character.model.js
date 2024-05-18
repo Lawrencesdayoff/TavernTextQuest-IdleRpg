@@ -7,6 +7,10 @@ const CharacterSchema = new Schema(
             minLength: [1, "First name of user must be greater than 1 character"],
             maxLength: [40, "First name of user must be less than 40 characters"]
         },
+        PC_image: {
+            type: String,
+            required: [true, "inage path is required!"]
+        },
         PC_firstname: {
             type: String,
             required: [true, "First name of user is required!"],
