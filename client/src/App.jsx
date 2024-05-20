@@ -11,6 +11,8 @@ import CharacterCreator from "./views/CharacterCreator";
 import CharacterUpdate from "./views/CharacterUpdate";
 import CharacterDelete from "./views/CharacterDelete";
 import CharacterDetails from "./views/CharacterDetails";
+import QuestLog from "./views/QuestLog";
+import ActiveQuest from "./views/ActiveQuest";
 // import PatientList from "./views/PatientList";
 // import PatientDetails from "./views/PatientDetails";
 // import PatientDelete from "./components/PatientDelete";
@@ -29,6 +31,8 @@ function App() {
           <Route path= "/character/:id/update" element = {<CharacterUpdate/>}/>
           <Route path= "/character/:id/delete" element = {<CharacterDelete />}/>
           <Route path= "/character/:id" element = {<CharacterDetails/>} />
+          <Route path= "/availablequests/:id" element= {<QuestLog user = {UserInfo}/>} />
+          <Route path= "/activequests/:id" element= {<ActiveQuest user = {UserInfo}/>} />
         </Routes>
         </AuthProvider>
       </BrowserRouter>

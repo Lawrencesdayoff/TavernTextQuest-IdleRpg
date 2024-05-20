@@ -34,19 +34,14 @@ const Dashboard = (props) => {
           </div>
         <div className = "dashboard-content">
         
-        <div class = "col">   
-        <div class = "row">
+        <div class = "dashboard-quest-column">   
           <QuestContainer Heading = "Active Quests" Content = "Content would go here" />
-        </div>,
-        <div class = "row">
           <QuestContainer Heading = "Availble Quests" Content = "Content would go here" />
         </div>
-        </div>
-        <div class = "col">
-          <div class = "row">
-            <CharacterContainer Heading= "Characters" Content =  {CharacterList.map((item, index) => (<CharacterItem key = {index} _id = {item._id} firstname = {item.PC_firstname} lastname = {item.PC_lastname} />))}
+        <div class = "dashboard-char-column">
+            <CharacterContainer Heading= "Characters" Content =  {CharacterList.map((item, index) => (<CharacterItem key = {index} _id = {item._id} image = {item.PC_image} firstname = {item.PC_firstname} lastname = {item.PC_lastname} />))}
             />
-          </div>
+
 
         </div>
       </div>

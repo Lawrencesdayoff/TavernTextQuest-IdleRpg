@@ -57,23 +57,38 @@ td, th {
 .dashboard-header{
   display: flex;
   align-items: center;
-justify-content:space-between;
- padding: 20px;
+  justify-content:space-between;
+  padding: 40px;
   height: 20px;
   width: 100%;
   border: black 1px solid;
+  text-align: center;
 }
 .dashboard-content{
   height: 100%;
   width: 100%;
   border: black 1px solid;
+  display: flex;
+  justify-content: space-around;
 }
 .dashboard-area{
  width: 1280px;
  height: 800px;
 }
+.dashboard-quest-column{
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 
-.tabs-container {
+}
+.dashboard-char-column{
+  width: 50%;
+  height: 100%;
+  display: flex;
+
+  justify-content: center;
+}.tabs-container {
   width: 400px;
   margin: 20px auto;
 }
@@ -105,6 +120,17 @@ justify-content:space-between;
   height: 300px;
 
 }
+.scrollable-div-container-characters{
+  border: 1px black;
+  width: 50%;
+  height: 300px;
+}
+.scrollable-div-container{
+  border: 1px black;
+  width: 100%;
+  height: 300px;
+
+}
 .scrollable-div-Header{
   background-color: #f1f1f1;
   width: 100%;
@@ -114,7 +140,8 @@ justify-content:space-between;
   background-color: #f1f1f1;
   height: 100%;
   width: 100%;
-  overflow-y: scroll;  text-align: justify;
+  overflow-y: scroll;  
+  text-align: justify;
   
 }
 

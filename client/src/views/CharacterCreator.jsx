@@ -7,8 +7,8 @@ const CharacterCreator = () => {
   const { id } = useParams();
   const [PC_firstname, setFirstname] = useState("");
   const [PC_lastname, setLastname] = useState("");
-  const [PC_race, setRace] = useState("")
-  const [PC_pronouns, setPronouns] = useState("");
+  const [PC_race, setRace] = useState("grassman")
+  const [PC_pronouns, setPronouns] = useState("she/her");
   const [PC_bio, setBio] = useState("");
   const [PC_strength, setStrength] = useState(5);
   const [PC_constitution, setConstitution] = useState(5);
