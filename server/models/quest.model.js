@@ -14,6 +14,9 @@ const QuestSchema = new Schema(
         Quest_level: {
             type: Number,
             required: [true, "Quest must have recommended level"]
-        }
-    }
+        },
+    },
+    {timestamps: true}
 )
+const Quest = model("Quest", QuestSchema);
+export default Quest;
