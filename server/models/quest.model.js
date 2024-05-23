@@ -5,6 +5,16 @@ const QuestSchema = new Schema(
             type:String,
             required: [true, "Quest name is required"]
         },
+        Quest_description:{
+            type:String,
+            required: [true, "Quest must have a description"]
+        },
+        Quest_time_hours:{
+            type:Number,
+        },
+        Quest_time_minutes:{
+            type: Number
+        },
         Quest_images:{
             type: Array
         },

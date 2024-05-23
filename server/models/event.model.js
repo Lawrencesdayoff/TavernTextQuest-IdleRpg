@@ -5,18 +5,45 @@ const EventSchema = new Schema(
             type: String,
             required: [true, "Event name is required"]  
         },
-        Event_description:{},
-        Event_success:{},
-        Event_failure:{},
+        Event_description:{
+            type: String,
+            required: [true, "Event must have an initial description"]
+        },
+        Event_description_success:{
+            type: String,
+            required: [true, "Event must have win description"]
+        },
+        Event_description_failure:{
+            type: String,
+            required: [true, "Event must have loss description"]
+        },
+        Event_success_gold_gain:{
+            type: Number
+        },
+        Event_failure_health_loss:{
+            type: Number
+        },
         Event_str_check:{
             type: Number
         },
-        Event_con_check:{},
-        Event_agi_check:{},
-        Event_per_check:{},
-        Event_int_check:{},
-        Event_wis_check:{},
-        Event_mag_check:{}
+        Event_con_check:{
+            type: Number
+        },
+        Event_agi_check:{
+            type: Number
+        },
+        Event_per_check:{
+            type: Number
+        },
+        Event_int_check:{
+            type: Number
+        },
+        Event_wis_check:{
+            type: Number
+        },
+        Event_mag_check:{
+            type: Number
+        }
         },
         {
             timestamps: true
