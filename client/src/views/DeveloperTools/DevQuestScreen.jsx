@@ -139,7 +139,7 @@ const DevQuestScreen = () => {
     };
     return(
     <>
-    <form id= "questcreation" onSubmit={createQuest}>
+    <form id= "questcreation" method='POST' onSubmit={createQuest}>
         <label for = "questname"> Quest Name: </label>
         <input type= "text" id= "questname" name= "Quest_name" form= "questcreation" value = {questname} onChange={(e)=>handleQuestName(e.target.value)} />
         <label for= "questlevel"> Quest Level: </label>
