@@ -11,24 +11,95 @@ const DevQuestScreen = () => {
     const [questbiome, setQuestBiome] = useState([]);
     const [questtimeminutes, setTimeMinutes] = useState(0);
     const [questtimehours, setTimeHours] = useState(0);
-    
-   const handleQuestName = (e) => {
+    const questbackgrounds = Array.from( QuestPictures.map((item) => (item.image)))
+    const articbackgrounds = questbackgrounds.filter((item) => item.includes("christmas"))
+    const desertbackgrounds = questbackgrounds.filter((item) => item.includes("desert"))
+    const dungeonbackgrounds = questbackgrounds.filter((item) => item.includes("dungeon"))
+    const forestbackgrounds = questbackgrounds.filter((item) => item.includes("forest"))
+    const mountainbackgrounds = questbackgrounds.filter((item) => item.includes("Mountain"))
+    const coastbackgrounds = questbackgrounds.filter((item)=> item.includes("sea&ocean") )
+    const grasslandbackgrounds = questbackgrounds.filter((item)=> item.includes("Sky"))
+    const urbanbackgrounds = questbackgrounds.filter((item) => item.includes("castle"))
+    const handleQuestName = (e) => {
         setQuestName(e)
     };
-   const handleQuestImages = (e) => {
-        e.preventDefault()
-        setQuestImages(e)
+
+    const findBiomeImages = () => {
+
+    }
+
+   const addQuestImages = (biome) => {
+        switch(biome){
+        case "Artic":     
+            setQuestImages([... questimages, {Background_Type: "Artic", images: articbackgrounds}])
+        break;
+        case "Desert":
+            setQuestImages([... questimages, {Background_Type: "Desert", images: desertbackgrounds}])
+        break;
+        case "Urban":
+            setQuestImages([... questimages, {Background_Type: "Urban", images: urbanbackgrounds}])
+        break;
+        case "Dungeon":
+            setQuestImages([... questimages, {Background_Type: "Dungeon", images: dungeonbackgrounds}])
+        break;
+        case "Forest":
+            setQuestImages([... questimages, {Background_Type: "Forest", images: forestbackgrounds}])
+        break;
+        case "Mountains":
+            setQuestImages([... questimages, {Background_Type: "Mountains", images: mountainbackgrounds}])
+        break;
+        case "Coastlands":
+            setQuestImages([... questimages, {Background_Type: "Coastlands", images: coastbackgrounds}])
+        break;
+        case "Grasslands":
+            setQuestImages([... questimages, {Background_Type: "Grasslands", images: grasslandbackgrounds}])
+        break;
+        default:
+            console.log("something went wrong")
+        }
     };
+
+    const removeQuestImages = (biome) => {
+        switch(biome){
+        case "Artic":     
+            setQuestImages(questimages.filter(item => item.Background_Type !== biome ))
+        break;
+        case "Desert":
+            setQuestImages(questimages.filter(item => item.Background_Type !== biome ))
+        break;
+        case "Urban":
+            setQuestImages(questimages.filter(item => item.Background_Type !== biome ))
+        break;
+        case "Dungeon":
+            setQuestImages(questimages.filter(item => item.Background_Type !== biome ))
+        break;
+        case "Forest":
+            setQuestImages(questimages.filter(item => item.Background_Type !== biome ))
+        break;
+        case "Mountains":
+            setQuestImages(questimages.filter(item => item.Background_Type !== biome ))
+        break;
+        case "Coastlands":
+            setQuestImages(questimages.filter(item => item.Background_Type !== biome ))
+        break;
+        case "Grasslands":
+            setQuestImages(questimages.filter(item => item.Background_Type !== biome ))
+        break;
+        default:
+            console.log("something went wrong")
+        }
+    };
+
    const handleQuestBiomes = (e) => {
         if(e.target.checked == true){
-        setQuestBiome([...questbiome, e.target.value])
+            setQuestBiome([...questbiome, e.target.value])
+            addQuestImages(e.target.value)
         }
         else if(e.target.checked == false){
-            setQuestBiome(questbiome.filter(a =>
-                  a !== e.target.value
-                )
-              );
+            setQuestBiome(questbiome.filter(item => item !== e.target.value));
+            removeQuestImages(e.target.value)
         }
+        console.log(questimages)
     };
    const handleQuestLevel = (e) => {
         setQuestLevel(e)
@@ -78,7 +149,7 @@ const DevQuestScreen = () => {
         <label for = "questtimehours"> Hours: </label>
         <input type= "number" min= "0" max="8" id= "questtimehours" name="Quest_time_hours" form= "questcreation" value = {questtimehours} onChange = {(e)=>handleQuestHours(e.target.value)} />
         <label for = "questtimeminutes"> Minutes: </label>
-        <input type= "number" min= "0" max="59" id="questtimeminutes" name="Quest_time_minutes" form= "questcreation" value = {questtimeminutes} onClick = {(e)=>handleQuestMinutes(e.target.value)} />
+        <input type= "number" min= "0" max="59" id="questtimeminutes" name="Quest_time_minutes" form= "questcreation" value = {questtimeminutes} onChange = {(e)=>handleQuestMinutes(e.target.value)} />
         <div>
             <input type="checkbox" id= "biome1" form = "questcreation" value ="Artic" onChange={(e) => handleQuestBiomes(e)}/>
             <label for= "biome1">Artic</label>
@@ -86,8 +157,8 @@ const DevQuestScreen = () => {
             <label for= "biome2">Desert</label>
             <input type="checkbox" id= "biome3" form = "questcreation" value ="Urban" onChange={(e) => handleQuestBiomes(e)}/>
             <label for= "biome3">Urban</label>
-            <input type="checkbox" id= "biome4" form = "questcreation" value ="Marshlands" onChange={(e) => handleQuestBiomes(e)}/>
-            <label for= "biome4">Marshlands</label>
+            <input type="checkbox" id= "biome4" form = "questcreation" value ="Dungeon" onChange={(e) => handleQuestBiomes(e)}/>
+            <label for= "biome4">Dungeon</label>
             <input type="checkbox" id= "biome5" form = "questcreation" value ="Forest" onChange={(e) => handleQuestBiomes(e)}/>
             <label for= "biome5">Forest</label>
             <input type="checkbox" id= "biome6" form = "questcreation" value ="Grasslands" onChange={(e) => handleQuestBiomes(e)}/>
