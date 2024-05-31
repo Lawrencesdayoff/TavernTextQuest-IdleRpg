@@ -1,11 +1,6 @@
-import { useNavigate } from "react-router-dom";
 
-const CharacterContainer = ({Heading, Content}) => {
-    const navigate = useNavigate();
-    const toCharacterCreate = (e) => {
-        e.preventDefault();
-        navigate('/newcharacter');
-    }
+const CharacterContainer = ({Heading, Content, Actions}) => {
+
     return(
         <>
         <div className="scrollable-div-container">
@@ -14,6 +9,7 @@ const CharacterContainer = ({Heading, Content}) => {
         </div>
         <div className="scrollable-div">
         <table>
+            <th>Portrait</th>
             <th> Name </th>
             <tbody>
               {Content}
@@ -21,7 +17,7 @@ const CharacterContainer = ({Heading, Content}) => {
           </table>
         </div>
         <div>
-            <button class= "nes-btn is-primary" onClick={(e)=> toCharacterCreate(e)}>New Character</button>
+           {Actions}
         </div>
         </div>
         </>

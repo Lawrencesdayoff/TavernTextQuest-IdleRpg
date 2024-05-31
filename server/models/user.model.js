@@ -31,7 +31,17 @@ const UserSchema = new Schema(
             min:[1, "User crypt pass must be longer than one character"],
             max:[500, "User crypt pass must be under 140 characters"],
             required: [true, "Password required"]
+        },
+        active_quests: { type: {
+            Quest_id: {
+                type: String
+            },
+            Character_id:{ 
+                type: String
+            },
+            Start_time: {type: Date, default: Date.now}
         }
+    }
     },
     { timestamps: true}
 );

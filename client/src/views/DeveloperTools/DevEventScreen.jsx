@@ -17,12 +17,26 @@ const DevEventScreen = () => {
     const [checkwisdom, setCheckWisdom] = useState(0)
     const [checkmagic, setCheckMagic] = useState(0)
 
+    useEffect(()=>{}, )
+
+    
     const createEvent = () => {
         e.preventDefault();
   
-        axios.post("http://localhost:9999/api/newQuest", {
-        
-  
+        axios.post("http://localhost:9999/api/newEvent", {
+            Event_name: eventname,
+            Event_description: eventdescription,
+            Event_description_success: eventsuccess,
+            Event_description_failure: eventfailure,
+            Event_success_gold_gain: goldgain,
+            Event_failure_health_loss: healthloss,
+            Event_str_check: checkstrength,
+            Event_con_check: checkconstitution,
+            Event_agi_check: checkagility,
+            Event_per_check: checkperception,
+            Event_int_check: checkintelligence,
+            Event_wis_check: checkwisdom,
+            Event_mag_check: checkmagic
           })
           .then((res) => {
             console.log(res);

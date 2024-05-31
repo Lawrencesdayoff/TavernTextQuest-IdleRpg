@@ -4,6 +4,7 @@ const CharacterItem = (props) => {
     const {_id , image, firstname, lastname} = props;
     
     return(
+        <>
         <tr>
         <td><img src = {image} /></td>
         <td> {firstname} {lastname} </td>
@@ -11,6 +12,7 @@ const CharacterItem = (props) => {
         <td> <Link to={"/character/" + _id + "/update"}> Update </Link></td>
         <td> <Link to={"/character/" + _id + "/delete"}> Delete </Link></td>
         </tr>
+        </>
     )
 }
 

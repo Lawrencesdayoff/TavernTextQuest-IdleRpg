@@ -17,10 +17,17 @@ const EventSchema = new Schema(
             type: String,
             required: [true, "Event must have loss description"]
         },
+        Quest_Specific:{
+            type: String
+        },
+        
         Event_success_gold_gain:{
             type: Number
         },
         Event_failure_health_loss:{
+            type: Number
+        },
+        Quest_specific:{
             type: Number
         },
         Event_str_check:{

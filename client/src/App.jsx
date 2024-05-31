@@ -7,19 +7,22 @@ import Dashboard from "./views/Dashboard";
 import "nes.css/css/nes.min.css";
 // import "bootstrap/dist/css/bootstrap-grid.css"
 import AuthProvider from "./views/LoginAndReg/AuthProvider";
-import CharacterCreator from "./views/CharacterCreator";
-import CharacterUpdate from "./views/CharacterUpdate";
+import CharacterCreator from "./views/CharacterCreationFolder/CharacterCreator";
+import CharacterUpdate from "./views/CharacterCreationFolder/CharacterUpdate";
 import CharacterDelete from "./views/CharacterDelete";
 import CharacterDetails from "./views/CharacterDetails";
 import QuestLog from "./views/QuestLog";
 import ActiveQuest from "./views/ActiveQuest";
+import AvailableQuests from "./views/AvailableQuestFolder/AvailableQuests";
 import DeveloperScreen from "./views/DeveloperTools/DeveloperScreen";
 // import PatientList from "./views/PatientList";
 // import PatientDetails from "./views/PatientDetails";
 // import PatientDelete from "./components/PatientDelete";
 // import UpdatePatientForm from "./views/UpdatePatientForm"
 function App() {
-  const UserInfo = sessionStorage.getItem("user")
+  const UserName = sessionStorage.getItem("user")
+  const UserToken = sessionStorage.getItem("token")
+
   return (
     <>
       <BrowserRouter>
@@ -27,13 +30,13 @@ function App() {
       <AuthProvider>
         <Routes>
           <Route path="/" element={<LoginAndReg /> } />
-          <Route path="/dashboard" element={<Dashboard user= {UserInfo}/>} />
+          <Route path="/dashboard" element={<Dashboard user= {UserName}/>} />
           <Route path= "/newcharacter" element={<CharacterCreator/>}/>
           <Route path= "/character/:id/update" element = {<CharacterUpdate/>}/>
           <Route path= "/character/:id/delete" element = {<CharacterDelete />}/>
           <Route path= "/character/:id" element = {<CharacterDetails/>} />
-          <Route path= "/availablequests/:id" element= {<QuestLog user = {UserInfo}/>} />
-          <Route path= "/activequests/:id" element= {<ActiveQuest user = {UserInfo}/>} />
+          <Route path= "/availablequests/:questid" element= {<AvailableQuests user = {UserName} token = {UserToken}/>} />
+          <Route path= "/activequests/:id" element= {<ActiveQuest user = {UserName}/>} />
           <Route path= "/developertools" element={<DeveloperScreen/>} />
         </Routes>
         </AuthProvider>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import ProfilePictures from "../assets/ProfilePictures";
+import ProfilePictures from "../../assets/ProfilePictures";
 
 const CharacterCreator = () => {
   const { id } = useParams();
