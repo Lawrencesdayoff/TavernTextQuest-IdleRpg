@@ -69,6 +69,10 @@ const CharacterSchema = new Schema(
             type: Number,
             required: [true, "Must have at least one point in every skill"]
         },
+        On_Quest: {
+            type: Boolean,
+            default: false
+        }
     },
     { timestamps: true}
 );

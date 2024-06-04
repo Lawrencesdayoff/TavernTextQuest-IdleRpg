@@ -4,7 +4,7 @@ async function createPC(req, res) {
        
         console.log("Create new PC");
         const {user_id, PC_image, PC_firstname, PC_lastname, PC_race, PC_pronouns, PC_bio, 
-            PC_strength, PC_constitution, PC_agility, PC_perception, PC_intellect, PC_magick, PC_wisdom
+            PC_strength, PC_constitution, PC_agility, PC_perception, PC_intellect, PC_magick, PC_wisdom, On_Quest
         } = req.body;
         
         console.log({"user:" : user_id,
@@ -23,7 +23,8 @@ async function createPC(req, res) {
         
         const newPC = await Character.create({
             user_id, PC_image, PC_firstname, PC_lastname, PC_race, PC_pronouns, PC_bio,
-            PC_strength, PC_constitution, PC_agility, PC_perception, PC_intellect, PC_magick, PC_wisdom
+            PC_strength, PC_constitution, PC_agility, PC_perception, PC_intellect, PC_magick, PC_wisdom,
+            On_Quest
         });
         
         return res.status(201).json(newPC);
