@@ -5,7 +5,6 @@ import {useState, useEffect} from "react";
 
 const AvailableCharacters = (props) => {
     const {characterlist} = props
-
     return (
     <> 
         <CharacterContainer 

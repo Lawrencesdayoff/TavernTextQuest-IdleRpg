@@ -19,6 +19,7 @@ import DeveloperScreen from "./views/DeveloperTools/DeveloperScreen";
 // import PatientDetails from "./views/PatientDetails";
 // import PatientDelete from "./components/PatientDelete";
 // import UpdatePatientForm from "./views/UpdatePatientForm"
+import StartQuest from "./components/StartQuest";
 function App() {
   const UserName = sessionStorage.getItem("user")
   const UserToken = sessionStorage.getItem("token")
@@ -38,6 +39,7 @@ function App() {
           <Route path= "/availablequests/:questid" element= {<AvailableQuests user = {UserName} token = {UserToken}/>} />
           <Route path= "/activequests/:id" element= {<ActiveQuest user = {UserName}/>} />
           <Route path= "/developertools" element={<DeveloperScreen/>} />
+          <Route path= "/embarkadventurer/:id/:characterid" element={<StartQuest/>} />
         </Routes>
         </AuthProvider>
       </BrowserRouter>
