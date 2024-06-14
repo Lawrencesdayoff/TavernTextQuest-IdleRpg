@@ -39,7 +39,7 @@ function App() {
           <Route path= "/availablequests/:questid" element= {<AvailableQuests user = {UserName} token = {UserToken}/>} />
           <Route path= "/activequests/:id" element= {<ActiveQuest user = {UserName}/>} />
           <Route path= "/developertools" element={<DeveloperScreen/>} />
-          <Route path= "/embarkadventurer/:id/:characterid" element={<StartQuest/>} />
+          <Route path= "/embarkadventurer/:characterid/:questid" element={<StartQuest token = {UserToken}/>} />
         </Routes>
         </AuthProvider>
       </BrowserRouter>

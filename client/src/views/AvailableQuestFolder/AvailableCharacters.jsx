@@ -4,14 +4,14 @@ import CharacterItemAvailableQuest from "../../components/CharacterItemAvailable
 import {useState, useEffect} from "react";
 
 const AvailableCharacters = (props) => {
-    const {characterlist} = props
+    const {characterlist, quest} = props
     return (
     <> 
         <CharacterContainer 
             Heading = "Available Characters" 
             Content = {characterlist.map((item, index) => (
                 <CharacterItemAvailableQuest key = {index} _id = {item._id} image = {item.PC_image} 
-                    firstname = {item.PC_firstname} lastname = {item.PC_lastname} />))} 
+                    firstname = {item.PC_firstname} lastname = {item.PC_lastname} questid = {quest} />))} 
                 Actions = {<ButtonToDashboard />}
                 />
     </>

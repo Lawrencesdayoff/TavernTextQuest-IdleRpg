@@ -12,7 +12,6 @@ const AvailableQuests = (props) => {
     const [selectedCharacter, setCharacter] = useState("")
     const {user, token} = props;
     const {questid} = useParams();
-    const getCharacter = () => {}
     useEffect(()=>{
         console.log(questid)
        const getQuestInfo = async () => { 
@@ -48,7 +47,7 @@ const AvailableQuests = (props) => {
             ))}
         </div>
         <div>
-            <AvailableCharacters characterlist = {characterlist.map((item) => item)} questid = {details.filter((item) => item._id)}/>
+            <AvailableCharacters characterlist = {characterlist.map((item) => item)} questid = {details.filter((item) => item._id)} quest = {questid}/>
         </div>
         </>
     )

@@ -121,11 +121,29 @@ async function deleteOneUser(req, res) {
     }
 }
 
+async function addActiveQuest(req, res) {
+
+    const options = {
+        new: true,
+        runValidators: true
+    };
+    try {
+        console.log("Added Quest:");
+        const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, options);
+        res.json(updatedUser);
+    }
+    catch(error) {
+        console.log(error);
+        res.status(400).json(error);
+    }
+}
+
 export{
     registerUser,
     getOneUser,
     getAllUsers,
     updateOneUser,
     deleteOneUser,
-    checkLogin
+    checkLogin,
+    addActiveQuest
 };
