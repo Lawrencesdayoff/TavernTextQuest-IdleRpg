@@ -72,7 +72,11 @@ const CharacterSchema = new Schema(
         On_Quest: {
             type: Boolean,
             default: false
+        },
+        Current_Quest: {
+            type: String
         }
+
     },
     { timestamps: true}
 );

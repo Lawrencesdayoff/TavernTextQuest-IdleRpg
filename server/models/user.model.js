@@ -32,16 +32,13 @@ const UserSchema = new Schema(
             max:[500, "User crypt pass must be under 140 characters"],
             required: [true, "Password required"]
         },
-        active_quests: { type: {
-            Quest_id: {
-                type: String
-            },
-            Character_id:{ 
-                type: String
-            },
-            Start_time: {type: Date, default: Date.now}
+        current_active_quests: {
+            type: Array
+        },
+        current_gold: {
+            type: Number
         }
-    }
+
     },
     { timestamps: true}
 );

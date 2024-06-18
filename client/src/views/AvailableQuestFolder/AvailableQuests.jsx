@@ -22,7 +22,7 @@ const AvailableQuests = (props) => {
             console.log(err)
         })
     }
-        const getCharacterInfos = async () => {axios.get(`http://localhost:9999/api/getusercharacters/${token}`)
+        const getCharacterInfos = async () => {axios.get(`http://localhost:9999/api/getcharactersoffquests/${token}`)
         .then((res) => {
             setCharacterList(res.data)
         }).catch((err) => {

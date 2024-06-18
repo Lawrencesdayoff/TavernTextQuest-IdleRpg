@@ -72,7 +72,28 @@ async function getUserPCs(req, res) {
         res.status(400).json(error);
     }
 }
-
+async function getAllPCsOnQuest(req,res){
+    try{
+        console.log("Getting all PCs currently on quests");
+        const QuestPCs = await Character.find({user_id:req.params.id, On_Quest: true});
+        res.json(QuestPCs);
+    }
+    catch{
+        console.log(error);
+        res.status(400).json(error);
+    }
+}
+async function getAllPCsNotOnQuest(req, res){
+    try{
+        console.log("Getting all PCs not on quests");
+        const AvailablePCs = await Character.find({user_id:req.params.id, On_Quest: false})
+        res.json(AvailablePCs);
+    }
+    catch{
+        console.log(error)
+        res.status(400).json(error);
+    }
+}
 async function updateOnePC(req, res) {
     const options = {
         new: true,
@@ -107,5 +128,7 @@ export{
     getAllPCs,
     updateOnePC,
     deleteOnePC,
-    getUserPCs
+    getUserPCs,
+    getAllPCsNotOnQuest,
+    getAllPCsOnQuest
 };

@@ -23,5 +23,11 @@ router.route("/deleteCharacter/:id")
 
 router.route("/getusercharacters/:id")
     .get(CharacterController.getUserPCs)
+
+router.route("/getcharactersonquests/:id")
+    .get(CharacterController.getAllPCsOnQuest)
+
+router.route("/getcharactersoffquests/:id")
+    .get(CharacterController.getAllPCsNotOnQuest)
     
 export default router;

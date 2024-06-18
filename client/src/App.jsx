@@ -12,7 +12,7 @@ import CharacterUpdate from "./views/CharacterCreationFolder/CharacterUpdate";
 import CharacterDelete from "./views/CharacterDelete";
 import CharacterDetails from "./views/CharacterDetails";
 import QuestLog from "./views/QuestLog";
-import ActiveQuest from "./views/ActiveQuest";
+import ActiveQuest from "./views/ActiveQuestsFolder/ActiveQuest";
 import AvailableQuests from "./views/AvailableQuestFolder/AvailableQuests";
 import DeveloperScreen from "./views/DeveloperTools/DeveloperScreen";
 // import PatientList from "./views/PatientList";

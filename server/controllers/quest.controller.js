@@ -1,4 +1,5 @@
 import Quest from '../models/quest.model.js'
+import Character from '../models/character.model.js';
 async function createQuest(req, res) {
     try{
         console.log("Create new Quest");
@@ -52,6 +53,7 @@ async function getUserQuests(req, res) {
         res.status(400).json(error);
     }
 }
+
 
 async function updateOneQuest(req, res) {
     const options = {

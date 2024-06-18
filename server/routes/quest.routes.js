@@ -6,6 +6,8 @@ import * as QuestController from '../controllers/quest.controller.js'
 router.route("/getallQuests")
         .get(QuestController.getAllQuests);
 
+router.route("/getallavailablequests")
+
 router.route("/getoneQuest/:id")
     .get(QuestController.getOneQuest)
 

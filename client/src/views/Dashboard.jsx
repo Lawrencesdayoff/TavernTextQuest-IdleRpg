@@ -14,10 +14,11 @@ const Dashboard = (props) => {
   const navigate = useNavigate();
   const [CharacterList, setCharacterList] = useState([]);
   const [availablequests, setAvailQuests] = useState([])
+  const [userquests, setUserQuests] = useState([])
   const user_id = sessionStorage.getItem("token");
   useEffect(() => {
     axios
-      .get("http://localhost:9999/api/getusercharacters/"+ user_id)
+      .get(`http://localhost:9999/api/getusercharacters/${user_id}`)
       .then((res) => {
         console.log(res.data);
         setCharacterList(res.data);
@@ -25,7 +26,10 @@ const Dashboard = (props) => {
       .catch((err) => {
         console.log(err);
       });
-
+    axios.get(`http://localhost:9999/api/getcharactersonquests/${user_id}`).then((res) => {
+      console.log(res.data);
+      setUserQuests(res.data.map())
+    })
     axios.get("http://localhost:9999/api/getallQuests")
     .then((res) => {
       console.log(res.data);
