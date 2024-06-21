@@ -1,0 +1,189 @@
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+
+}
+
+body{
+  font-family: "Press Start 2P";
+}
+
+
+
+.card {
+  padding: 2em;
+}
+
+td, th {
+  border: 1px solid White;
+  padding: 10px;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;  
+  padding: 16px;
+  text-align: center;
+
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+  padding: 2px 16px;
+}
+
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+
+.App {
+  text-align: center;
+  margin: auto;
+}
+.geeks {
+  color: green;
+}
+
+.dashboard-header{
+  display: flex;
+  align-items: center;
+  justify-content:space-between;
+  padding: 40px;
+  height: 20px;
+  width: 100%;
+  border: black 1px solid;
+  text-align: center;
+}
+.dashboard-content{
+  height: 100%;
+  width: 100%;
+  border: black 1px solid;
+  display: flex;
+  justify-content: space-around;
+}
+.dashboard-area{
+ width: 1280px;
+ height: 800px;
+}
+.dashboard-quest-column{
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+}
+.dashboard-char-column{
+  width: 50%;
+  height: 100%;
+  display: flex;
+
+  justify-content: center;
+}.tabs-container {
+  width: 400px;
+  margin: 20px auto;
+}
+
+.tabs {
+  display: flex;
+}
+
+.tab {
+  cursor: pointer;
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-bottom: none;
+  background-color: #f1f1f1;
+}
+
+.tab.active {
+  background-color: #ddd;
+}
+
+.tab-content {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+.scrollable-div-container-quests{
+  border: 1px black;
+  width: 50%;
+  height: 300px;
+
+}
+.scrollable-div-container-characters{
+  border: 1px black;
+  width: 50%;
+  height: 300px;
+}
+.scrollable-div-container{
+  border: 1px black;
+  width: 100%;
+  height: 300px;
+
+}
+.scrollable-div-Header{
+  background-color: #f1f1f1;
+  width: 100%;
+  height: 10px;
+}
+.scrollable-div {
+  background-color: #f1f1f1;
+  height: 100%;
+  width: 100%;
+  overflow-y: scroll;  
+  text-align: justify;
+  
+}
+
+.char-screen{
+  width:100%;
+  height:100%;
+  padding:100px;
+  display: flex;
+  justify-content: space-around;
+  align-items:flex-start;
+  flex-direction: row;
+  border: solid 1px black;
+}
+
+.char-column{
+  float:left;
+flex-direction: column;
+}
+.skill-column{
+  float:right;
+  flex-direction: column;
+
+}
+
+.skill-field{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+.vertical-center {
+  margin: 0;
+  transform: translateY(-25%);
+}
+
+.cc-footer{
+float:inline-end;
+margin: 50px;
+height: 10%;
+display: flex;
+justify-content: space-around;
+
+
+}
+
