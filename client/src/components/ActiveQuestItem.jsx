@@ -1,15 +1,19 @@
+import { Link } from "react-router-dom";
+
+
 const ActiveQuestItem = (props) => {
-    const {questname, questlevel} = props
+    const {questid, characterid, questname, characterportrait, health, elapsedtime} = props
     return(
-        <>
         <tr>
             <td>
-                <Link to={"/activequests/" + _id }>{questname}</Link>
+                <Link to={`/activequests/${questid}/${characterid}`}>{questname}</Link>
             </td>
+            <td>elapsed time</td>
             <td>
-                {questlevel}
+                <img src = {characterportrait}/>
             </td>
         </tr>
-        </>
     )
 }
+
+export default ActiveQuestItem;

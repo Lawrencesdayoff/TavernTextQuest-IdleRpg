@@ -37,7 +37,7 @@ function App() {
           <Route path= "/character/:id/delete" element = {<CharacterDelete />}/>
           <Route path= "/character/:id" element = {<CharacterDetails/>} />
           <Route path= "/availablequests/:questid" element= {<AvailableQuests user = {UserName} token = {UserToken}/>} />
-          <Route path= "/activequests/:id" element= {<ActiveQuest user = {UserName}/>} />
+          <Route path= "/activequests/:questid/:characterid" element= {<ActiveQuest user = {UserName} token = {UserToken}/>} />
           <Route path= "/developertools" element={<DeveloperScreen/>} />
           <Route path= "/embarkadventurer/:characterid/:questid" element={<StartQuest token = {UserToken}/>} />
         </Routes>
