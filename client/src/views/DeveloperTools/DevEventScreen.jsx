@@ -2,11 +2,14 @@ import {useState, useEffect} from 'react'
 import axios from 'axios'
 
 const DevEventScreen = () => {
-
+    const [questlist, setQuestList] = useState([])
     const [eventname, setEventName] = useState("")
     const [eventdescription, setEventDescription] = useState("")
     const [eventsuccess, setEventSuccess] = useState("")
     const [eventfailure, setEventFailure] = useState("")
+    const [questspecific, setQuestSpecific] = useState("")
+    const [eventtimehour, setEventTimeHour] = useState()
+    const [eventtimeminute, setEventTimeMinute] = useState()
     const [goldgain, setGoldGain] = useState(0)
     const [healthloss, setHealthLoss] = useState(0)
     const [checkstrength, setCheckStrength] = useState(0)
@@ -17,7 +20,13 @@ const DevEventScreen = () => {
     const [checkwisdom, setCheckWisdom] = useState(0)
     const [checkmagic, setCheckMagic] = useState(0)
 
-    useEffect(()=>{}, )
+    useEffect(()=>{
+        axios.get(`http://localhost:9999/api/getallQuests`)
+            .then((res) => {
+                setQuestList(res.data)
+            })
+        axios.get()
+    }, [])
 
     
     const createEvent = () => {
@@ -25,6 +34,7 @@ const DevEventScreen = () => {
   
         axios.post("http://localhost:9999/api/newEvent", {
             Event_name: eventname,
+            Quest_specific: questspecific,
             Event_description: eventdescription,
             Event_description_success: eventsuccess,
             Event_description_failure: eventfailure,
@@ -45,6 +55,11 @@ const DevEventScreen = () => {
           });
     }
 
+    const updateEventTimeMinutes = () => {
+        setEventTimeMinute()
+    }
+    console.log(questspecific.Quest_name)
+
     return(
     <>
         <form id="eventcreation" method="POST" onSubmit = {createEvent}>
@@ -56,6 +71,22 @@ const DevEventScreen = () => {
             <input type ="textarea" id= "eventsuccess" name="Event_description_success" value= {eventsuccess} form= "eventcreation"></input>
         <label for="eventfailure"> Event Failure Description: </label>
             <input type ="textarea" id= "eventfailure" name="Event_description_failure" value= {eventfailure} form= "eventcreation"></input>
+        <label for = "eventquest">Quest Specific</label>
+            <select name = "questspecific" form = "eventcreation" onChange = {(e) => setQuestSpecific(e.target.value)}>
+                <option value = "">Not quest specific</option>
+                {questlist.map((item) => (<option value = {item._id}>{item.Quest_name}</option>))}
+            </ select>
+            {questspecific? <>
+                <div class="slidecontainer">
+                <p>{eventtimehour} hours</p>
+                    <input type="range" min="1" max= {questspecific.Quest_time_hours} value={eventtimehour} class="slider" id="myRange" onChange={(e) => setEventTimeHour(e.target.value)}/> 
+                </div>
+                 <div class="slidecontainer">
+                    <p>{eventtimeminute} minutes</p>
+                    <input type="range" min="1" max= {questspecific.Quest_time_minutes} value={eventtimeminute} class="slider" id="myRange"onChange={(e) => setEventTimeMinute(e.target.value)}/> 
+                </div>
+                </>
+                 : <></> }
         <label for="eventgoldgain"> Gold Gain: </label>
             <input type ="number" id= "eventgoldgain" name="Event_success_gold_gain" value= {goldgain} form= "eventcreation"></input>
         <label for="eventhealthloss"> Health Loss: </label>

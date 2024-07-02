@@ -17,7 +17,7 @@ const EventSchema = new Schema(
             type: String,
             required: [true, "Event must have loss description"]
         },
-        Quest_Specific:{
+        Quest_specific:{
             type: String
         },
         
@@ -25,9 +25,6 @@ const EventSchema = new Schema(
             type: Number
         },
         Event_failure_health_loss:{
-            type: Number
-        },
-        Quest_specific:{
             type: Number
         },
         Event_str_check:{
