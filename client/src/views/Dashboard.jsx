@@ -8,17 +8,35 @@ import Header from "./Header";
 import LogoutButton from "../components/LogoutButton";
 import CharacterItem from "../components/CharacterItem";
 import AvailableQuestItem from "../components/AvailableQuestItem";
+import ActiveQuestItem from "../components/ActiveQuestItem";
 import ButtonCreateCharacter from "../components/ButtonCreateCharacter";
 const Dashboard = (props) => {
   const {user} = props
   const navigate = useNavigate();
-  const [CharacterList, setCharacterList] = useState([]);
-  const [availablequests, setAvailQuests] = useState([])
-  const [userquests, setUserQuests] = useState([])
+  const [usercharacterlist, setCharacterList] = useState([]);
+  const [allquests, setAllQuests] = useState([])
+  const [activecharacters, setActiveCharacters] = useState([])
+  const [activequests, setActiveQuests] = useState([])
   const user_id = sessionStorage.getItem("token");
+  // const [activequestinfo, setActiveQuestInfo] = useState([])
+  const activequestinfo = [
+    activequests,
+    activecharacters
+  ]
+
+
   useEffect(() => {
-    axios
-      .get(`http://localhost:9999/api/getusercharacters/${user_id}`)
+    const getUserQuests = async (ActiveQuestsList) => { await Promise.all(ActiveQuestsList.map((item) => 
+      { axios.get(`http://localhost:9999/api/getoneQuest/${item}`)
+      .then((res) => {
+            setActiveQuests([res.data])
+            console.log(res.data)
+      }).catch((err) => {
+        console.log(err)
+      })})
+      );}
+    const getUserCharacters = async () => {
+      await axios.get(`http://localhost:9999/api/getusercharacters/${user_id}`)
       .then((res) => {
         console.log(res.data);
         setCharacterList(res.data);
@@ -26,22 +44,46 @@ const Dashboard = (props) => {
       .catch((err) => {
         console.log(err);
       });
-    axios.get(`http://localhost:9999/api/getcharactersonquests/${user_id}`).then((res) => {
+    }
+
+    const getCharactersQuesting = async () => {
+      await axios.get(`http://localhost:9999/api/getcharactersonquests/${user_id}`).then((res) => {
       console.log(res.data);
-      setUserQuests(res.data.map())
-    })
-    axios.get("http://localhost:9999/api/getallQuests")
-    .then((res) => {
-      console.log(res.data);
-      setAvailQuests(res.data)
-    }).catch((err)=> {
-      console.log(err)
-    })
+      setActiveCharacters(res.data)
+      const ActiveQuestIDList = res.data.map((item) => item.Current_Quest)
+      console.log(ActiveQuestIDList)
+      getUserQuests(ActiveQuestIDList)
+      })
+    }
+
+    const getAllQuests = async () => {
+     await axios.get("http://localhost:9999/api/getallQuests")
+      .then((res) => {
+        console.log(res.data);
+        setAllQuests(res.data)
+      }).catch((err)=> {
+        console.log(err)
+      })
+    }
+    getAllQuests();
+    getUserCharacters();
+    getCharactersQuesting();
+    // setActiveQuestInfo([...activequests, activecharacters])
+
   }, []);
+ 
+      const availablequests = allquests.filter( function( item ) {
+      return !allquests.includes( activequests );
+    })
+
+    console.log("Active Quests:" ,activequests)
+    console.log("Characters Questing:" , activecharacters)
+    console.log(activequestinfo)
+    console.log(availablequests)
   return (
     <>
+    {}
       <div className="dashboard-area">
-      
           <div className= "dashboard-header">
             <div class = "col"><Header message={"Welcome"} username={user}/></div>
             <div class = "col"><LogoutButton /></div>
@@ -50,11 +92,14 @@ const Dashboard = (props) => {
         <div className = "dashboard-content">
         
         <div class = "dashboard-quest-column">   
-          <QuestContainer Heading = "Active Quests" Content = "Content would go here" />
-          <QuestContainer Heading = "Availble Quests" Content = {availablequests.map((item, index) => (<AvailableQuestItem key = {index} _id = {item._id} questname = {item.Quest_name} questlevel ={item.Quest_level}/>))} />
+          <QuestContainer Heading = "Active Quests" Content = {activequests.map((item, index) => (
+              <ActiveQuestItem key = {index} questid = {item._id} characterid = {activecharacters[index]._id} questname = {item.Quest_name} characterportrait = {activecharacters[index].PC_image}/>))} />
+
+          <QuestContainer Heading = "Availble Quests" Content = {allquests.map((item, index) => (
+              <AvailableQuestItem key = {index} _id = {item._id} questname = {item.Quest_name} questlevel ={item.Quest_level}/>))} />
         </div>
         <div class = "dashboard-char-column">
-            <CharacterContainer Actions = {<ButtonCreateCharacter/>} Heading= "Characters" Content =  {CharacterList.map((item, index) => (<CharacterItem key = {index} _id = {item._id} image = {item.PC_image} firstname = {item.PC_firstname} lastname = {item.PC_lastname} />))}
+            <CharacterContainer Actions = {<ButtonCreateCharacter/>} Heading= "Characters" Content =  {usercharacterlist.map((item, index) => (<CharacterItem key = {index} _id = {item._id} image = {item.PC_image} firstname = {item.PC_firstname} lastname = {item.PC_lastname} />))}
             />
 
 
