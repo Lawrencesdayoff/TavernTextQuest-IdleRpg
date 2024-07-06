@@ -9,7 +9,7 @@ router.route("/getallEvents")
 router.route("/getoneEvent/:id")
     .get(EventController.getOneEvent)
 
-router.route("/newEvent/")
+router.route("/newEvent")
     .post(EventController.createEvent);
 
 router.route("/updateEvent/:id")

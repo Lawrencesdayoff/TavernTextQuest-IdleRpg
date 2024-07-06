@@ -1,9 +1,11 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
 import QuestPictures from '../../assets/QuestPictures';
+import { useNavigate } from "react-router-dom";
 
 
 const DevQuestScreen = () => {
+    const navigate = useNavigate();
     const [questname, setQuestName] = useState("");
     const [questdescription, setQuestDescription] = useState("");
     const [questlevel, setQuestLevel] = useState(0);

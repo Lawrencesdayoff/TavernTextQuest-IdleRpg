@@ -3,12 +3,15 @@ async function createEvent(req, res) {
     try{
        
         console.log("Create new Event");
-        const {
+        const {         Event_name, Event_description, Event_description_failure, Event_description_success, Quest_specific, Event_terrain,
+            Event_failure_health_loss, Event_success_gold_gain,Event_agi_check,
+            Event_con_check, Event_int_check, Event_mag_check, Event_per_check, Event_str_check,
+            Event_wis_check
         } = req.body;
         
         
         const newEvent = await Event.create({
-            Event_name, Event_description, Event_description_failure, Event_description_success,
+            Event_name, Event_description, Event_description_failure, Event_description_success, Quest_specific, Event_terrain,
             Event_failure_health_loss, Event_success_gold_gain,Event_agi_check,
             Event_con_check, Event_int_check, Event_mag_check, Event_per_check, Event_str_check,
             Event_wis_check

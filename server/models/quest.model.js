@@ -10,7 +10,7 @@ const QuestSchema = new Schema(
             required: [true, "Quest must have a description"]
         },
         Quest_time_hours:{
-            type:Number,
+            type:Number
         },
         Quest_time_minutes:{
             type: Number

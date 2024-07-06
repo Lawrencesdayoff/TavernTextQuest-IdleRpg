@@ -11,7 +11,7 @@ import ButtonToDashboard from "../../components/ButtonToDashboard";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import Timer from "./components/Timer.jsx"
 
 const ActiveQuest = (props) => {
     const {user, token} = props;

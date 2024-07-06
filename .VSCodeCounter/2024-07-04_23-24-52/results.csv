@@ -1,0 +1,54 @@
+"filename", "language", "XML", "Markdown", "JavaScript", "JavaScript JSX", "CSS", "JSON", "HTML", "comment", "blank", "total"
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\.eslintrc.cjs", "JavaScript", 0, 0, 21, 0, 0, 0, 0, 0, 1, 22
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\README.md", "Markdown", 0, 6, 0, 0, 0, 0, 0, 0, 5, 11
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\index.html", "HTML", 0, 0, 0, 0, 0, 0, 20, 0, 1, 21
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\package-lock.json", "JSON", 0, 0, 0, 0, 0, 4241, 0, 0, 1, 4242
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\package.json", "JSON", 0, 0, 0, 0, 0, 34, 0, 0, 1, 35
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\public\vite.svg", "XML", 1, 0, 0, 0, 0, 0, 0, 0, 0, 1
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\App.css", "CSS", 0, 0, 0, 0, 157, 0, 0, 0, 33, 190
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\App.jsx", "JavaScript JSX", 0, 0, 0, 42, 0, 0, 0, 5, 4, 51
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\assets\ProfilePictures.js", "JavaScript", 0, 0, 273, 0, 0, 0, 0, 0, 2, 275
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\assets\QuestPictures.js", "JavaScript", 0, 0, 293, 0, 0, 0, 0, 0, 1, 294
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\components\ActiveQuestItem.jsx", "JavaScript JSX", 0, 0, 0, 16, 0, 0, 0, 0, 3, 19
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\components\AvailableQuestItem.jsx", "JavaScript JSX", 0, 0, 0, 17, 0, 0, 0, 0, 3, 20
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\components\ButtonCreateCharacter.jsx", "JavaScript JSX", 0, 0, 0, 12, 0, 0, 0, 0, 2, 14
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\components\ButtonSelectCharacter.jsx", "JavaScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\components\ButtonToDashboard.jsx", "JavaScript JSX", 0, 0, 0, 11, 0, 0, 0, 0, 5, 16
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\components\CharacterContainer.jsx", "JavaScript JSX", 0, 0, 0, 24, 0, 0, 0, 0, 5, 29
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\components\CharacterItem.jsx", "JavaScript JSX", 0, 0, 0, 16, 0, 0, 0, 0, 3, 19
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\components\CharacterItemAvailableQuest.jsx", "JavaScript JSX", 0, 0, 0, 16, 0, 0, 0, 0, 2, 18
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\components\LogoutButton.jsx", "JavaScript JSX", 0, 0, 0, 14, 0, 0, 0, 0, 3, 17
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\components\QuestContainer.jsx", "JavaScript JSX", 0, 0, 0, 17, 0, 0, 0, 0, 6, 23
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\components\QuestListItem.jsx", "JavaScript JSX", 0, 0, 0, 11, 0, 0, 0, 0, 6, 17
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\components\StartQuest.jsx", "JavaScript JSX", 0, 0, 0, 33, 0, 0, 0, 18, 6, 57
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\index.css", "CSS", 0, 0, 0, 0, 61, 0, 0, 0, 8, 69
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\main.jsx", "JavaScript JSX", 0, 0, 0, 9, 0, 0, 0, 0, 2, 11
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\views\ActiveQuestsFolder\ActiveQuest.jsx", "JavaScript JSX", 0, 0, 0, 77, 0, 0, 0, 0, 9, 86
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\views\ActiveQuestsFolder\CharacterHUD.jsx", "JavaScript JSX", 0, 0, 0, 12, 0, 0, 0, 0, 1, 13
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\views\ActiveQuestsFolder\QuestChat.jsx", "JavaScript JSX", 0, 0, 0, 6, 0, 0, 0, 0, 1, 7
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\views\ActiveQuestsFolder\QuestEvent.jsx", "JavaScript JSX", 0, 0, 0, 6, 0, 0, 0, 0, 1, 7
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\views\ActiveQuestsFolder\QuestEventLog.jsx", "JavaScript JSX", 0, 0, 0, 7, 0, 0, 0, 0, 2, 9
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\views\AvailableQuestFolder\AvailableCharacters.jsx", "JavaScript JSX", 0, 0, 0, 19, 0, 0, 0, 0, 2, 21
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\views\AvailableQuestFolder\AvailableQuest.jsx", "JavaScript JSX", 0, 0, 0, 19, 0, 0, 0, 0, 4, 23
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\views\AvailableQuestFolder\AvailableQuests.jsx", "JavaScript JSX", 0, 0, 0, 54, 0, 0, 0, 0, 2, 56
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\views\CharacterCreationFolder\CharacterCreator.jsx", "JavaScript JSX", 0, 0, 0, 245, 0, 0, 0, 8, 16, 269
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\views\CharacterCreationFolder\CharacterUpdate.jsx", "JavaScript JSX", 0, 0, 0, 99, 0, 0, 0, 0, 15, 114
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\views\CharacterDelete.jsx", "JavaScript JSX", 0, 0, 0, 15, 0, 0, 0, 0, 2, 17
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\views\CharacterDetails.jsx", "JavaScript JSX", 0, 0, 0, 36, 0, 0, 0, 0, 5, 41
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\views\Dashboard.jsx", "JavaScript JSX", 0, 0, 0, 94, 0, 0, 0, 2, 14, 110
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\views\DeveloperTools\DevEventScreen.jsx", "JavaScript JSX", 0, 0, 0, 177, 0, 0, 0, 0, 22, 199
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\views\DeveloperTools\DevQuestScreen.jsx", "JavaScript JSX", 0, 0, 0, 167, 0, 0, 0, 0, 12, 179
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\views\DeveloperTools\DeveloperScreen.jsx", "JavaScript JSX", 0, 0, 0, 26, 0, 0, 0, 0, 4, 30
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\views\Header.jsx", "JavaScript JSX", 0, 0, 0, 9, 0, 0, 0, 0, 1, 10
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\views\LoginAndReg\AuthProvider.jsx", "JavaScript JSX", 0, 0, 0, 50, 0, 0, 0, 0, 8, 58
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\views\LoginAndReg\LoginAndReg.jsx", "JavaScript JSX", 0, 0, 0, 26, 0, 0, 0, 1, 3, 30
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\views\LoginAndReg\LoginForm.jsx", "JavaScript JSX", 0, 0, 0, 59, 0, 0, 0, 15, 18, 92
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\views\LoginAndReg\Regex.jsx", "JavaScript JSX", 0, 0, 0, 3, 0, 0, 0, 0, 0, 3
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\views\LoginAndReg\RegisterForm.jsx", "JavaScript JSX", 0, 0, 0, 170, 0, 0, 0, 0, 12, 182
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\views\QuestLog.jsx", "JavaScript JSX", 0, 0, 0, 3, 0, 0, 0, 0, 2, 5
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\views\Tab.jsx", "JavaScript JSX", 0, 0, 0, 10, 0, 0, 0, 0, 2, 12
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\views\Tabs.jsx", "JavaScript JSX", 0, 0, 0, 32, 0, 0, 0, 0, 3, 35
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\src\views\UpdateCharacterForm.jsx", "JavaScript JSX", 0, 0, 0, 150, 0, 0, 0, 0, 15, 165
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\vite.config.js", "JavaScript", 0, 0, 5, 0, 0, 0, 0, 1, 2, 8
+"c:\Users\Lawrence\Desktop\TavernTextQuest-IdleRpg-main(0.02)\client\vite.config.js.timestamp-1715875484308-d0b21da2cac65.mjs", "JavaScript", 0, 0, 8, 0, 0, 0, 0, 2, 1, 11
+"Total", "-", 1, 6, 600, 1809, 218, 4275, 20, 52, 283, 7264
