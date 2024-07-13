@@ -1,4 +1,4 @@
-import { useEffect, useState } from React;
+import { useEffect, useState } from "react";
 
 const Timer = () => {
     const [secondselapsed, setSecondsElapsed] = useState(0);
@@ -9,7 +9,7 @@ const Timer = () => {
         const handleSecondElapsed = () => {
             setSecondsElapsed(secondselapsed + 1)
         }
-        
+        const handleHoursMinutes = () => {
         if(secondselapsed == 60){
             setSecondsElapsed(0);
             setMinutesElapsed(minuteselapsed + 1);
@@ -19,7 +19,9 @@ const Timer = () => {
             setHoursElapsed(0);
             setHoursElapsed( hourselapsed + 1);;
         }
+        }
         handleSecondElapsed();
+        handleHoursMinutes();
         const {hourselapsed, minuteselapsed, secondselapsed} = totaltime;
         return  totaltime;
     }, 1000)

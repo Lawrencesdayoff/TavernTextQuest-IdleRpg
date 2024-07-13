@@ -1,3 +1,6 @@
+import HealthBar from "../../components/HealthBar";
+
+
 const CharacterHUD = (props) => {
     const {image, firstname, lastname, race, 
          pronouns, strength, 
@@ -5,7 +8,10 @@ const CharacterHUD = (props) => {
         intellect, magick, wisdom } = props
     return(
         <>
-        {firstname}
+        <img src={image} />
+        <p>{firstname} {lastname}</p>
+        <HealthBar maxHp = {constitution}></HealthBar>
+        
         </>
     )
 }

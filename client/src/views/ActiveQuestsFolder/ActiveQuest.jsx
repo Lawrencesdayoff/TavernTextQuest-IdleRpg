@@ -11,12 +11,14 @@ import ButtonToDashboard from "../../components/ButtonToDashboard";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Timer from "./components/Timer.jsx"
+import Timer from "../../components/Timer";
+import HealthBar from "../../components/HealthBar";
+
 
 const ActiveQuest = (props) => {
     const {user, token} = props;
     const {questid, characterid} = useParams();
-
+    const [secondsleft, setSecondsLeft] = useState(0);
     const [characterdata, setCharacterData] = useState([])
     const [questdata, setQuestData] = useState([])
     const [activeTab, setActiveTab] = useState(0);
@@ -69,8 +71,8 @@ const ActiveQuest = (props) => {
             <div class = "dashboard-quest-column">   
                 <CharacterHUD image = {characterdata.PC_image} firstname = {characterdata.PC_firstname} lastname = {characterdata.PC_lastname} race = {characterdata.PC_race} 
                                 pronouns = {characterdata.PC_pronouns} strength = {characterdata.PC_strength} 
-                                constitution = {characterdata.constitution} agility = {characterdata.agility} perception = {characterdata.perception}
-                                intellect = {characterdata.intellect} magick = {characterdata.magick} wisdom = {characterdata.wisdom}  />
+                                constitution = {characterdata.PC_constitution} agility = {characterdata.PC_agility} perception = {characterdata.PC_perception}
+                                intellect = {characterdata.PC_intellect} magick = {characterdata.PC_magick} wisdom = {characterdata.PC_wisdom}  />
                 <ButtonToDashboard/>
             </div>
             <div class = "dashboard-char-column">
