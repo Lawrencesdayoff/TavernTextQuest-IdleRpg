@@ -23,7 +23,7 @@ async function getOneQuest(req, res) {
     const oneQuest = await Quest.findById(req.params.id, req.body);
     res.json(oneQuest);
     }
-    catch{
+    catch(error){
         console.log(error);
         res.status(400).json(error);
     }
@@ -35,7 +35,7 @@ async function getAllQuests(req, res) {
     const allQuests = await Quest.find(req.body);
     res.json(allQuests);
     }
-    catch{
+    catch(error){
         console.log(error);
         res.status(400).json(error);
     }
@@ -48,7 +48,7 @@ async function getUserQuests(req, res) {
     const allQuests = await Quest.find({user_id: req.params.id})
     res.json(allQuests);
     }
-    catch{
+    catch(error){
         console.log(error);
         res.status(400).json(error);
     }

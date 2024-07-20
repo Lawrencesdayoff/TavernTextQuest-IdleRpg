@@ -187,3 +187,8 @@ justify-content: space-around;
 
 }
 
+.timer{
+  margin: 0;
+  display: inline;
+  float: left;
+}

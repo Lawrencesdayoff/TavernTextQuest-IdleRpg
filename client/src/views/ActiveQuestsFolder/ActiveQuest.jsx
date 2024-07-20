@@ -17,11 +17,17 @@ import HealthBar from "../../components/HealthBar";
 
 const ActiveQuest = (props) => {
     const {user, token} = props;
-    const {questid, characterid} = useParams();
-    const [secondsleft, setSecondsLeft] = useState(0);
+    const {questid: questid, characterid: characterid} = useParams();
     const [characterdata, setCharacterData] = useState([])
     const [questdata, setQuestData] = useState([])
     const [activeTab, setActiveTab] = useState(0);
+    const [starttime, setStartTime] = useState("")
+    const [questtime, setQuestTime] = useState("")
+    const [days, setDays] = useState(0);
+    const [hours, setHours] = useState(0);
+    const [minutes, setMinutes] = useState(0);
+    const [seconds, setSeconds] = useState(0);
+
     const handleQuestChatTabs = (change) => {
         setActiveTab(change);
     }
@@ -36,7 +42,26 @@ const ActiveQuest = (props) => {
         }
     ]
 
+    const getTime = (start) => {
+        const time = Math.abs(Date.parse(formatDate(start)) - Date.now());
+        setDays((Math.floor((time / (1000 * 60 * 60 * 24)))));
+        setHours((Math.floor((time / (1000 * 60 * 60)) % 24)));
+        setMinutes((Math.floor((time / 1000 / 60) % 60)));
+        setSeconds((Math.floor((time / 1000) % 60)));
+      };
+    const formatDate = (dateString) => {
+        // const universalString =  Date.UTC(dateString)
+        const options = { hour12: false, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" , second: "2-digit"}
+        return new Date(dateString).toLocaleDateString([], options)
+      }
+    
+      const handleQuestTime = () => {
+        
+      }
+
     useEffect(() => {
+
+    
         const getCharacterOnQuest = async() => {
             await axios.get(`http://localhost:9999/api/getoneCharacter/${characterid}`)
             .then((res) => {
@@ -51,15 +76,23 @@ const ActiveQuest = (props) => {
             await axios.get(`http://localhost:9999/api/getoneQuest/${questid}`)
             .then((res) =>{
                 setQuestData(res.data);
+                setStartTime(res.data.createdAt)
                 console.log(res.data);
             }).catch((err) => {
                 console.log(err);
             })
         }
 
+
         getCharacterOnQuest();
         getQuest();
-    }, [])
+        
+        console.log(starttime)
+        const interval = setInterval( () => getTime(starttime), 1000);
+        return () => { 
+          clearInterval(interval);
+        }
+    }, [starttime])
     return(
     <>
     <div className="dashboard-area">
@@ -68,7 +101,8 @@ const ActiveQuest = (props) => {
             <div class = "col"><LogoutButton /></div>
           </div>
         <div className = "dashboard-content">
-            <div class = "dashboard-quest-column">   
+            <div class = "dashboard-quest-column">
+                <Timer days = {days} hours = {hours} minutes = {minutes} seconds = {seconds}/>   
                 <CharacterHUD image = {characterdata.PC_image} firstname = {characterdata.PC_firstname} lastname = {characterdata.PC_lastname} race = {characterdata.PC_race} 
                                 pronouns = {characterdata.PC_pronouns} strength = {characterdata.PC_strength} 
                                 constitution = {characterdata.PC_constitution} agility = {characterdata.PC_agility} perception = {characterdata.PC_perception}
