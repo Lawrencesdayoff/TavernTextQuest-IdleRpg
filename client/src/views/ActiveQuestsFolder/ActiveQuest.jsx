@@ -23,6 +23,7 @@ const ActiveQuest = (props) => {
     const [activeTab, setActiveTab] = useState(0);
     const [starttime, setStartTime] = useState("")
     const [questtime, setQuestTime] = useState("")
+    const [eventlog, setEventLog] = useState()
     const [days, setDays] = useState(0);
     const [hours, setHours] = useState(0);
     const [minutes, setMinutes] = useState(0);
@@ -34,7 +35,8 @@ const ActiveQuest = (props) => {
     const tabData = [
         {
             label:"QuestName",
-            content: <QuestEventLog user = {user} token = {token}/>
+            content: <QuestEventLog user = {user} token = {token}
+                                    questid = {questid} eventlog = {eventlog.map((item) => item)}/>
         },
         {
             label:"Quest Chat",
@@ -83,6 +85,9 @@ const ActiveQuest = (props) => {
             })
         }
 
+        const updateQuest = async () => {
+            await axios.get()
+        }
 
         getCharacterOnQuest();
         getQuest();
@@ -90,6 +95,7 @@ const ActiveQuest = (props) => {
         console.log(starttime)
         const interval = setInterval( () => getTime(starttime), 1000);
         return () => { 
+            
           clearInterval(interval);
         }
     }, [starttime])

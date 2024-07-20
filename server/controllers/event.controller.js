@@ -63,6 +63,18 @@ async function getUserEvents(req, res) {
     }
 }
 
+async function getRandomEvent(req, res) {
+    try{
+        console.log("Getting random event");
+        const randomevent = await Event.find({Event_terrain: req.body})
+        res.json(listofevents)
+    }
+    catch{
+        console.log(error);
+        res.status(400).json(error);
+    }
+}
+
 async function updateOneEvent(req, res) {
     const options = {
         new: true,

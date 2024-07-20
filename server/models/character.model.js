@@ -75,6 +75,9 @@ const CharacterSchema = new Schema(
         },
         Current_Quest: {
             type: String
+        },
+        Active_Quest_Log: {
+            type: Array
         }
 
     },

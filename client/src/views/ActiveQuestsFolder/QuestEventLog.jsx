@@ -2,7 +2,7 @@ const QuestEventLog = (props) => {
     const {questid, questterrain, race, 
         pronouns, strength, 
        constitution, agility, perception, 
-       intellect, magick, wisdom } = props
+       intellect, magick, wisdom, eventlog} = props
     return(
         <>
         <table>
