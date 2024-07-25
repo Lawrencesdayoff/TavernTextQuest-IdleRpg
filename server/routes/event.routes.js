@@ -22,6 +22,9 @@ router.route("/deleteEvent/:id")
     .delete(EventController.deleteOneEvent);
 
 router.route("/getuserEvents/:id")
-    .get(EventController.getUserEvents)
+    .get(EventController.getUserEvents);
+
+router.route("/getrandomEvent/:eventbiome")
+    .get(EventController.getRandomEvent);
     
 export default router;

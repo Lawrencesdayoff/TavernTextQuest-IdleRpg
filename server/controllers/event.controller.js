@@ -66,10 +66,13 @@ async function getUserEvents(req, res) {
 async function getRandomEvent(req, res) {
     try{
         console.log("Getting random event");
-        const randomevent = await Event.find({Event_terrain: req.body})
-        res.json(listofevents)
+        const randomevents = await Event.find({Event_terrain: req.params.eventbiome})
+        const randomevent = randomevents[Math.floor(Math.random() * randomevents.length)]
+        console.log("Event Name:" + req.params.eventbiome)
+        console.log("random event:" + randomevent)
+        res.json(randomevent)
     }
-    catch{
+    catch(error){
         console.log(error);
         res.status(400).json(error);
     }
@@ -109,5 +112,6 @@ export{
     getAllEvents,
     updateOneEvent,
     deleteOneEvent,
-    getUserEvents
+    getUserEvents,
+    getRandomEvent
 };

@@ -1,4 +1,3 @@
-
 import {useState, useEffect} from "react"
 import Header from "../Header";
 import LogoutButton from "../../components/LogoutButton";
@@ -23,7 +22,9 @@ const ActiveQuest = (props) => {
     const [activeTab, setActiveTab] = useState(0);
     const [starttime, setStartTime] = useState("")
     const [questtime, setQuestTime] = useState("")
-    const [eventlog, setEventLog] = useState()
+    const [newevent, setNewEvent] = useState([])
+    const [questbiomes, setQuestBiomes] = useState([])
+    const [eventlog, setEventLog] = useState([])
     const [days, setDays] = useState(0);
     const [hours, setHours] = useState(0);
     const [minutes, setMinutes] = useState(0);
@@ -36,7 +37,7 @@ const ActiveQuest = (props) => {
         {
             label:"QuestName",
             content: <QuestEventLog user = {user} token = {token}
-                                    questid = {questid} eventlog = {eventlog.map((item) => item)}/>
+                                    questid = {questid} />
         },
         {
             label:"Quest Chat",
@@ -50,16 +51,26 @@ const ActiveQuest = (props) => {
         setHours((Math.floor((time / (1000 * 60 * 60)) % 24)));
         setMinutes((Math.floor((time / 1000 / 60) % 60)));
         setSeconds((Math.floor((time / 1000) % 60)));
-      };
+    };
     const formatDate = (dateString) => {
         // const universalString =  Date.UTC(dateString)
         const options = { hour12: false, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" , second: "2-digit"}
         return new Date(dateString).toLocaleDateString([], options)
-      }
+    }
+
+    const handleQuestTime = () => {
     
-      const handleQuestTime = () => {
-        
-      }
+    }
+    const getQuestTerrain = (array) => {
+        const questbiomelist = array.map((item) => item)
+        console.log(questbiomelist)
+        setQuestBiomes(questbiomelist)
+    }
+
+    const getRandomElement = (array) =>{
+        const randomelement = array[Math.floor(Math.random()* array.length)];
+        return randomelement      
+    }
 
     useEffect(() => {
 
@@ -80,13 +91,29 @@ const ActiveQuest = (props) => {
                 setQuestData(res.data);
                 setStartTime(res.data.createdAt)
                 console.log(res.data);
+                console.log(starttime)
+                getQuestTerrain(res.data.Quest_biome);
             }).catch((err) => {
                 console.log(err);
             })
         }
 
-        const updateQuest = async () => {
-            await axios.get()
+        const updateQuest = async (eventbiomes) => {
+            //get time
+            //check time to see if scripted event is coming up
+            // maybe use an if statement here to differentiate between whether or no the current time calls a quest specific event
+            const randombiome = eventbiomes[Math.floor(Math.random() * eventbiomes.length)]
+            await axios.get(`http://localhost:9999/api/getrandomEvent/${randombiome}`).then(
+                (res) => {
+                    setNewEvent(res.data)
+                    setEventLog(res.data.Event_description)
+                }).catch((err) => {
+                    console.log(err);
+                })
+        }
+
+        const runQuestLogic = async() => {
+
         }
 
         getCharacterOnQuest();
@@ -94,11 +121,13 @@ const ActiveQuest = (props) => {
         
         console.log(starttime)
         const interval = setInterval( () => getTime(starttime), 1000);
+        const nextevent = setInterval (() => updateQuest(questbiomes, eventlog), 20000)
         return () => { 
-            
+        
           clearInterval(interval);
+          clearInterval(nextevent);
         }
-    }, [starttime])
+    }, [starttime], [questbiomes, eventlog])
     return(
     <>
     <div className="dashboard-area">
@@ -121,7 +150,6 @@ const ActiveQuest = (props) => {
       </div>
       </div>
     </>
-
 )
 }
 
