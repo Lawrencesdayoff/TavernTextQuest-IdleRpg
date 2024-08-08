@@ -3,7 +3,8 @@ async function createEvent(req, res) {
     try{
        
         console.log("Create new Event");
-        const {         Event_name, Event_description, Event_description_failure, Event_description_success, Quest_specific, Event_terrain,
+        const {         Event_name, Event_description, Event_description_failure, Event_description_success, 
+            Quest_specific, Quest_specific_hour, Quest_specific_minute, Quest_specific_second, Event_terrain,
             Event_failure_health_loss, Event_success_gold_gain,Event_agi_check,
             Event_con_check, Event_int_check, Event_mag_check, Event_per_check, Event_str_check,
             Event_wis_check
@@ -11,7 +12,8 @@ async function createEvent(req, res) {
         
         
         const newEvent = await Event.create({
-            Event_name, Event_description, Event_description_failure, Event_description_success, Quest_specific, Event_terrain,
+            Event_name, Event_description, Event_description_failure, Event_description_success, 
+            Quest_specific, Quest_specific_hour, Quest_specific_minute, Quest_specific_second, Event_terrain,
             Event_failure_health_loss, Event_success_gold_gain,Event_agi_check,
             Event_con_check, Event_int_check, Event_mag_check, Event_per_check, Event_str_check,
             Event_wis_check
@@ -72,7 +74,7 @@ async function getRandomEvent(req, res) {
         console.log("random event:" + randomevent)
         res.json(randomevent)
     }
-    catch(error){
+    catch{
         console.log(error);
         res.status(400).json(error);
     }
@@ -106,6 +108,22 @@ async function deleteOneEvent(req, res) {
     }
 }
 
+async function getAllQuestSpecificEvents(req, res) {
+    try{
+        console.log("Finding Quest Specific Event(s)...")
+        const questspecificeventList = await Event.find({Quest_specific: req.params.id})
+        console.log(req.params.id)
+        console.log(questspecificeventList)
+        console.log("Quest Specific Event(s) Found")  
+        res.json(questspecificeventList);
+    
+    }
+    catch(error){
+        console.log(error)
+        res.status(400).json(error);
+    }
+}
+
 export{
     createEvent,
     getOneEvent,
@@ -113,5 +131,6 @@ export{
     updateOneEvent,
     deleteOneEvent,
     getUserEvents,
-    getRandomEvent
+    getRandomEvent,
+    getAllQuestSpecificEvents
 };

@@ -3,7 +3,7 @@ const EventSchema = new Schema(
     {
         Event_name:{
             type: String,
-            required: [true, "Event name is required"]  
+            required: [true, "Event name is required"]
         },
         Event_description:{
             type: String,
@@ -19,6 +19,15 @@ const EventSchema = new Schema(
         },
         Quest_specific:{
             type: String
+        },
+        Quest_specific_hour:{
+            type: Number
+        },
+        Quest_specific_minute:{
+            type: Number
+        },
+        Quest_specific_second:{
+            type: Number
         },
         Event_terrain:{
             type: Array

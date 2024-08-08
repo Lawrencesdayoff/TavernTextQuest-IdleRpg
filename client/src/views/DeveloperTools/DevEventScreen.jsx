@@ -15,6 +15,7 @@ const DevEventScreen = () => {
     const [questspecific, setQuestSpecific] = useState("")
     const [eventtimehour, setEventTimeHour] = useState(0)
     const [eventtimeminute, setEventTimeMinute] = useState(0)
+    const [eventtimesecond, setEventTimeSecond] = useState(0)
     const [goldgain, setGoldGain] = useState(0)
     const [healthloss, setHealthLoss] = useState(0)
     const [checkstrength, setCheckStrength] = useState(0)
@@ -41,6 +42,9 @@ const DevEventScreen = () => {
             Event_name: eventname,
             Event_terrain: eventbiome,
             Quest_specific: questspecific,
+            Quest_specific_hour: eventtimehour,
+            Quest_specific_minute: eventtimeminute,
+            Quest_specific_second: eventtimesecond,
             Event_description: eventdescription,
             Event_description_success: eventsuccess,
             Event_description_failure: eventfailure,
@@ -166,6 +170,10 @@ const DevEventScreen = () => {
                  <div class="slidecontainer">
                     <p>{eventtimeminute} minutes</p>
                     <input type="range" min="0" max= {questinfo.Quest_time_minutes} value={eventtimeminute} class="slider" id="myRange" onChange={(e) => setEventTimeMinute(e.target.value)}/> 
+                </div>
+                <div class="slidecontainer">
+                    <p>{eventtimesecond} seconds</p>
+                    <input type="range" min="0" max= "59" value={eventtimeminute} class="slider" id="myRange" onChange={(e) => setEventTimeMinute(e.target.value)}/> 
                 </div>
                 </>
                  : <></> }
