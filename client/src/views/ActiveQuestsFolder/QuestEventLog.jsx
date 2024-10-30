@@ -1,3 +1,6 @@
+import LogItem from "./LogItem"
+
+
 const QuestEventLog = (props) => {
     const {questid, questterrain, race, 
         pronouns, strength, 
@@ -5,9 +8,12 @@ const QuestEventLog = (props) => {
        intellect, magick, wisdom, eventlog} = props
     return(
         <>
-        <table>
-            <tr>random events go here</tr>
-        </table>
+            <div className = "scrollable-div">
+
+                {eventlog.map((item, index) => ( <LogItem key = {index} logtext = {item} />))}
+
+                </div>
+
         </>
     )
 }

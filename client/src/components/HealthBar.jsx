@@ -21,7 +21,7 @@ const HealthBar = (props) => {
             textAlign: "center"
           }}
         >
-          {hp} / {maxHp}
+          {hp < 0 ? 0 : hp} / {maxHp}
         </div>
       </div>
 

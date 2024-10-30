@@ -22,9 +22,11 @@ router.route("/deleteEvent/:id")
     .delete(EventController.deleteOneEvent);
 
 router.route("/getuserEvents/:id")
-    .get(EventController.getUserEvents);
+    .get(EventController.getUserEvents)
 
 router.route("/getrandomEvent/:eventbiome")
     .get(EventController.getRandomEvent);
-    
+
+router.route("/getallQuestSpecificEvents/:id")
+    .get(EventController.getAllQuestSpecificEvents);
 export default router;

@@ -33,6 +33,13 @@ const ActiveQuest = (props) => {
     const [minutes, setMinutes] = useState(0);
     const [seconds, setSeconds] = useState(0);
 
+    const [hasdied, setCharacterDied] = useState(false)
+    const [questRunning, setQuestRunning] = useState(false)
+
+    const [questgold, setGoldGain] = useState(0);
+    const [characterhealth, setCharacterHealth] = useState(0);
+    const [characterxp, setXPGain] = useState(0);
+
     const handleQuestChatTabs = (change) => {
         setActiveTab(change);
     }
@@ -55,38 +62,71 @@ const ActiveQuest = (props) => {
         setHours((Math.floor((time / (1000 * 60 * 60)) % 24)));
         setMinutes((Math.floor((time / 1000 / 60) % 60)));
         setSeconds((Math.floor((time / 1000) % 60)));
-        return days, minutes, hours, seconds
     };
+
     const formatDate = (dateString) => {
         const options = { hour12: false, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" , second: "2-digit"}
         return new Date(dateString).toLocaleDateString([], options)
-    }
+    };
+
     const formatQuestTime = (timestring) => {
         const [hours, minutes] = timestring.split(':')
         const questhours  = hours * 3600 * 1000
         const questminutes = minutes * 60 * 1000
         return questhours + questminutes
-    }
+    };
 
     const getQuestTerrain = (array) => {
         const questbiomelist = array.map((item) => item)
         setQuestBiomes(questbiomelist)
         return questbiomes
-    }
+    };
 
     const getRandomElement = (array) =>{
         const randomelement = array[Math.floor(Math.random()* array.length)];
         return randomelement      
+    };
+
+    const runEventChecks = (character, eventchecks) => {
+        if(
+        character.PC_strength >= eventchecks.Event_str_check &&
+        character.PC_constitution >= eventchecks.Event_con_check &&
+        character.PC_agility >= eventchecks.Event_agi_check &&
+        character.PC_perception >= eventchecks.Event_per_check &&
+        character.PC_intellect >= eventchecks.Event_int_check &&
+        character.PC_wisdom >= eventchecks.Event_wis_check &&
+        character.PC_magick >= eventchecks.Event_mag_check
+        )
+            return(
+                setGoldGain( questgold + eventchecks.Event_success_gold_gain), 
+                setEventLog((prevEventLog) => [...prevEventLog, eventchecks.Event_description_success])
+        )
+        else
+            return(
+                setCharacterHealth(characterhealth - eventchecks.Event_failure_health_loss),
+                setEventLog((prevEventLog) => [...prevEventLog, eventchecks.Event_description_failure])
+        )
+
     }
 
-    useEffect(() => {
+    const checkCharacterStatus = (healthstatus) => {
+        if (healthstatus <= 0 ) {
+            setQuestRunning(false)
+            setCharacterHealth(0)
+        }
+        else{
+            setQuestRunning(true)
+        }
+    }
 
+    useEffect(()=> {
     
         const getCharacterOnQuest = async() => {
             await axios.get(`http://localhost:9999/api/getoneCharacter/${characterid}`)
             .then((res) => {
                 setCharacterData(res.data)
                 setStartTime(res.data.Quest_Start_Time)
+                setCharacterHealth(res.data.PC_constitution)
             }).catch((err) => {
                 console.log(err);
             })
@@ -103,6 +143,7 @@ const ActiveQuest = (props) => {
                 console.log(err);
             })
         }
+        
         const getQuestSpecificEvents = async() => {
             await axios.get(`http://localhost:9999/api/getallQuestSpecificEvents/${questid}`).then(
                 (res) => {
@@ -112,50 +153,55 @@ const ActiveQuest = (props) => {
                 console.log(err);
                 })
         }
-
-        const updateQuest = async (eventbiomes, events, currenthours, currentminutes, currentseconds) => {
-            // Format the current hours and minutes as strings with leading zeros if necessary
-            // const formattedHours = currenthours.toString().padStart(2, '0');
-            // const formattedMinutes = currentminutes.toString().padStart(2, '0');
-            // console.log("hours", formattedHours)
-            // console.log("minutes", formattedMinutes)
-            // console.log(currenthours + ":" + currentminutes + ":" + currentseconds)
-            console.log("quest specific events:" + events)
-            // Find the event that matches the current time
-            const eventAtTime = events.map((item) => item).find(
-                (item) => 
-                    item.Quest_specific_hour === currenthours &&
-                    item.Quest_specific_minute === currentminutes &&
-                    item.Quest_specific_second === currentseconds
-            );
-            if (eventAtTime) {
-                setNewEvent(eventAtTime);
-                setEventLog((prevEventLog) => [...prevEventLog, eventAtTime.Event_description]);
-            } else {
-                // If no specific event is found, fetch a random event based on the current biome
-                const randomBiome = getRandomElement(eventbiomes);
-                await axios.get(`http://localhost:9999/api/getrandomEvent/${randomBiome}`).then((res) => {
-                    setNewEvent(res.data);
-                    setEventLog((prevEventLog) => [...prevEventLog, res.data.Event_description]);
-                }). catch( (err) => {
-                    console.log(err);
-                })
-            }
-        };
-
         getCharacterOnQuest();
         getQuest();
         getQuestSpecificEvents();
-        
-        console.log(starttime)
-        const interval = setInterval( () => getTime(starttime), 1000);
-        const nextevent = setInterval (() => updateQuest(questbiomes, questspecificevents, hours, minutes, seconds), 10000)
-        // how about this take the updatequest function and nest it in a function to call at the getTime function
-        return () => { 
-          clearInterval(interval);
-          clearInterval(nextevent);
+        setQuestRunning(true)
+    }, [])
+
+    useEffect(() => {
+        const updateQuest = async (currenttime, eventbiomes, events, currenthours, currentminutes, currentseconds) => {
+            checkCharacterStatus(characterhealth);
+            if(questRunning == true){
+                getTime(currenttime)
+                if (currentseconds % 10 == 0){
+                const eventAtTime = events.map((item) => item).find(
+                    (item) => 
+                        item.Quest_specific_hour === currenthours &&
+                        item.Quest_specific_minute === currentminutes &&
+                        item.Quest_specific_second === currentseconds
+                );
+                if (eventAtTime) {
+                    setNewEvent(eventAtTime);
+                    setEventLog((prevEventLog) => [...prevEventLog, eventAtTime.Event_description]);
+                    runEventChecks(characterdata, eventAtTime);
+                } else {
+                    // If no specific event is found, fetch a random event based on the current biome
+                    const randomBiome = getRandomElement(eventbiomes);
+                    await axios.get(`http://localhost:9999/api/getrandomEvent/${randomBiome}`).then((res) => {
+                        setNewEvent(res.data);
+                        setEventLog((prevEventLog) => [...prevEventLog, res.data.Event_description]);
+                        runEventChecks(characterdata, res.data);
+                    }). catch( (err) => {
+                        console.log(err);
+                    })
+                }
+            }
+            else if(questRunning == false){
+                        // Set function for window either in the log or an alert saying "your character has died, revive for some number of coins"
+            }     
         }
-    }, [starttime], [questbiomes, hours, minutes, seconds])
+        };     
+        console.log(starttime)
+      
+        const nextevent = setInterval (() => updateQuest(starttime, questbiomes, questspecificevents, hours, minutes, seconds), 1000)
+        return () => { 
+            //   clearInterval(interval);
+              clearInterval(nextevent);
+            }
+   
+        }, [starttime, hours, minutes, seconds], [questbiomes])
+
     return(
     <>
     <div className="dashboard-area">
@@ -166,11 +212,14 @@ const ActiveQuest = (props) => {
           </div>
         <div className = "dashboard-content">
             <div class = "dashboard-quest-column">
-                <Timer days = {days} hours = {hours} minutes = {minutes} seconds = {seconds}/>   
-                <CharacterHUD image = {characterdata.PC_image} firstname = {characterdata.PC_firstname} lastname = {characterdata.PC_lastname} race = {characterdata.PC_race} 
+                <Timer days = {days} hours = {hours} minutes = {minutes} seconds = {seconds}/>
+
+                <CharacterHUD image = {characterdata.PC_image} firstname = {characterdata.PC_firstname} lastname = {characterdata.PC_lastname}
+                                gold = {questgold} race = {characterdata.PC_race}  health = {characterhealth}
                                 pronouns = {characterdata.PC_pronouns} strength = {characterdata.PC_strength} 
                                 constitution = {characterdata.PC_constitution} agility = {characterdata.PC_agility} perception = {characterdata.PC_perception}
                                 intellect = {characterdata.PC_intellect} magick = {characterdata.PC_magick} wisdom = {characterdata.PC_wisdom}  />
+                
                 <ButtonToDashboard/>
             </div>
             <div class = "dashboard-char-column">

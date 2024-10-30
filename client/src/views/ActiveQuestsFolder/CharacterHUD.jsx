@@ -2,7 +2,7 @@ import HealthBar from "../../components/HealthBar";
 
 
 const CharacterHUD = (props) => {
-    const {image, firstname, lastname, race, 
+    const {image, firstname, lastname, health, race, gold, 
          pronouns, strength, 
         constitution, agility, perception, 
         intellect, magick, wisdom } = props
@@ -10,8 +10,9 @@ const CharacterHUD = (props) => {
         <>
         <img src={image} width= "200px" height = "200px"/>
         <p>{firstname} {lastname}</p>
-        <HealthBar maxHp = {constitution}></HealthBar>
-        
+        <p>Gold : {gold}</p>
+        <HealthBar hp = {health} maxHp = {constitution}></HealthBar>
+
         </>
     )
 }
