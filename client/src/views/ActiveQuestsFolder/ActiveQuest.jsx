@@ -139,6 +139,7 @@ const ActiveQuest = (props) => {
         if (healthstatus <= 0 ) {
             setQuestRunning(false)
             setCharacterHealth(0)
+            setCharacterDied(true)
         }
         else{
             setQuestRunning(true)
@@ -247,6 +248,7 @@ const ActiveQuest = (props) => {
                                 intellect = {characterdata.PC_intellect} magick = {characterdata.PC_magick} wisdom = {characterdata.PC_wisdom}  />
                 
                 <ButtonToDashboard/>
+                {hasdied? <p>{characterdata.PC_firstname} has died!</p>:<></> }
             </div>
             <div class = "active-quest-ticker">
                 <Tabs tabs = {tabData} content = {tabData.content} onChangeTab={handleQuestChatTabs} activeTab={activeTab}/>

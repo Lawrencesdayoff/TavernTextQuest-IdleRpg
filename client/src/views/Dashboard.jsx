@@ -92,7 +92,7 @@ const Dashboard = (props) => {
           <QuestContainer Heading = "Active Quests" Content = {activequests.map((item, index) => (
               <ActiveQuestItem key = {index} questid = {item._id} characterid = {activecharacters[index]._id} questname = {item.Quest_name} characterportrait = {activecharacters[index].PC_image}/>))} />
 
-          <QuestContainer Heading = "Availble Quests" Content = {availablequests.map((item, index) => (
+          <QuestContainer Heading = "Available Quests" Content = {availablequests.map((item, index) => (
               <AvailableQuestItem key = {index} _id = {item._id} questname = {item.Quest_name} questlevel ={item.Quest_level}/>))} />
         </div>
         <div class = "dashboard-char-column">
