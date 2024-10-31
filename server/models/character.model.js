@@ -76,6 +76,9 @@ const CharacterSchema = new Schema(
         Current_Quest: {
             type: String
         },
+        Quest_Start_Time: {
+            type: Date
+        },
         Active_Quest_Log: {
             type: Array
         }

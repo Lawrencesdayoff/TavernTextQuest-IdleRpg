@@ -11,39 +11,36 @@ const StartQuest = (props) => {
     console.log(characterid)
     console.log(questid)
         
-        useEffect(()=>{
-        //     console.log(questid)
-        //    const getQuest = async () => { 
-        //     axios.get(`http://localhost:9999/api/getoneQuest/${questid}`)
-        //     .then((res) => {
-        //         setQuest([res.data])
-        //     }).catch((err) => {
-        //         console.log(err)
-        //     })
-        // }
-        //     const getCharacter = async () => {axios.get(`http://localhost:9999/api/getoneCharacter/${characterid}`)
-        //     .then((res) => {
-        //         setCharacter(res.data)
-        //     }).catch((err) => {
-        //         console.log(err)
-        //     }
-        //     )
+    function getCurrentTime() {
+        const now = new Date();
+        const isoString = now.toISOString(); // Generates 2024-05-19T09:02:32.496Z
+        const timeZoneOffset = -now.getTimezoneOffset(); // Get the timezone offset in minutes
+    
+        // Format timezone offset as ±HH:mm
+        const sign = timeZoneOffset >= 0 ? "+" : "-";
+        const hours = String(Math.floor(Math.abs(timeZoneOffset) / 60)).padStart(2, "0");
+        const minutes = String(Math.abs(timeZoneOffset) % 60).padStart(2, "0");
+        
+        return `${isoString.slice(0, -1)}${sign}${hours}:${minutes}`; 
+    }
+    
+    // Usage
 
-        //     getQuest();
-        //     getCharacter();
+    useEffect(()=>{
+        const questStart = getCurrentTime();
+        const updateActiveQuests = async() => {
+            axios.patch(`http://localhost:9999/api/updateCharacterfield/${characterid}`,{ 
+                    On_Quest: true,
+                    Current_Quest: questid,
+                    Quest_Start_Time: questStart
+                }
+            ).then((res) => {
+                console.log("navigating to dashboard")
+                navigate('/dashboard');
+            })
+        } 
 
-            const updateActiveQuests = async() => {
-                axios.patch(`http://localhost:9999/api/updateCharacterfield/${characterid}`,{ 
-                        On_Quest: true,
-                        Current_Quest: questid
-                    }
-                ).then((res) => {
-                    console.log("navigating to dashboard")
-                   navigate('/dashboard');
-                })
-            } 
-
-            updateActiveQuests();
+        updateActiveQuests();
         }
         , [])
         return(

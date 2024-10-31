@@ -55,13 +55,39 @@ const ActiveQuest = (props) => {
         }
     ]
 
+
+    function getCurrentTime() {
+        const now = new Date();
+        const isoString = now.toISOString(); // Generates 2024-05-19T09:02:32.496Z
+        const timeZoneOffset = -now.getTimezoneOffset(); // Get the timezone offset in minutes
+    
+        // Format timezone offset as ±HH:mm
+        const sign = timeZoneOffset >= 0 ? "+" : "-";
+        const hours = String(Math.floor(Math.abs(timeZoneOffset) / 60)).padStart(2, "0");
+        const minutes = String(Math.abs(timeZoneOffset) % 60).padStart(2, "0");
+        
+        return `${isoString.slice(0, -1)}${sign}${hours}:${minutes}`; 
+    }
+    
     const getTime = (start) => {
+        const startTime = Date.parse(start); 
         console.log(start)
-        const time = Math.abs(Date.parse(formatDate(start)) - Date.now());
-        setDays((Math.floor((time / (1000 * 60 * 60 * 24)))));
-        setHours((Math.floor((time / (1000 * 60 * 60)) % 24)));
-        setMinutes((Math.floor((time / 1000 / 60) % 60)));
-        setSeconds((Math.floor((time / 1000) % 60)));
+        console.log(startTime)
+        const currentTimeString = getCurrentTime()
+        const currentTime = Date.parse(currentTimeString)
+        console.log()
+        console.log("currenttime:",currentTime)
+        const timeDifference = Math.abs(currentTime - startTime); 
+    
+        const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+    
+        setDays(days);
+        setHours(hours);
+        setMinutes(minutes);
+        setSeconds(seconds);
     };
 
     const formatDate = (dateString) => {
@@ -212,7 +238,7 @@ const ActiveQuest = (props) => {
           </div>
         <div className = "dashboard-content">
             <div class = "dashboard-quest-column">
-                <Timer days = {days} hours = {hours} minutes = {minutes} seconds = {seconds}/>
+                <Timer hours = {hours} minutes = {minutes} seconds = {seconds}/>
 
                 <CharacterHUD image = {characterdata.PC_image} firstname = {characterdata.PC_firstname} lastname = {characterdata.PC_lastname}
                                 gold = {questgold} race = {characterdata.PC_race}  health = {characterhealth}

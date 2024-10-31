@@ -31,7 +31,7 @@ function App() {
       <AuthProvider>
         <Routes>
           <Route path="/" element={<LoginAndReg /> } />
-          <Route path="/dashboard" element={<Dashboard user= {UserName}/>} />
+          <Route path="/dashboard" element={<Dashboard user= {UserName} token = {UserToken}/>} />
           <Route path= "/newcharacter" element={<CharacterCreator/>}/>
           <Route path= "/character/:id/update" element = {<CharacterUpdate/>}/>
           <Route path= "/character/:id/delete" element = {<CharacterDelete />}/>

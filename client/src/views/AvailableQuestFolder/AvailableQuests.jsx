@@ -7,10 +7,10 @@ import AvailableCharacters from "./AvailableCharacters";
 import CharacterContainer from "../../components/CharacterContainer";
 import CharacterItem from "../../components/CharacterItem";
 const AvailableQuests = (props) => {
+    const {user, token} = props;
     const [details, setQuestDetails] = useState([])
     const [characterlist, setCharacterList] = useState([])
     const [selectedCharacter, setCharacter] = useState("")
-    const {user, token} = props;
     const {questid} = useParams();
     useEffect(()=>{
         console.log(questid)
