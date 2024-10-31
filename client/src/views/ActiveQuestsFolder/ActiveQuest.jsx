@@ -237,7 +237,7 @@ const ActiveQuest = (props) => {
             <div class = "col"><AbandonQuestButton id = {characterid} /></div>
           </div>
         <div className = "dashboard-content">
-            <div class = "dashboard-quest-column">
+            <div class = "active-quest-HUD">
                 <Timer hours = {hours} minutes = {minutes} seconds = {seconds}/>
 
                 <CharacterHUD image = {characterdata.PC_image} firstname = {characterdata.PC_firstname} lastname = {characterdata.PC_lastname}
@@ -248,7 +248,7 @@ const ActiveQuest = (props) => {
                 
                 <ButtonToDashboard/>
             </div>
-            <div class = "dashboard-char-column">
+            <div class = "active-quest-ticker">
                 <Tabs tabs = {tabData} content = {tabData.content} onChangeTab={handleQuestChatTabs} activeTab={activeTab}/>
             </div>
       </div>

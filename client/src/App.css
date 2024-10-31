@@ -1,6 +1,7 @@
 
 #root {
   max-width: 1280px;
+  max-height: 720px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
@@ -88,8 +89,9 @@ td, th {
   display: flex;
 
   justify-content: center;
-}.tabs-container {
-  width: 400px;
+}
+.tabs-container {
+  width: 100%;
   margin: 20px auto;
 }
 
@@ -113,6 +115,14 @@ td, th {
 .tab-content {
   border: 1px solid #ddd;
   padding: 10px;
+  height: 100%;;
+  width: 100%;
+}
+.tab-content-activequest {
+  border: 1px solid #ddd;
+  padding: 10px;
+  height: 100%;;
+  width: 100%;
 }
 .scrollable-div-container-quests{
   border: 1px black;
@@ -191,4 +201,20 @@ justify-content: space-around;
   margin: 0;
   display: inline;
   float: left;
+}
+
+.active-quest-ticker{
+  width: 100%;
+  height: 500px;
+ padding: 20px;
+ display: flex;
+
+ justify-content: center;
+}
+.active-quest-HUD{
+width: 50%;
+height: 100%;
+display: flex;
+align-items: center;
+flex-direction: column;
 }
