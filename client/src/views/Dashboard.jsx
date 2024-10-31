@@ -10,6 +10,7 @@ import CharacterItem from "../components/CharacterItem";
 import AvailableQuestItem from "../components/AvailableQuestItem";
 import ActiveQuestItem from "../components/ActiveQuestItem";
 import ButtonCreateCharacter from "../components/ButtonCreateCharacter";
+import AudioPlayer from "../components/AudioPlayer";
 const Dashboard = (props) => {
   const {user} = props
   const navigate = useNavigate();
@@ -97,7 +98,7 @@ const Dashboard = (props) => {
         <div class = "dashboard-char-column">
             <CharacterContainer Actions = {<ButtonCreateCharacter/>} Heading= "Characters" Content =  {usercharacterlist.map((item, index) => (<CharacterItem key = {index} _id = {item._id} image = {item.PC_image} firstname = {item.PC_firstname} lastname = {item.PC_lastname} />))}
             />
-
+            <AudioPlayer/>
 
         </div>
       </div>

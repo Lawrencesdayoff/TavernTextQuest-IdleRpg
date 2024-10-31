@@ -218,3 +218,15 @@ display: flex;
 align-items: center;
 flex-direction: column;
 }
+
+.audio-player {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+button {
+  padding: 5px 10px;
+}
+input[type="range"] {
+  flex-grow: 1;
+}
