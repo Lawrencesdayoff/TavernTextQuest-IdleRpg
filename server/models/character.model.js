@@ -1,4 +1,9 @@
 import {model, Schema} from 'mongoose';
+
+const baseExp = 100;
+const levelExponent = 1.5;
+const experienceToLevelUp = level => Math.floor(baseExp * Math.pow(level, levelExponent));
+
 const CharacterSchema = new Schema(
     {
         user_id:{
@@ -9,7 +14,7 @@ const CharacterSchema = new Schema(
         },
         PC_image: {
             type: String,
-            required: [true, "inage path is required!"]
+            required: [true, "image path is required!"]
         },
         PC_firstname: {
             type: String,
@@ -81,11 +86,29 @@ const CharacterSchema = new Schema(
         },
         Active_Quest_Log: {
             type: Array
+        },
+        PC_level: {
+            type: Number,
+            default: 1
+        },
+        PC_experience: {
+            type: Number,
+            default: 0
         }
-
     },
     { timestamps: true}
 );
-
+CharacterSchema.pre('save', function (next) {
+    let nextLevelExp = experienceToLevelUp(this.PC_level);
+    
+    while (this.PC_experience >= nextLevelExp) {
+        this.PC_experience -= nextLevelExp;
+        this.PC_level += 1;
+        console.log(`Level up! ${this.PC_firstname} is now level ${this.PC_level}`);
+        nextLevelExp = experienceToLevelUp(this.PC_level); // Recalculate for the new level
+    }
+    
+    next(); // Continue with the save operation
+});
 const Character = model("Character", CharacterSchema); 
 export default Character;

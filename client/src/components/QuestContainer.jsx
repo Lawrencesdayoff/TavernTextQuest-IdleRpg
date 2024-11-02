@@ -6,7 +6,7 @@ const QuestContainer = ({Heading, Content}) => {
     return(
         <>
         <div className="scrollable-div-container-quests">
-        <div className = "scrollable-div-header">
+        <div className = "scrollable-div-Header">
             {Heading}
         </div>
         <div className="scrollable-div">
