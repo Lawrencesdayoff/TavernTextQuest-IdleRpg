@@ -122,6 +122,42 @@ async function deleteOnePC(req, res) {
     }
 }
 
+async function updateCharacterXP (req, res) {
+    try {
+      const { characterid } = req.params;
+      const { additionalXP } = req.body;
+  
+      const updatedCharacter = await Character.findByIdAndUpdate(
+        characterid,
+        { $inc: { PC_experience: additionalXP } },
+        { new: true }
+      );
+  
+      res.json(updatedCharacter);
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Error updating character experience.");
+    }
+  }
+
+  
+async function updateCharacterActiveQuestLog (req, res) {
+    try {
+      const { characterid } = req.params;
+      const { newQuestLogEntry } = req.body;
+  
+      const updatedActiveQuestLog = await Character.findByIdAndUpdate(
+        characterid,
+        { $inc: { Active_Quest_Log: newQuestLogEntry } },
+        { new: true }
+      );
+  
+      res.json(updatedCharacter);
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Error updating character Quest Log.");
+    }
+  }
 export{
     createPC,
     getOnePC,
@@ -130,5 +166,7 @@ export{
     deleteOnePC,
     getUserPCs,
     getAllPCsNotOnQuest,
-    getAllPCsOnQuest
+    getAllPCsOnQuest,
+    updateCharacterXP,
+    updateCharacterActiveQuestLog
 };

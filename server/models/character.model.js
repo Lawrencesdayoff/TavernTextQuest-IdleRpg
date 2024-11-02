@@ -98,17 +98,29 @@ const CharacterSchema = new Schema(
     },
     { timestamps: true}
 );
-CharacterSchema.pre('save', function (next) {
-    let nextLevelExp = experienceToLevelUp(this.PC_level);
-    
-    while (this.PC_experience >= nextLevelExp) {
-        this.PC_experience -= nextLevelExp;
-        this.PC_level += 1;
-        console.log(`Level up! ${this.PC_firstname} is now level ${this.PC_level}`);
-        nextLevelExp = experienceToLevelUp(this.PC_level); // Recalculate for the new level
+CharacterSchema.pre('findOneAndUpdate', async function (next) {
+    // Get the current and updated experience values
+    const update = this.getUpdate();
+    if (update && update.PC_experience !== undefined) {
+        // Find the document being updated to check the current experience and level
+        const docToUpdate = await this.model.findOne(this.getQuery());
+
+        let { PC_experience, PC_level } = docToUpdate;
+        PC_experience = update.PC_experience;
+
+        let nextLevelExp = experienceToLevelUp(PC_level);
+        while (PC_experience >= nextLevelExp) {
+            PC_experience -= nextLevelExp;
+            PC_level += 1;
+            nextLevelExp = experienceToLevelUp(PC_level);
+        }
+
+        // Update the level and experience in the query itself
+        update.PC_experience = PC_experience;
+        update.PC_level = PC_level;
     }
-    
-    next(); // Continue with the save operation
+    next();
 });
+
 const Character = model("Character", CharacterSchema); 
 export default Character;

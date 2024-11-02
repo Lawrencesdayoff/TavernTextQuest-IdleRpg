@@ -29,5 +29,8 @@ router.route("/getcharactersonquests/:id")
 
 router.route("/getcharactersoffquests/:id")
     .get(CharacterController.getAllPCsNotOnQuest)
+
+router.route("/updateCharacterXP/:id")
+    .patch(CharacterController.updateCharacterXP)
     
 export default router;
