@@ -124,16 +124,17 @@ async function deleteOnePC(req, res) {
 
 async function updateCharacterXP (req, res) {
     try {
-      const { characterid } = req.params;
+        
       const { additionalXP } = req.body;
-  
+      console.log("adding xp:", additionalXP)
+
       const updatedCharacter = await Character.findByIdAndUpdate(
-        characterid,
+        req.params.id,
         { $inc: { PC_experience: additionalXP } },
         { new: true }
       );
-  
       res.json(updatedCharacter);
+      console.log("Updated Character", updatedCharacter)
     } catch (err) {
       console.error(err);
       res.status(500).send("Error updating character experience.");
@@ -151,7 +152,7 @@ async function updateCharacterActiveQuestLog (req, res) {
         { $inc: { Active_Quest_Log: newQuestLogEntry } },
         { new: true }
       );
-  
+      
       res.json(updatedCharacter);
     } catch (err) {
       console.error(err);

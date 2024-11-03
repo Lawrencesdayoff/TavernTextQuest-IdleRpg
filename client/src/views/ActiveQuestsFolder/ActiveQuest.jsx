@@ -113,6 +113,17 @@ const ActiveQuest = (props) => {
         return randomelement      
     };
 
+    const addExperience = async (additionalXP) => {
+        try {
+          await axios.patch(`http://localhost:9999/api/updateCharacterXP/${characterid}`, {
+            additionalXP,
+          });
+        //   setCharacterData(response.data); // Update state with the new character data
+        } catch (error) {
+          console.error("Error adding experience:", error);
+        }
+      };
+      
     const runEventChecks = (character, eventchecks) => {
         if(
         character.PC_strength >= eventchecks.Event_str_check &&
@@ -125,13 +136,15 @@ const ActiveQuest = (props) => {
         )
             return(
                 setGoldGain( questgold + eventchecks.Event_success_gold_gain), 
-                setEventLog((prevEventLog) => [...prevEventLog, eventchecks.Event_description_success])
-        )
+                setEventLog((prevEventLog) => [...prevEventLog, eventchecks.Event_description_success]),
+                addExperience(50)
+            )
         else
             return(
                 setCharacterHealth(characterhealth - eventchecks.Event_failure_health_loss),
-                setEventLog((prevEventLog) => [...prevEventLog, eventchecks.Event_description_failure])
-        )
+                setEventLog((prevEventLog) => [...prevEventLog, eventchecks.Event_description_failure]),
+                addExperience(10)
+            )
 
     }
 

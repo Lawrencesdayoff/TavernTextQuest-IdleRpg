@@ -58,6 +58,15 @@ const EventSchema = new Schema(
         },
         Event_mag_check:{
             type: Number
+        },
+        Event_XP_gain_success: {
+            type: Number
+        },
+        Event_XP_gain_failure: {
+            type: Number
+        },
+        Event_loot: {
+            type: Array
         }
         },
         {
