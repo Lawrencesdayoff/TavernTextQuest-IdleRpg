@@ -39,6 +39,9 @@ const ActiveQuest = (props) => {
     const [questgold, setGoldGain] = useState(0);
     const [characterhealth, setCharacterHealth] = useState(0);
     const [characterxp, setCurrentXP] = useState(0);
+    const [characterxpThreshold, setThresholdXP] = useState(0);
+    const [characterlevel, setCharacterLevel] = useState(0);
+
 
     const handleQuestChatTabs = (change) => {
         setActiveTab(change);
@@ -136,16 +139,16 @@ const ActiveQuest = (props) => {
         )
             return(
                 setGoldGain( questgold + eventchecks.Event_success_gold_gain), 
-                setCurrentXP(character.PC_experience),
+                setCurrentXP(characterxp + eventchecks.Event_XP_gain_success),
                 setEventLog((prevEventLog) => [...prevEventLog, eventchecks.Event_description_success]),
-                addExperience(50)
+                addExperience(eventchecks.Event_XP_gain_success)
             )
         else
             return(
                 setCharacterHealth(characterhealth - eventchecks.Event_failure_health_loss),
-                setCurrentXP(character.PC_experience),
+                setCurrentXP(characterxp + eventchecks.Event_XP_gain_failure),
                 setEventLog((prevEventLog) => [...prevEventLog, eventchecks.Event_description_failure]),
-                addExperience(10)
+                addExperience(eventchecks.Event_XP_gain_failure)
             )
 
     }
@@ -169,6 +172,7 @@ const ActiveQuest = (props) => {
                 setCharacterData(res.data)
                 setStartTime(res.data.Quest_Start_Time)
                 setCharacterHealth(res.data.PC_constitution)
+                setCurrentXP(res.data.PC_experience)
             }).catch((err) => {
                 console.log(err);
             })
@@ -200,6 +204,25 @@ const ActiveQuest = (props) => {
         getQuestSpecificEvents();
         setQuestRunning(true)
     }, [])
+
+    useEffect(() => {
+        const updateCharacterData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:9999/api/getoneCharacter/${characterid}`);
+                const { PC_experience, PC_level, PC_health } = response.data;
+                setCurrentXP(PC_experience);
+                setCharacterLevel(PC_level);
+                setCharacterHealth(PC_health);
+                setThresholdXP(Math.floor(100 * Math.pow(PC_level, 1.5)))
+            } catch (error) {
+                console.error("Error updating character data:", error);
+            }
+        };
+    
+        const interval = setInterval(updateCharacterData, 10000); // Update every 10 seconds
+        return () => clearInterval(interval);
+    }, [characterid]);
+    
 
     useEffect(() => {
         const updateQuest = async (currenttime, eventbiomes, events, currenthours, currentminutes, currentseconds) => {
@@ -234,7 +257,6 @@ const ActiveQuest = (props) => {
             }     
         }
         };     
-        console.log(starttime)
       
         const nextevent = setInterval (() => updateQuest(starttime, questbiomes, questspecificevents, hours, minutes, seconds), 1000)
         return () => { 
@@ -260,7 +282,8 @@ const ActiveQuest = (props) => {
                                 gold = {questgold} race = {characterdata.PC_race}  health = {characterhealth}
                                 pronouns = {characterdata.PC_pronouns} strength = {characterdata.PC_strength} 
                                 constitution = {characterdata.PC_constitution} agility = {characterdata.PC_agility} perception = {characterdata.PC_perception}
-                                intellect = {characterdata.PC_intellect} magick = {characterdata.PC_magick} wisdom = {characterdata.PC_wisdom}  currentlevel = {characterdata.PC_level} currentxp = {characterxp}/>
+                                intellect = {characterdata.PC_intellect} magick = {characterdata.PC_magick}
+                                wisdom = {characterdata.PC_wisdom}  currentlevel = {characterlevel} currentxp = {characterxp} xptolevelup = {characterxpThreshold} />
                 
                 <ButtonToDashboard/>
                 {hasdied? <p>{characterdata.PC_firstname} has died!</p>:<></> }

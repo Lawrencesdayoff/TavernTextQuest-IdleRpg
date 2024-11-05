@@ -10,7 +10,7 @@ const XPBar = (props) => {
     <div>
       <div class="bar">
         <div class="xpbar" style={{ width: `${barWidth}%` }}></div>
-        <div class="xpgain" style={{ width: `${100}%` }}></div>
+        <div class="xpgain" style={{ width: `${0}%` }}></div>
 
         <div
           style={{

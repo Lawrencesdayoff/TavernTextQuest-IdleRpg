@@ -6,8 +6,8 @@ const CharacterHUD = (props) => {
     const {image, firstname, lastname, health, race, gold, 
          pronouns, strength, 
         constitution, agility, perception, 
-        intellect, magick, wisdom, currentlevel, currentxp} = props
-       const xptolevelup = Math.floor(100 * Math.pow(currentlevel, 1.5))
+        intellect, magick, wisdom, currentlevel, currentxp, xptolevelup} = props
+    //    const xptolevelup = Math.floor(100 * Math.pow(currentlevel, 1.5))
     return(
         <>
         <img src={image} width= "200px" height = "200px"/>
