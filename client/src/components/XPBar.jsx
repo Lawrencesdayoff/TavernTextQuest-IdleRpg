@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 
-const HealthBar = (props) => {
-  const {hp, maxHp} = props;
+const XPBar = (props) => {
+  const {xp, xpLevel} = props;
  
-  const barWidth = (hp / maxHp) * 100;
+  const barWidth = (xp / xpLevel) * 100;
   // setHitWidth((damage / hp) * 100);
   // setBarWidth((hpLeft / maxHp) * 100);
   return (
     <div>
       <div class="bar">
-        <div class="healthbar" style={{ width: `${barWidth}%` }}></div>
-        <div class="hit" style={{ width: `${0}%` }}></div>
+        <div class="xpbar" style={{ width: `${barWidth}%` }}></div>
+        <div class="xpgain" style={{ width: `${100}%` }}></div>
 
         <div
           style={{
@@ -21,7 +21,7 @@ const HealthBar = (props) => {
             textAlign: "center"
           }}
         >
-          {hp < 0 ? 0 : hp} / {maxHp}
+          {xp < 0 ? 0 : xp} / {xpLevel}
         </div>
       </div>
 
@@ -30,4 +30,4 @@ const HealthBar = (props) => {
   );
 };
 
-export default HealthBar;
+export default XPBar;

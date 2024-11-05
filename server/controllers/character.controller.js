@@ -127,11 +127,11 @@ async function updateCharacterXP (req, res) {
         
       const { additionalXP } = req.body;
       console.log("adding xp:", additionalXP)
-
+      console.log( req.params.id)
       const updatedCharacter = await Character.findByIdAndUpdate(
         req.params.id,
-        { $inc: { PC_experience: additionalXP } },
-        { new: true }
+        { $inc: { PC_experience: additionalXP }, isExperienceUpdate: true },
+        { new: true },
       );
       res.json(updatedCharacter);
       console.log("Updated Character", updatedCharacter)

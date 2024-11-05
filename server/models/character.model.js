@@ -98,16 +98,27 @@ const CharacterSchema = new Schema(
     },
     { timestamps: true}
 );
+
 CharacterSchema.pre('findOneAndUpdate', async function (next) {
-    // Get the current and updated experience values
     const update = this.getUpdate();
-    if (update && update.PC_experience !== undefined) {
-        // Find the document being updated to check the current experience and level
+
+    // Only proceed if isExperienceUpdate flag is present
+    if (!update.isExperienceUpdate) {
+        return next();
+    }
+
+    // Remove custom flag to avoid issues with MongoDB
+    delete update.isExperienceUpdate;
+
+    // Check if experience increment is defined and retrieve the document
+    if (update.$inc && update.$inc.PC_experience !== undefined) {
         const docToUpdate = await this.model.findOne(this.getQuery());
 
+        // Calculate new experience and level values
         let { PC_experience, PC_level } = docToUpdate;
-        PC_experience = update.PC_experience;
+        PC_experience += update.$inc.PC_experience; // Add increment to current experience
 
+        // Level-up logic
         let nextLevelExp = experienceToLevelUp(PC_level);
         while (PC_experience >= nextLevelExp) {
             PC_experience -= nextLevelExp;
@@ -115,12 +126,14 @@ CharacterSchema.pre('findOneAndUpdate', async function (next) {
             nextLevelExp = experienceToLevelUp(PC_level);
         }
 
-        // Update the level and experience in the query itself
-        update.PC_experience = PC_experience;
-        update.PC_level = PC_level;
+        // Apply $set to update PC_experience and PC_level without conflict
+        update.$set = { PC_experience, PC_level };
+        delete update.$inc.PC_experience; // Ensure $inc is removed to prevent conflict
     }
+
     next();
 });
+
 
 const Character = model("Character", CharacterSchema); 
 export default Character;

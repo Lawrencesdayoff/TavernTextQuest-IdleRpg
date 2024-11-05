@@ -38,7 +38,7 @@ const ActiveQuest = (props) => {
 
     const [questgold, setGoldGain] = useState(0);
     const [characterhealth, setCharacterHealth] = useState(0);
-    const [characterxp, setXPGain] = useState(0);
+    const [characterxp, setCurrentXP] = useState(0);
 
     const handleQuestChatTabs = (change) => {
         setActiveTab(change);
@@ -136,12 +136,14 @@ const ActiveQuest = (props) => {
         )
             return(
                 setGoldGain( questgold + eventchecks.Event_success_gold_gain), 
+                setCurrentXP(character.PC_experience),
                 setEventLog((prevEventLog) => [...prevEventLog, eventchecks.Event_description_success]),
                 addExperience(50)
             )
         else
             return(
                 setCharacterHealth(characterhealth - eventchecks.Event_failure_health_loss),
+                setCurrentXP(character.PC_experience),
                 setEventLog((prevEventLog) => [...prevEventLog, eventchecks.Event_description_failure]),
                 addExperience(10)
             )
@@ -258,7 +260,7 @@ const ActiveQuest = (props) => {
                                 gold = {questgold} race = {characterdata.PC_race}  health = {characterhealth}
                                 pronouns = {characterdata.PC_pronouns} strength = {characterdata.PC_strength} 
                                 constitution = {characterdata.PC_constitution} agility = {characterdata.PC_agility} perception = {characterdata.PC_perception}
-                                intellect = {characterdata.PC_intellect} magick = {characterdata.PC_magick} wisdom = {characterdata.PC_wisdom}  />
+                                intellect = {characterdata.PC_intellect} magick = {characterdata.PC_magick} wisdom = {characterdata.PC_wisdom}  currentlevel = {characterdata.PC_level} currentxp = {characterxp}/>
                 
                 <ButtonToDashboard/>
                 {hasdied? <p>{characterdata.PC_firstname} has died!</p>:<></> }
