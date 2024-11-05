@@ -173,6 +173,7 @@ const ActiveQuest = (props) => {
                 setStartTime(res.data.Quest_Start_Time)
                 setCharacterHealth(res.data.PC_constitution)
                 setCurrentXP(res.data.PC_experience)
+                setThresholdXP(Math.floor(100 * Math.pow(res.data.PC_constitution, 1.5)))
             }).catch((err) => {
                 console.log(err);
             })
@@ -209,10 +210,9 @@ const ActiveQuest = (props) => {
         const updateCharacterData = async () => {
             try {
                 const response = await axios.get(`http://localhost:9999/api/getoneCharacter/${characterid}`);
-                const { PC_experience, PC_level, PC_health } = response.data;
+                const { PC_experience, PC_level} = response.data;
                 setCurrentXP(PC_experience);
                 setCharacterLevel(PC_level);
-                setCharacterHealth(PC_health);
                 setThresholdXP(Math.floor(100 * Math.pow(PC_level, 1.5)))
             } catch (error) {
                 console.error("Error updating character data:", error);
