@@ -33,6 +33,7 @@ const ActiveQuest = (props) => {
     const [minutes, setMinutes] = useState(0);
     const [seconds, setSeconds] = useState(0);
 
+
     const [hasdied, setCharacterDied] = useState(false)
     const [questRunning, setQuestRunning] = useState(false)
 
@@ -116,17 +117,17 @@ const ActiveQuest = (props) => {
         return randomelement      
     };
 
-    const addExperience = async (additionalXP) => {
-        try {
-          await axios.patch(`http://localhost:9999/api/updateCharacterXP/${characterid}`, {
-            additionalXP,
-          });
-        //   setCharacterData(response.data); // Update state with the new character data
-        } catch (error) {
-          console.error("Error adding experience:", error);
+    const checkCharacterStatus = (healthstatus) => {
+        if (healthstatus <= 0 ) {
+            setQuestRunning(false)
+            setCharacterHealth(0)
+            setCharacterDied(true)
         }
-      };
-      
+        else{
+            setQuestRunning(true)
+        }
+    }
+
     const runEventChecks = (character, eventchecks) => {
         if(
         character.PC_strength >= eventchecks.Event_str_check &&
@@ -150,19 +151,17 @@ const ActiveQuest = (props) => {
                 setEventLog((prevEventLog) => [...prevEventLog, eventchecks.Event_description_failure]),
                 addExperience(eventchecks.Event_XP_gain_failure)
             )
+    };
 
-    }
-
-    const checkCharacterStatus = (healthstatus) => {
-        if (healthstatus <= 0 ) {
-            setQuestRunning(false)
-            setCharacterHealth(0)
-            setCharacterDied(true)
+    const addExperience = async (additionalXP) => {
+        try {
+          await axios.patch(`http://localhost:9999/api/updateCharacterXP/${characterid}`, {
+            additionalXP,
+          });
+        } catch (error) {
+          console.error("Error adding experience:", error);
         }
-        else{
-            setQuestRunning(true)
-        }
-    }
+      };
 
     useEffect(()=> {
     
@@ -216,6 +215,12 @@ const ActiveQuest = (props) => {
                 setThresholdXP(Math.floor(100 * Math.pow(PC_level, 1.5)))
             } catch (error) {
                 console.error("Error updating character data:", error);
+            }
+            try{
+
+            }
+            catch(error){
+                console.log("Error updating character log")
             }
         };
     
