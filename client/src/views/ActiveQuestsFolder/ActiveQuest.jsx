@@ -33,6 +33,7 @@ const ActiveQuest = (props) => {
     const [minutes, setMinutes] = useState(0);
     const [seconds, setSeconds] = useState(0);
 
+
     const [hasdied, setCharacterDied] = useState(false)
     const [questRunning, setQuestRunning] = useState(false)
 
@@ -227,12 +228,19 @@ const ActiveQuest = (props) => {
         const updateCharacterData = async () => {
             try {
                 const response = await axios.get(`http://localhost:9999/api/getoneCharacter/${characterid}`);
-                const { PC_experience, PC_level} = response.data;
+                const { PC_experience, PC_level } = response.data;
                 setCurrentXP(PC_experience);
                 setCharacterLevel(PC_level);
+                
                 setThresholdXP(Math.floor(100 * Math.pow(PC_level, 1.5)))
             } catch (error) {
                 console.error("Error updating character data:", error);
+            }
+            try{
+
+            }
+            catch(error){
+                console.log("Error updating character log")
             }
         };
     
