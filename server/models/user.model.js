@@ -37,8 +37,10 @@ const UserSchema = new Schema(
         },
         current_gold: {
             type: Number
-        }
-
+        },
+        last_logout:{
+            type: Date
+        } 
     },
     { timestamps: true}
 );

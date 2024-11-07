@@ -74,6 +74,13 @@ const CharacterSchema = new Schema(
             type: Number,
             required: [true, "Must have at least one point in every skill"]
         },
+        PC_health: {
+            type: Number,
+        },
+        PC_incapacitated: {
+            type: Boolean,
+            default: false
+        },
         On_Quest: {
             type: Boolean,
             default: false
@@ -85,7 +92,8 @@ const CharacterSchema = new Schema(
             type: Date
         },
         Active_Quest_Log: {
-            type: Array
+            type: Array,
+            timestamps: true
         },
         PC_level: {
             type: Number,

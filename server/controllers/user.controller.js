@@ -138,6 +138,18 @@ async function addActiveQuest(req, res) {
     }
 }
 
+async function logUserOut(req, res) {
+    try {
+        console.log("Added Quest:");
+        const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body);
+        res.json(updatedUser);
+    }
+    catch(error) {
+        console.log(error);
+        res.status(400).json(error);
+    }
+}
+
 export{
     registerUser,
     getOneUser,
@@ -145,5 +157,6 @@ export{
     updateOneUser,
     deleteOneUser,
     checkLogin,
-    addActiveQuest
+    addActiveQuest,
+    logUserOut
 };

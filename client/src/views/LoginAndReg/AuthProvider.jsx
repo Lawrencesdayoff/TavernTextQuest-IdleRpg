@@ -7,6 +7,20 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [token, setToken] = useState(sessionStorage.getItem("token") || "");
     const navigate = useNavigate();
+    
+    const getCurrentTime= () => {
+      const now = new Date();
+      const isoString = now.toISOString(); // Generates 2024-05-19T09:02:32.496Z
+      const timeZoneOffset = -now.getTimezoneOffset(); // Get the timezone offset in minutes
+  
+      // Format timezone offset as ±HH:mm
+      const sign = timeZoneOffset >= 0 ? "+" : "-";
+      const hours = String(Math.floor(Math.abs(timeZoneOffset) / 60)).padStart(2, "0");
+      const minutes = String(Math.abs(timeZoneOffset) % 60).padStart(2, "0");
+      
+      return `${isoString.slice(0, -1)}${sign}${hours}:${minutes}`; 
+    }
+
     const loginAction = async (data) => {
         console.log(data)
       try {
@@ -36,11 +50,14 @@ export const AuthProvider = ({ children }) => {
       }
     };
   
-    const logOut = () => {
+    const logOut = async () => {
+      await axios.patch(`http://localhost:9999/api/logout/${token}`, { last_logout: getCurrentTime() }).then(() => {
+        
       setUser(null);
       setToken("");
       sessionStorage.clear()
       navigate("/");
+      })
     };
   
     return (

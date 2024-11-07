@@ -26,4 +26,7 @@ router.route("/updateUserfield/:id")
 router.route("/deleteUser/:id")
     .delete(UserController.deleteOneUser);
 
+router.route("/logout/:id")
+    .patch(UserController.logUserOut);
+
 export default router;

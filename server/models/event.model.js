@@ -65,7 +65,10 @@ const EventSchema = new Schema(
         Event_XP_gain_failure: {
             type: Number
         },
-        Event_loot: {
+        Event_loot_success: {
+            type: Array
+        },
+        Event_loot_failure: {
             type: Array
         }
         },

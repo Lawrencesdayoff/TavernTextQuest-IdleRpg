@@ -6,6 +6,7 @@ import UserRoutes from "./routes/user.routes.js";
 import CharacterRoutes from "./routes/character.routes.js"
 import QuestRoutes from "./routes/quest.routes.js"
 import EventRoutes from "./routes/event.routes.js"
+import './jobs/questScheduler.js'
 // import { faker } from "@faker-js/faker";
 
 const app = express();

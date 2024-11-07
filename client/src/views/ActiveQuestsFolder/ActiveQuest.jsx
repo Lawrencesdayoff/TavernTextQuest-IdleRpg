@@ -147,6 +147,24 @@ const ActiveQuest = (props) => {
         runEventChecks(characterdata, eventAtTime);
     }
 
+    const updateActiveQuestLog = async (currentEvent, eventOutcome) => {
+        try{
+        await axios.patch(`http://localhost:9999/api/updateCharacterActiveQuestLog/${characterid}`, 
+        {
+            eventId: currentEvent._id,
+            eventDescription: currentEvent.Event_description,
+            eventConsequence:  eventOutcome? currentEvent.Event_description_success : currentEvent.Event_description_failure ,
+            eventGold: currentEvent.Event_success_gold_gain,
+            eventLoot: eventOutcome? currentEvent.Event_loot_success : currentEvent.Event_XP_loot_failure ,
+            eventXp: eventOutcome? currentEvent.Event_XP_gain_success : currentEvent.Event_XP_gain_failure 
+        }
+        ).then(() => {
+        })
+        }
+        catch(error){
+            console.log("Error updating character active quest log", error)
+        }
+    }
     const runEventChecks = (character, eventchecks) => {
         if(
         character.PC_strength >= eventchecks.Event_str_check &&
@@ -161,14 +179,16 @@ const ActiveQuest = (props) => {
                 setGoldGain( questgold + eventchecks.Event_success_gold_gain), 
                 setCurrentXP(characterxp + eventchecks.Event_XP_gain_success),
                 setEventLog((prevEventLog) => [...prevEventLog, eventchecks.Event_description_success]),
-                addExperience(eventchecks.Event_XP_gain_success)
+                addExperience(eventchecks.Event_XP_gain_success),
+                updateActiveQuestLog(eventchecks, true)
             )
         else
             return(
                 setCharacterHealth(characterhealth - eventchecks.Event_failure_health_loss),
                 setCurrentXP(characterxp + eventchecks.Event_XP_gain_failure),
                 setEventLog((prevEventLog) => [...prevEventLog, eventchecks.Event_description_failure]),
-                addExperience(eventchecks.Event_XP_gain_failure)
+                addExperience(eventchecks.Event_XP_gain_failure),
+                updateActiveQuestLog(eventchecks, false)
             )
 
     }
@@ -183,7 +203,6 @@ const ActiveQuest = (props) => {
             setQuestRunning(true)
         }
     }
-
 
 
     useEffect(()=> {   
@@ -243,43 +262,11 @@ const ActiveQuest = (props) => {
                 console.log("Error updating character log")
             }
         };
-    
+
         const interval = setInterval(updateCharacterData, 10000); // Update every 10 seconds
         return () => clearInterval(interval);
     }, [characterid]);
     
-
-    useEffect(() => {
-            const updateQuest = async (currenttime, eventbiomes, events, currenthours, currentminutes, currentseconds) => {
-                checkCharacterStatus(characterhealth);
-                if (!questRunning) return
-               
-                getTime(currenttime)
-               
-                if(questRunning == true){
-                    if (currentseconds % 10 === 0 && currentseconds !== 0){              // set interval for quest event frequency
-                    const eventAtTime = events.map((item) => item).find(
-                        (item) => 
-                            item.Quest_specific_hour === currenthours &&
-                            item.Quest_specific_minute === currentminutes &&
-                            item.Quest_specific_second === currentseconds
-                    );
-                    if (eventAtTime) {
-                            handleQuestEvent(eventAtTime)
-                    } else {
-                        // If no specific event is found, fetch a random event based on the current biome
-                            fetchRandomEvent(eventbiomes)
-                        }
-                        }
-                    }                                // Set function for window either in the log or an alert saying "your character has died, revive for some number of coins"
-            };     
-        
-            const nextevent = setInterval (() => updateQuest(starttime, questbiomes, questspecificevents, hours, minutes, seconds), 1000)
-            return () => { 
-                //   clearInterval(interval);
-                clearInterval(nextevent);
-                }
-            }, [starttime, hours, minutes, seconds], [questbiomes])
 
     return(
 
