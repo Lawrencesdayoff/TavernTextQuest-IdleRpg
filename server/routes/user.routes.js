@@ -7,7 +7,6 @@ const router = Router();
 router.route("/getallUsers")
         .get(UserController.getAllUsers);
 
-
 router.route("/login/")
     .post(UserController.checkLogin)
 
