@@ -267,6 +267,37 @@ const ActiveQuest = (props) => {
         return () => clearInterval(interval);
     }, [characterid]);
     
+    useEffect(() => {
+        const updateQuest = async (currenttime, eventbiomes, events, currenthours, currentminutes, currentseconds) => {
+            checkCharacterStatus(characterhealth);
+            if (!questRunning) return
+           
+            getTime(currenttime)
+           
+            if(questRunning == true){
+                if (currentseconds % 10 === 0 && currentseconds !== 0){              // set interval for quest event frequency
+                const eventAtTime = events.map((item) => item).find(
+                    (item) => 
+                        item.Quest_specific_hour === currenthours &&
+                        item.Quest_specific_minute === currentminutes &&
+                        item.Quest_specific_second === currentseconds
+                );
+                if (eventAtTime) {
+                        handleQuestEvent(eventAtTime)
+                } else {
+                    // If no specific event is found, fetch a random event based on the current biome
+                        fetchRandomEvent(eventbiomes)
+                    }
+                    }
+                }                                // Set function for window either in the log or an alert saying "your character has died, revive for some number of coins"
+        };     
+    
+        const nextevent = setInterval (() => updateQuest(starttime, questbiomes, questspecificevents, hours, minutes, seconds), 1000)
+        return () => { 
+            //   clearInterval(interval);
+            clearInterval(nextevent);
+            }
+        }, [starttime, hours, minutes, seconds], [questbiomes])
 
     return(
 

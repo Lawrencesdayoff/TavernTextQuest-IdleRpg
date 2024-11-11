@@ -1,7 +1,7 @@
 import { schedule } from 'node-cron';
-// import { updateCharacterQuests } from '../controllers/questController';
+import { updateCharacterProgress } from '../services/userService.js';
 
-// schedule('*/10 * * * *', async () => {
-//   console.log('Running scheduled task to update character quests...');
-//   await updateCharacterQuests();
-// });
+schedule('*/10 * * * *', async () => {
+  console.log('Running scheduled task to update character quests...');
+  await updateCharacterProgress();
+});
