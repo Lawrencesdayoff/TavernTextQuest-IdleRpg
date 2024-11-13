@@ -1,4 +1,5 @@
 import Character from '../models/character.model.js'
+import { createQuestEventQueue } from '../services/questStart.js'
 async function createPC(req, res) {
     try{
        
@@ -141,6 +142,18 @@ async function updateCharacterXP (req, res) {
     }
   }
 
+  async function startQuest(req, res) {
+    try{
+
+        const {questid} = req.body
+        const questQueue = createQuestEventQueue(req.param.id, questid)
+        res.json
+    }
+    catch(error){
+        console.log(err)
+        res.status(500).send("Error starting character");
+    }
+}
   
 async function updateCharacterActiveQuestLog (req, res) {
     try {
@@ -179,5 +192,6 @@ export{
     getAllPCsNotOnQuest,
     getAllPCsOnQuest,
     updateCharacterXP,
-    updateCharacterActiveQuestLog
+    updateCharacterActiveQuestLog,
+    startQuest
 };

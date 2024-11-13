@@ -8,9 +8,6 @@ const CharacterSchema = new Schema(
     {
         user_id:{
             type: String, 
-            required: [true, "First name of user is required!"],
-            minLength: [1, "First name of user must be greater than 1 character"],
-            maxLength: [40, "First name of user must be less than 40 characters"]
         },
         PC_image: {
             type: String,
@@ -90,6 +87,9 @@ const CharacterSchema = new Schema(
         },
         Quest_Start_Time: {
             type: Date
+        },
+        Quest_event_queue: {
+            type: Array
         },
         Active_Quest_Log: {
             type: Array,

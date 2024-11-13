@@ -35,5 +35,8 @@ router.route("/updateCharacterXP/:id")
 
 router.route("/updateCharacterActiveQuestLog/:id")
     .patch(CharacterController.updateCharacterActiveQuestLog)
+
+    router.route("/updateStartQuest/:id")
+    .patch(CharacterController.startQuest)
   
 export default router;

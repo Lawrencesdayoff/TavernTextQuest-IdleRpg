@@ -25,6 +25,12 @@ const QuestSchema = new Schema(
             type: Number,
             required: [true, "Quest must have recommended level"]
         },
+        Quest_update_time_minutes: {
+            type: Number
+        },
+        Quest_update_time_seconds: {
+            type: Number
+        }
     },
     {timestamps: true}
 )
