@@ -32,7 +32,7 @@ export const createQuestEventQueue = async ( characterid, questid) => {
     const shuffledEventQueue = listOfRandomEvents.sort(() => Math.random() - 0.5);
 
     // Define the average duration of an event (in minutes)
-    const averageEventDuration = 15; // You can adjust this value based on your game's needs
+    const averageEventDuration = 10; // You can adjust this value based on your game's needs
 
     // Calculate the maximum number of events that fit within the quest time
     const maxEvents = Math.floor(totalQuestTime / averageEventDuration);

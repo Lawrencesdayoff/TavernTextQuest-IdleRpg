@@ -11,25 +11,38 @@ export const updateCharacterActiveQuestLog = async () => {
       const questStartTime = new Date(character.Quest_start_time);
       const currentTime = new Date();
       const timeElapsed = (currentTime - questStartTime) / 1000; // Time elapsed in seconds
+
+      
+      const currentHours = Math.floor(timeElapsed / 3600);
+      const currentMinutes = Math.floor((timeElapsed % 3600) / 60);
+      const currentSeconds = Math.floor(timeElapsed % 60);
       
       const currentQueue = character.Quest_event_queue || [];
+      const scheduledEventsQueue = currentQueue.filter((item) => item.Quest_specific_hour, item.Quest_specific_minute, item.Quest_specific_second)
+      if (currentSeconds % 10 === 0 && currentSeconds !== 0) {
+        console.log("Checking for events at the 10-second interval");
 
-      for (const event of currentQueue) {
-        // Calculate the event trigger time in seconds
-        const eventTriggerTimeInSeconds = 
-          (event.Quest_specific_hour * 3600) + 
-          (event.Quest_specific_minute * 60) + 
-          event.Quest_specific_second;
+        // Find an event from the character's Quest_event_queue that matches the current time
+        const eventAtTime = character.Quest_event_queue.find(
+          (event) =>
+            event.Quest_specific_hour === currentHours &&
+            event.Quest_specific_minute === currentMinutes &&
+            event.Quest_specific_second === currentSeconds
+        );
 
-        // Check if the elapsed time matches the event's trigger time
-        if (timeElapsed >= eventTriggerTimeInSeconds) {
+        if (eventAtTime) {
+          console.log("Found quest-specific event:", eventAtTime);
           // Run the stat checks for the event
-          console.log("Running event stat checks for character", character.PC_firstname);
-          runEventStatChecks(character, event);
-        }
+          runEventStatChecks(character, eventAtTime);
       }
-    }
-  } catch (error) {
+      else{
+        console.log("Pulling random-event")
+        fetchRandomEvent(character)
+      }
+    } 
+  }
+  }
+  catch (error) {
     console.log("Error updating batch character progress", error);
   }
 };
@@ -71,3 +84,24 @@ const runEventStatChecks = (character, event) => {
       )
 
 }
+const fetchRandomEvent = (character) => {
+  try {
+    // Filter out events from the Quest_Event_Queue that do not have the 'Quest_specific' field
+    const nonQuestSpecificEvents = character.Quest_event_queue.filter(
+      (event) => !event.Quest_specific
+    );
+
+    // Randomly select one event from the filtered list
+    if (nonQuestSpecificEvents.length > 0) {
+      const randomIndex = Math.floor(Math.random() * nonQuestSpecificEvents.length);
+      const randomEvent = nonQuestSpecificEvents[randomIndex];
+      
+      console.log("Random event found:", randomEvent);
+      return randomEvent; // You can run stat checks or handle this event as needed
+    } else {
+      console.log("No non-quest-specific events available in the character's queue");
+    }
+  } catch (error) {
+    console.log("Error fetching random event:", error);
+  }
+};
