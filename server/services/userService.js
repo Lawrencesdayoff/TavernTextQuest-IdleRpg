@@ -97,10 +97,7 @@ const fetchRandomEvent = (character) => {
   try {
     // Filter out events from the Quest_Event_Queue that do not have the 'Quest_specific' field
     console.log(character.Quest_event_queue)
-    const nonQuestSpecificEvents = character.Quest_event_queue.map(
-      (event) => event.filter((item) => item.Quest_specific == false)
-    );
-
+    const nonQuestSpecificEvents = character.Quest_event_queue
     // Randomly select one event from the filtered list
     if (nonQuestSpecificEvents.length > 0) {
       const randomIndex = Math.floor(Math.random() * nonQuestSpecificEvents.length);
