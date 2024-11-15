@@ -10,7 +10,8 @@ const AbandonQuestButton = (props) => {
                 On_Quest: false,
                 Current_Quest: "",
                 Active_Quest_Log: "",
-                Quest_Start_Time: ""
+                Quest_Start_Time: "" ,
+                Quest_event_queue: ""
             })
 
         navigate('/dashboard');

@@ -5,23 +5,27 @@ export const updateCharacterActiveQuestLog = async () => {
   try {
     // Find all characters currently on a quest
     const charactersOnQuest = await Character.find({ On_Quest: true });
-    
+      console.log(charactersOnQuest.map((item) => item.PC_firstname))
     for (const character of charactersOnQuest) {
       // Assuming the character model has a field that tracks when the quest started
-      const questStartTime = new Date(character.Quest_start_time);
+      const questStartTime = new Date(character.Quest_Start_Time);
       const currentTime = new Date();
-      const timeElapsed = (currentTime - questStartTime) / 1000; // Time elapsed in seconds
+      const timeElapsed = Math.floor((currentTime - questStartTime) / 1000); // Time elapsed in seconds
 
-      
-      const currentHours = Math.floor(timeElapsed / 3600);
-      const currentMinutes = Math.floor((timeElapsed % 3600) / 60);
-      const currentSeconds = Math.floor(timeElapsed % 60);
-      
-      const currentQueue = character.Quest_event_queue || [];
-      const scheduledEventsQueue = currentQueue.filter((item) => item.Quest_specific_hour, item.Quest_specific_minute, item.Quest_specific_second)
-      if (currentSeconds % 10 === 0 && currentSeconds !== 0) {
-        console.log("Checking for events at the 10-second interval");
+      // Ensure `Last_Event_Check` is initialized for the first run
+      const lastEventCheck = character.Last_event_checked || questStartTime;
+      const secondsSinceLastCheck = Math.floor((currentTime - lastEventCheck) / 1000);
 
+      // Check if at least 10 seconds have passed since the last event check
+      if (secondsSinceLastCheck >= 10) {
+  
+
+        // Extract current hours, minutes, and seconds
+          const currentHours = Math.floor(timeElapsed / 3600);
+          const currentMinutes = Math.floor((timeElapsed % 3600) / 60);
+          const currentSeconds = timeElapsed % 60;
+  
+        console.log("Checking for events at 10-second intervals");
         // Find an event from the character's Quest_event_queue that matches the current time
         const eventAtTime = character.Quest_event_queue.find(
           (event) =>
@@ -29,16 +33,20 @@ export const updateCharacterActiveQuestLog = async () => {
             event.Quest_specific_minute === currentMinutes &&
             event.Quest_specific_second === currentSeconds
         );
+ // Update the last check time
+        await Character.findByIdAndUpdate(character._id, {Last_event_checked: currentTime});
 
         if (eventAtTime) {
           console.log("Found quest-specific event:", eventAtTime);
           // Run the stat checks for the event
           runEventStatChecks(character, eventAtTime);
       }
-      else{
-        console.log("Pulling random-event")
-        fetchRandomEvent(character)
-      }
+        else{
+          console.log("Pulling random-event")
+          const randomEvent = fetchRandomEvent(character)
+          console.log(randomEvent)
+          runEventStatChecks(character, randomEvent)
+        }
     } 
   }
   }
@@ -50,6 +58,7 @@ export const updateCharacterActiveQuestLog = async () => {
 const updateActiveQuestLog = async (characterid, currentEvent, eventOutcome) => {
   try{
   await Character.findByIdAndUpdate(characterid, 
+  { $push:
   {Active_Quest_Log: {
     event_id: currentEvent._id,
     Description: currentEvent.Event_description,
@@ -57,7 +66,7 @@ const updateActiveQuestLog = async (characterid, currentEvent, eventOutcome) => 
     Gold: currentEvent.Event_success_gold_gain,
     Loot: eventOutcome? currentEvent.Event_loot_success : currentEvent.Event_XP_loot_failure ,
     XP: eventOutcome? currentEvent.Event_XP_gain_success : currentEvent.Event_XP_gain_failure 
-  }}, {new: true}
+  }}}, {new: true}
   ).then(() => {
   })
   }
@@ -87,8 +96,9 @@ const runEventStatChecks = (character, event) => {
 const fetchRandomEvent = (character) => {
   try {
     // Filter out events from the Quest_Event_Queue that do not have the 'Quest_specific' field
-    const nonQuestSpecificEvents = character.Quest_event_queue.filter(
-      (event) => !event.Quest_specific
+    console.log(character.Quest_event_queue)
+    const nonQuestSpecificEvents = character.Quest_event_queue.map(
+      (event) => event.filter((item) => item.Quest_specific == false)
     );
 
     // Randomly select one event from the filtered list

@@ -46,7 +46,7 @@ export const createQuestEventQueue = async ( characterid, questid) => {
 
         console.log(finalQueue)
 
-       await Character.findByIdAndUpdate(characterid, {Current_Event_Queue: finalQueue})
+       await Character.findByIdAndUpdate(character._id, {Quest_event_queue: finalQueue})
     } catch (error) {
             console.error('Error creating quest event queue:', error);
         }

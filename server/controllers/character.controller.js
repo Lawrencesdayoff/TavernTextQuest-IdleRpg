@@ -144,10 +144,9 @@ async function updateCharacterXP (req, res) {
 
   async function startQuest(req, res) {
     try{
-
+        const id = req.params.id
         const {questid} = req.body
-        const questQueue = createQuestEventQueue(req.param.id, questid)
-        res.json
+        createQuestEventQueue(id, questid)
     }
     catch(error){
         console.log(err)

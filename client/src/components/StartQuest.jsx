@@ -36,9 +36,9 @@ const StartQuest = (props) => {
                 }
             ).then((res) => {
                 axios.patch(`http://localhost:9999/api/updateStartQuest/${characterid}`, {questid: questid})
-                console.log("navigating to dashboard").then( 
-                                navigate('/dashboard')
-            )
+                console.log("navigating to dashboard")
+                navigate('/dashboard')
+
             })
         } 
 

@@ -88,6 +88,9 @@ const CharacterSchema = new Schema(
         Quest_Start_Time: {
             type: Date
         },
+        Last_event_checked: {
+            type: Date
+        },
         Quest_event_queue: {
             type: Array
         },
