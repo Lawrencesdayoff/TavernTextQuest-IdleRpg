@@ -82,6 +82,9 @@ const CharacterSchema = new Schema(
             type: Boolean,
             default: false
         },
+        Completed_quest: {
+            type: Boolean
+        },
         Current_Quest: {
             type: String
         },
