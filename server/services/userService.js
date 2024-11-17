@@ -1,5 +1,5 @@
 import Character from '../models/character.model.js';
-
+import Quest from '../models/quest.model.js'
 export const updateCharacterActiveQuestLog = async () => {
   console.log("Updating character progress");
   try {
@@ -16,14 +16,20 @@ export const updateCharacterActiveQuestLog = async () => {
       const lastEventCheck = character.Last_event_checked || questStartTime;
       const secondsSinceLastCheck = Math.floor((currentTime - lastEventCheck) / 1000);
 
+      const currentHours = Math.floor(timeElapsed / 3600);
+      const currentMinutes = Math.floor((timeElapsed % 3600) / 60);
+      const currentSeconds = timeElapsed % 60;
+      const currrentQuest = await Quest.findById(character.Current_Quest)
+      if ((currrentQuest.Quest_time_hours <= currentHours) &&  (currrentQuest.Quest_time_minutes <= currentMinutes)){
+          await Character.findByIdAndUpdate(character._id, {Completed_quest: true})
+        }
+
       // Check if at least 10 seconds have passed since the last event check
       if (secondsSinceLastCheck >= 10) {
   
 
         // Extract current hours, minutes, and seconds
-          const currentHours = Math.floor(timeElapsed / 3600);
-          const currentMinutes = Math.floor((timeElapsed % 3600) / 60);
-          const currentSeconds = timeElapsed % 60;
+
   
         console.log("Checking for events at 10-second intervals");
         // Find an event from the character's Quest_event_queue that matches the current time
