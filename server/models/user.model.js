@@ -38,6 +38,9 @@ const UserSchema = new Schema(
         current_gold: {
             type: Number
         },
+        Logged_in: {
+            type: Boolean
+        },
         last_logout:{
             type: Date
         } 

@@ -68,10 +68,11 @@ async function checkLogin(req, res) {
     if(!queriedEmail){ 
         console.log('Not found');
         }
-      else{ 
+    else{ 
         console.log('Found!');
-          if (bcrypt.compareSync(password, queriedEmail.user_password))
-          res.json(queriedEmail);}
+        if (bcrypt.compareSync(password, queriedEmail.user_password))
+            await User.updateOne({user_email: email }, {$set : {Logged_in: true}})
+            res.json(queriedEmail);}
     }
     catch{
         console.log(error);
@@ -127,9 +128,19 @@ async function addActiveQuest(req, res) {
         new: true,
         runValidators: true
     };
+
     try {
-        console.log("Added Quest:");
-        const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, options);
+        const{ Quest_id, Character_id, Start_time } = req.body
+        console.log("Added Quest to User");
+        const updatedUser = await User.findByIdAndUpdate(req.params.id,
+            { $push: 
+                { current_active_quests: {
+                    Quest_id: Quest_id,
+                    Character_id: Character_id,
+                    Start_time: Start_time
+                }
+            }
+        }, options);
         res.json(updatedUser);
     }
     catch(error) {

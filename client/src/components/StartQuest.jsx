@@ -29,11 +29,17 @@ const StartQuest = (props) => {
     useEffect(()=>{
         const questStart = getCurrentTime();
         const updateActiveQuests = async() => {
-            axios.patch(`http://localhost:9999/api/updateCharacterfield/${characterid}`,{ 
+            await axios.patch(`http://localhost:9999/api/updateUserActiveQuests/${token}`,{
+                    Quest_id: questid,
+                    Character_id: characterid,
+                    Start_time: questStart
+                }
+            )
+            .then((res) => axios.patch(`http://localhost:9999/api/updateCharacterfield/${characterid}`,{ 
                     On_Quest: true,
                     Current_Quest: questid,
                     Quest_Start_Time: questStart
-                }
+                })
             ).then((res) => {
                 axios.patch(`http://localhost:9999/api/updateStartQuest/${characterid}`, {questid: questid})
                 console.log("navigating to dashboard")

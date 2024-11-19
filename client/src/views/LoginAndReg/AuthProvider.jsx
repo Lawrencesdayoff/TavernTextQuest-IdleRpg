@@ -27,7 +27,8 @@ export const AuthProvider = ({ children }) => {
         axios
         .post("http://localhost:9999/api/login", {
          user_email: data.user_email,
-         user_password: data.user_password
+         user_password: data.user_password,
+         Logged_in: true
         }) .then((res) => {
             console.log(res);
             console.log(res.data);
@@ -51,7 +52,7 @@ export const AuthProvider = ({ children }) => {
     };
   
     const logOut = async () => {
-      await axios.patch(`http://localhost:9999/api/logout/${token}`, { last_logout: getCurrentTime() }).then(() => {
+      await axios.patch(`http://localhost:9999/api/logout/${token}`, { last_logout: getCurrentTime(), Logged_in: false}).then(() => {
         
       setUser(null);
       setToken("");

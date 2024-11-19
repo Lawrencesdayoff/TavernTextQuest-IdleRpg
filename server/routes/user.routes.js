@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import * as UserController from '../controllers/user.controller.js'
+import User from '../models/user.model.js';
 
 const router = Router();
 
@@ -18,6 +19,9 @@ router.route("/newUser/")
 
 router.route("/updateUser/:id")
     .put(UserController.updateOneUser);
+
+router.route("/updateUserActiveQuests/:id")
+    .patch(UserController.addActiveQuest)
 
 router.route("/updateUserfield/:id")
     .patch(UserController.updateOneUser);
