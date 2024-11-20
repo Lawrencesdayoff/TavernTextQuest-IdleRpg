@@ -306,7 +306,7 @@ const ActiveQuest = (props) => {
           <div className= "dashboard-header">
             <div class = "col"><Header message={"Welcome"} username={user}/></div>
             <div class = "col"><LogoutButton /></div>
-            <div class = "col"><AbandonQuestButton id = {characterid} /></div>
+            <div class = "col"><AbandonQuestButton characterid = {characterid} questid = {questid} /></div>
           </div>
         <div className = "dashboard-content">
             <div class = "active-quest-HUD">

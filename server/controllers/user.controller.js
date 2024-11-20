@@ -149,6 +149,25 @@ async function addActiveQuest(req, res) {
     }
 }
 
+async function deleteActiveQuest(req, res) {
+    try{
+        const{ Quest_id, Character_id} = req.body
+        const deletedActiveQuest = await User.findByIdAndUpdate(req.params.id,
+            { $pull:
+                { current_active_quests: {
+                    Quest_id: Quest_id,
+                    Character_id: Character_id,
+                }
+                }
+            })
+            res.json(deleteActiveQuest)
+    }
+    catch(error){
+        console.log(error);
+        res.status(400).json(error)
+    }
+}
+
 async function logUserOut(req, res) {
     try {
         console.log("Added Quest:");
@@ -169,5 +188,6 @@ export{
     deleteOneUser,
     checkLogin,
     addActiveQuest,
+    deleteActiveQuest,
     logUserOut
 };

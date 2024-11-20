@@ -23,6 +23,9 @@ router.route("/updateUser/:id")
 router.route("/updateUserActiveQuests/:id")
     .patch(UserController.addActiveQuest)
 
+router.route("/removeUserActiveQuests/:id")
+    .patch(UserController.deleteActiveQuest)
+
 router.route("/updateUserfield/:id")
     .patch(UserController.updateOneUser);
 

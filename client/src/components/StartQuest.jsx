@@ -53,8 +53,6 @@ const StartQuest = (props) => {
         , [])
         return(
         <>
-        <p>{questid}</p>
-        <p>{characterid}</p>
         </>
     )
 }
