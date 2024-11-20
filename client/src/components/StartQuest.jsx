@@ -1,10 +1,11 @@
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import {useState, useEffect} from "react";
+import {useState, useEffect, useRef} from "react";
 import axios from "axios";
 
 const StartQuest = (props) => {
     const {token} = props;
     const [character, setCharacter] = useState("")
+    const effectRun = useRef(false); // Prevent double execution
     const [quest, setQuest] = useState("")
     const {characterid, questid} = useParams()
     const navigate = useNavigate();
@@ -27,6 +28,8 @@ const StartQuest = (props) => {
     // Usage
 
     useEffect(()=>{
+        if (effectRun.current) return; // Skip if already run
+        effectRun.current = true;
         const questStart = getCurrentTime();
         const updateActiveQuests = async() => {
             await axios.patch(`http://localhost:9999/api/updateUserActiveQuests/${token}`,{
@@ -53,6 +56,8 @@ const StartQuest = (props) => {
         , [])
         return(
         <>
+        <p>{questid}</p>
+        <p>{characterid}</p>
         </>
     )
 }

@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import {useState, useEffect} from "react";
+import {useState, useEffect, useRef} from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"
 import AvailableQuest from "./AvailableQuest";
@@ -12,9 +12,14 @@ const AvailableQuests = (props) => {
     const [characterlist, setCharacterList] = useState([])
     const [selectedCharacter, setCharacter] = useState("")
     const {questid} = useParams();
+
+    const effectRun = useRef(false); // Prevent double execution
+
     useEffect(()=>{
+        if (effectRun.current) return; // Skip if already run
+        effectRun.current = true;
         console.log(questid)
-       const getQuestInfo = async () => { 
+        const getQuestInfo = async () => { 
         axios.get(`http://localhost:9999/api/getoneQuest/${questid}`)
         .then((res) => {
             setQuestDetails([res.data])
