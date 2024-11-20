@@ -2,7 +2,7 @@ import axios from "axios";
 import { useNavigate} from "react-router-dom";
 
 const AbandonQuestButton = (props) => {
-    const {characterid, questid} = props;
+    const {characterid, questid, userid} = props;
     const navigate = useNavigate();
     const toDashboard = (e) => {
         e.preventDefault();
@@ -13,7 +13,7 @@ const AbandonQuestButton = (props) => {
                 Quest_Start_Time: "" ,
                 Quest_event_queue: ""
             }).then((res) => {
-                axios.patch(`http://localhost:9999/api/removeUserActiveQuests/${characterid}`, {
+                axios.patch(`http://localhost:9999/api/removeUserActiveQuests/${userid}`, {
                     Quest_id: questid,
                     Character_id: characterid
                 })
