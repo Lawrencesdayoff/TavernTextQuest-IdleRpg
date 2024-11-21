@@ -6,6 +6,7 @@ export const updateCharacterActiveQuestLog = async () => {
   //find users logged in and their characters
   try {
     const usersLoggedIn = await User.find({ Logged_in: true })
+    if (usersLoggedIn.length > 0){
     for (const user of usersLoggedIn) {
       console.log(user.user_firstname)
       // Find all users Current active quests
@@ -68,6 +69,8 @@ export const updateCharacterActiveQuestLog = async () => {
         }
       }
     }
+  }
+  else if (usersLoggedIn.length == 0){console.log("No users currently logged in")}
   }
   catch (error) {
     console.log("Error updating batch character progress", error);
