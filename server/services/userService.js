@@ -7,14 +7,16 @@ export const updateCharacterActiveQuestLog = async () => {
   try {
     const usersLoggedIn = await User.find({ Logged_in: true })
     for (const user of usersLoggedIn) {
-      const userId = user.active_quests.Character_id
-
-
+      console.log(user.user_firstname)
+      // Find all users Current active quests
+      const userActiveQuests = user.current_active_quests
+      
       // Find all characters currently on a quest
-      const charactersOnQuest = await Character.find({ _id: userId });
-      console.log(charactersOnQuest.map((item) => item.PC_firstname))
-      for (const character of charactersOnQuest) {
+      // const charactersOnQuest = await Character.findByIdAndUpdate({ _id: userId });
+      // console.log(charactersOnQuest.map((item) => item.PC_firstname))
+      for (const activequest of userActiveQuests) {
         // Assuming the character model has a field that tracks when the quest started
+        const character = await Character.findById(activequest.Character_id)
         const questStartTime = new Date(character.Quest_Start_Time);
         const currentTime = new Date();
         const timeElapsed = Math.floor((currentTime - questStartTime) / 1000); // Time elapsed in seconds
