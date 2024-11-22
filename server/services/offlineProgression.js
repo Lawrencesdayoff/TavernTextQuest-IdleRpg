@@ -64,6 +64,29 @@ export const handleOfflineProgress = async (userId) => {
             console.log("Quest completed during offline time processing.");
             return; // Skip further processing for this quest
          }
+         else if(questTimeElapsed < totalQuestTime){
+            const iterations = Math.floor(secondsSinceLastCheck / 10);
+            for (let i = 1; i <= iterations; i++) {
+               // Time elapsed in the current iteration (in seconds)
+               const timeElapsed = i * 10;
+               // Check if this time matches any Quest-specific event
+               const questSpecificEvent = character.Quest_event_queue.find((event) =>
+                  event.Quest_specific_hour * 3600 +
+                  event.Quest_specific_minute * 60 +
+                  event.Quest_specific_second === timeElapsed
+               );
+               if (questSpecificEvent) {
+                  console.log(`Processing quest-specific event at time ${timeElapsed} seconds.`);
+                  runEventStatChecks(character, questSpecificEvent);
+               } else {
+                  // If no quest-specific event, pull a random non-specific event
+                  const randomEvent = fetchRandomEvent(character);
+                  console.log("Processing random event during offline time.");
+                  runEventStatChecks(character, randomEvent);
+               }
+            }
+         }
+
          await character.save();
       }
 
@@ -93,8 +116,14 @@ const runEventStatChecks = (character, event) => {
       return (
          updateActiveQuestLog(character._id, event, false)
       )
-
 }
+
+//constCheckCharacterStatus = aysnc (characterid, ) => {
+//    
+//
+//
+//
+//}
 
 const updateActiveQuestLog = async (characterid, currentEvent, eventOutcome) => {
    try {
@@ -106,6 +135,7 @@ const updateActiveQuestLog = async (characterid, currentEvent, eventOutcome) => 
                   event_id: currentEvent._id,
                   Description: currentEvent.Event_description,
                   Consequence: eventOutcome ? currentEvent.Event_description_success : currentEvent.Event_description_failure,
+                  Damage: eventOutcome ? 0 : currentEvent.Event_failure_health_loss,
                   Gold: currentEvent.Event_success_gold_gain,
                   Loot: eventOutcome ? currentEvent.Event_loot_success : currentEvent.Event_XP_loot_failure,
                   XP: eventOutcome ? currentEvent.Event_XP_gain_success : currentEvent.Event_XP_gain_failure
