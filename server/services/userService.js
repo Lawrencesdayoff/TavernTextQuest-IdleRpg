@@ -1,82 +1,85 @@
 import Character from '../models/character.model.js';
 import Quest from '../models/quest.model.js'
 import User from '../models/user.model.js'
+
+
+
 export const updateCharacterActiveQuestLog = async () => {
   console.log("Updating character progress");
   //find users logged in and their characters
   try {
     const usersLoggedIn = await User.find({ Logged_in: true })
-    if (usersLoggedIn.length > 0){
-    for (const user of usersLoggedIn) {
-      console.log(user.user_firstname)
-      // Find all users Current active quests
-      const userActiveQuests = user.current_active_quests
-      
-      // Find all characters currently on a quest
-      // const charactersOnQuest = await Character.findByIdAndUpdate({ _id: userId });
-      // console.log(charactersOnQuest.map((item) => item.PC_firstname))
-      for (const activequest of userActiveQuests) {
-        // Assuming the character model has a field that tracks when the quest started
-        const character = await Character.findById(activequest.Character_id)
-        const questStartTime = new Date(character.Quest_Start_Time);
-        const currentTime = new Date();
-        const timeElapsed = Math.floor((currentTime - questStartTime) / 1000); // Time elapsed in seconds
+    if (usersLoggedIn.length > 0) {
+      for (const user of usersLoggedIn) {
+        console.log(user.user_firstname)
+        // Find all users Current active quests
+        const userActiveQuests = user.current_active_quests
 
-        // Ensure `Last_Event_Check` is initialized for the first run
-        const lastEventCheck = character.Last_event_checked || questStartTime;
-        const secondsSinceLastCheck = Math.floor((currentTime - lastEventCheck) / 1000);
+        // Find all characters currently on a quest
+        for (const activequest of userActiveQuests) {
+          // Assuming the character model has a field that tracks when the quest started
+          const character = await Character.findById(activequest.Character_id)
+          const questStartTime = new Date(character.Quest_Start_Time);
+          const currentTime = new Date();
+          const timeElapsed = Math.floor((currentTime - questStartTime) / 1000); // Time elapsed in seconds
 
-        const currentHours = Math.floor(timeElapsed / 3600);
-        const currentMinutes = Math.floor((timeElapsed % 3600) / 60);
-        const currentSeconds = timeElapsed % 60;
-        const currrentQuest = await Quest.findById(character.Current_Quest)
-        // Check if quest is finished
-        if ((currrentQuest.Quest_time_hours <= currentHours) && (currrentQuest.Quest_time_minutes <= currentMinutes)) {
-          await Character.findByIdAndUpdate(character._id, { Completed_quest: true })
-          console.log("Quest completed")
-        }
-        else if ((currrentQuest.Quest_time_hours >= currentHours) && (currrentQuest.Quest_time_minutes >= currentMinutes)) {
-          // Check if at least 10 seconds have passed since the last event check
-          if (secondsSinceLastCheck >= 10) {
+          // Ensure `Last_Event_Check` is initialized for the first run
+          const lastEventCheck = character.Last_event_checked || questStartTime;
+          const secondsSinceLastCheck = Math.floor((currentTime - lastEventCheck) / 1000);
 
+          const currentHours = Math.floor(timeElapsed / 3600);
+          const currentMinutes = Math.floor((timeElapsed % 3600) / 60);
+          const currentSeconds = timeElapsed % 60;
+          const currrentQuest = await Quest.findById(character.Current_Quest)
+          // Check if quest is finished
+          if ((currrentQuest.Quest_time_hours <= currentHours) && (currrentQuest.Quest_time_minutes <= currentMinutes)) {
+            await Character.findByIdAndUpdate(character._id, { Completed_quest: true })
+            console.log("Quest completed")
+          }
+          else if ((currrentQuest.Quest_time_hours >= currentHours) && (currrentQuest.Quest_time_minutes >= currentMinutes)) {
 
-            // Extract current hours, minutes, and seconds
+            // Check if at least 10 seconds have passed since the last event check
+            if (secondsSinceLastCheck >= 10) {
 
 
-            console.log("Checking for events at 10-second intervals");
-            // Find an event from the character's Quest_event_queue that matches the current time
-            const eventAtTime = character.Quest_event_queue.find(
-              (event) =>
-                event.Quest_specific_hour === currentHours &&
-                event.Quest_specific_minute === currentMinutes &&
-                event.Quest_specific_second === currentSeconds
-            );
-            // Update the last check time
-            await Character.findByIdAndUpdate(character._id, { Last_event_checked: currentTime });
+              // Extract current hours, minutes, and seconds
 
-            if (eventAtTime) {
-              console.log("Found quest-specific event:", eventAtTime);
-              // Run the stat checks for the event
-              runEventStatChecks(character, eventAtTime);
-            }
-            else {
-              console.log("Pulling random-event")
-              const randomEvent = fetchRandomEvent(character)
-              console.log(randomEvent)
-              runEventStatChecks(character, randomEvent)
+
+              console.log("Checking for events at 10-second intervals");
+              // Find an event from the character's Quest_event_queue that matches the current time
+              const eventAtTime = character.Quest_event_queue.find(
+                (event) =>
+                  event.Quest_specific_hour === currentHours &&
+                  event.Quest_specific_minute === currentMinutes &&
+                  event.Quest_specific_second === currentSeconds
+              );
+              // Update the last check time
+              await Character.findByIdAndUpdate(character._id, { Last_event_checked: currentTime });
+
+              if (eventAtTime) {
+                console.log("Found quest-specific event:", eventAtTime);
+                // Run the stat checks for the event
+                runEventStatChecks(character, eventAtTime);
+              }
+              else {
+                console.log("Pulling random-event")
+                const randomEvent = fetchRandomEvent(character)
+                console.log(randomEvent)
+                runEventStatChecks(character, randomEvent)
+              }
             }
           }
         }
       }
     }
-  }
-  else if (usersLoggedIn.length == 0){console.log("No users currently logged in")}
+    else if (usersLoggedIn.length == 0) { console.log("No users currently logged in") }
   }
   catch (error) {
     console.log("Error updating batch character progress", error);
   }
 };
 
+//Records event outcomes
 const updateActiveQuestLog = async (characterid, currentEvent, eventOutcome) => {
   try {
     await Character.findByIdAndUpdate(characterid,

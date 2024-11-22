@@ -4,7 +4,7 @@ const router = Router();
 import * as CharacterController from '../controllers/character.controller.js'
 
 router.route("/getallCharacters")
-        .get(CharacterController.getAllPCs);
+    .get(CharacterController.getAllPCs);
 
 router.route("/getoneCharacter/:id")
     .get(CharacterController.getOnePC)
@@ -36,7 +36,7 @@ router.route("/updateCharacterXP/:id")
 router.route("/updateCharacterActiveQuestLog/:id")
     .patch(CharacterController.updateCharacterActiveQuestLog)
 
-    router.route("/updateStartQuest/:id")
+router.route("/updateStartQuest/:id")
     .patch(CharacterController.startQuest)
-  
+
 export default router;

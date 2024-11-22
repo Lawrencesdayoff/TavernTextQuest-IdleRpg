@@ -4,7 +4,7 @@ const router = Router();
 import * as EventController from '../controllers/event.controller.js'
 
 router.route("/getallEvents")
-        .get(EventController.getAllEvents);
+    .get(EventController.getAllEvents);
 
 router.route("/getoneEvent/:id")
     .get(EventController.getOneEvent)
@@ -29,4 +29,5 @@ router.route("/getrandomEvent/:eventbiome")
 
 router.route("/getallQuestSpecificEvents/:id")
     .get(EventController.getAllQuestSpecificEvents);
+
 export default router;

@@ -22,10 +22,7 @@ const ActiveQuest = (props) => {
     const [questdata, setQuestData] = useState([]);
     const [activeTab, setActiveTab] = useState(0);
     const [starttime, setStartTime] = useState("");
-    const [questtime, setQuestTime] = useState("");
-    const [questtime_miliseconds, setQuestTimeMiliseconds] = useState(0);
     const [questspecificevents, setQuestSpecificEvents] = useState([])
-    const [newevent, setNewEvent] = useState([]);
     const [questbiomes, setQuestBiomes] = useState([]);
     const [eventlog, setEventLog] = useState([]);
     const [days, setDays] = useState(0);
@@ -92,11 +89,6 @@ const ActiveQuest = (props) => {
         setHours(hours);
         setMinutes(minutes);
         setSeconds(seconds);
-    };
-
-    const formatDate = (dateString) => {
-        const options = { hour12: false, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" , second: "2-digit"}
-        return new Date(dateString).toLocaleDateString([], options)
     };
 
     const formatQuestTime = (timestring) => {

@@ -41,9 +41,12 @@ const UserSchema = new Schema(
         Logged_in: {
             type: Boolean
         },
-        last_logout:{
+        last_logout: {
             type: Date
-        } 
+        },
+        last_login: {
+            type: Date
+        }   
     },
     { timestamps: true}
 );

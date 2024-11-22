@@ -6,13 +6,16 @@ import User from '../models/user.model.js';
 const router = Router();
 
 router.route("/getallUsers")
-        .get(UserController.getAllUsers);
+    .get(UserController.getAllUsers);
 
-router.route("/login/")
-    .post(UserController.checkLogin)
+router.route("/checkLogin")
+    .post(UserController.checkLogin);
+
+router.route("/logIn/:id")
+    .patch(UserController.logIn);
 
 router.route("/getoneUser/:id")
-    .get(UserController.getOneUser)
+    .get(UserController.getOneUser);
 
 router.route("/newUser/")
     .post(UserController.registerUser);
@@ -21,10 +24,10 @@ router.route("/updateUser/:id")
     .put(UserController.updateOneUser);
 
 router.route("/updateUserActiveQuests/:id")
-    .patch(UserController.addActiveQuest)
+    .patch(UserController.addActiveQuest);
 
 router.route("/removeUserActiveQuests/:id")
-    .patch(UserController.deleteActiveQuest)
+    .patch(UserController.deleteActiveQuest);
 
 router.route("/updateUserfield/:id")
     .patch(UserController.updateOneUser);

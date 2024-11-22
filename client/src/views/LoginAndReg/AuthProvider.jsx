@@ -4,7 +4,7 @@ import axios from "axios";
 
 const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(sessionStorage.getItem("user") || "");
     const [token, setToken] = useState(sessionStorage.getItem("token") || "");
     const navigate = useNavigate();
     
@@ -24,21 +24,22 @@ export const AuthProvider = ({ children }) => {
     const loginAction = async (data) => {
         console.log(data)
       try {
-        axios
-        .post("http://localhost:9999/api/login", {
+        await axios
+        .post("http://localhost:9999/api/checkLogin", {
          user_email: data.user_email,
          user_password: data.user_password,
          Logged_in: true
-        }) .then((res) => {
+        }).then((res) => {
             console.log(res);
             console.log(res.data);
         if (res.data) {
-          setUser(res.data);
+          setUser(res.data.user_username);
           setToken(res.data._id);
           sessionStorage.setItem("user", 
             res.data.user_username
           )
           sessionStorage.setItem("token", res.data._id);
+          console.log("Redirecting to dashboard...");
           navigate("/dashboard");
           return;
         }

@@ -4,7 +4,7 @@ const router = Router();
 import * as QuestController from '../controllers/quest.controller.js'
 
 router.route("/getallQuests")
-        .get(QuestController.getAllQuests);
+    .get(QuestController.getAllQuests);
 
 router.route("/getallavailablequests")
 
@@ -25,5 +25,5 @@ router.route("/deleteQuest/:id")
 
 router.route("/getuserQuests/:id")
     .get(QuestController.getUserQuests)
-    
+
 export default router;
