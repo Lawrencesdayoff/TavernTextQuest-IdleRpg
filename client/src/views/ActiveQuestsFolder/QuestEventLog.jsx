@@ -10,7 +10,7 @@ const QuestEventLog = (props) => {
         <>
             <div className = "scrollable-div">
 
-                {eventlog.map((item, index) => ( <LogItem key = {index} logtext = {item} />))}
+                {eventlog.map((item, index) => ( <LogItem key = {index} logtext = {item.Description} />))}
 
                 </div>
 

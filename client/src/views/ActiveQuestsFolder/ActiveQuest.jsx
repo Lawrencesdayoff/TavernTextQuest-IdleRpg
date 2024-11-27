@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react"
+import { useState, useEffect } from "react"
 import Header from "../Header";
 import LogoutButton from "../../components/LogoutButton";
 import Tab from "../Tab";
@@ -16,8 +16,8 @@ import LogItem from "./LogItem";
 import AbandonQuestButton from "../../components/AbandonQuestButton";
 
 const ActiveQuest = (props) => {
-    const {user, token} = props;
-    const {questid: questid, characterid: characterid} = useParams();
+    const { user, token } = props;
+    const { questid: questid, characterid: characterid } = useParams();
     const [characterdata, setCharacterData] = useState([]);
     const [questdata, setQuestData] = useState([]);
     const [activeTab, setActiveTab] = useState(0);
@@ -47,13 +47,13 @@ const ActiveQuest = (props) => {
 
     const tabData = [
         {
-            label:"QuestName",
-            content: <QuestEventLog user = {user} token = {token}
-                                    questid = {questid} eventlog = {eventlog} />
+            label: questdata.Quest_name,
+            content: <QuestEventLog user={user} token={token}
+                questid={questid} eventlog={eventlog} />
         },
         {
-            label:"Quest Chat",
-            content: < QuestChat user = {user} token = {token}/>
+            label: "Quest Chat",
+            content: < QuestChat user={user} token={token} />
         }
     ]
 
@@ -61,267 +61,110 @@ const ActiveQuest = (props) => {
         const now = new Date();
         const isoString = now.toISOString(); // Generates 2024-05-19T09:02:32.496Z
         const timeZoneOffset = -now.getTimezoneOffset(); // Get the timezone offset in minutes
-    
+
         // Format timezone offset as ±HH:mm
         const sign = timeZoneOffset >= 0 ? "+" : "-";
         const hours = String(Math.floor(Math.abs(timeZoneOffset) / 60)).padStart(2, "0");
         const minutes = String(Math.abs(timeZoneOffset) % 60).padStart(2, "0");
-        
-        return `${isoString.slice(0, -1)}${sign}${hours}:${minutes}`; 
+
+        return `${isoString.slice(0, -1)}${sign}${hours}:${minutes}`;
     }
-    
+
     const getTime = (start) => {
-        const startTime = Date.parse(start); 
+        const startTime = Date.parse(start);
         console.log(start)
         console.log(startTime)
         const currentTimeString = getCurrentTime()
         const currentTime = Date.parse(currentTimeString)
         console.log()
-        console.log("currenttime:",currentTime)
-        const timeDifference = Math.abs(currentTime - startTime); 
-    
+        console.log("currenttime:", currentTime)
+        const timeDifference = Math.abs(currentTime - startTime);
+
         const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
         const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
-    
+
         setDays(days);
         setHours(hours);
         setMinutes(minutes);
         setSeconds(seconds);
     };
 
-    const formatQuestTime = (timestring) => {
-        const [hours, minutes] = timestring.split(':')
-        const questhours  = hours * 3600 * 1000
-        const questminutes = minutes * 60 * 1000
-        return questhours + questminutes
-    };
-
-    const getQuestTerrain = (array) => {
-        const questbiomelist = array.map((item) => item)
-        setQuestBiomes(questbiomelist)
-        return questbiomes
-    };
-
-    const getRandomElement = (array) =>{
-        const randomelement = array[Math.floor(Math.random()* array.length)];
-        return randomelement      
-    };
-
-    const addExperience = async (additionalXP) => {
+    const fetchCharacterAndQuestData = async () => {
         try {
-          await axios.patch(`http://localhost:9999/api/updateCharacterXP/${characterid}`, {
-            additionalXP,
-          });
-        //   setCharacterData(response.data); // Update state with the new character data
-        } catch (error) {
-          console.error("Error adding experience:", error);
-        }
-      };
-
-    const fetchRandomEvent = async (eventbiomes) => {
-      const randomBiome = getRandomElement(eventbiomes);
-      try{
-      await axios.get(`http://localhost:9999/api/getrandomEvent/${randomBiome}`).then((res) => {
-          setNewEvent(res.data);
-          setEventLog((prevEventLog) => [...prevEventLog, res.data.Event_description]);
-          runEventChecks(characterdata, res.data);
-      })}
-      catch (error){
-        console.error(" Error fetching random event", error)
-      }
-        }
-
-    const handleQuestEvent = (eventAtTime) => {
-        setNewEvent(eventAtTime);
-        setEventLog((prevEventLog) => [...prevEventLog, eventAtTime.Event_description]);
-        runEventChecks(characterdata, eventAtTime);
-    }
-
-    const updateActiveQuestLog = async (currentEvent, eventOutcome) => {
-        try{
-        await axios.patch(`http://localhost:9999/api/updateCharacterActiveQuestLog/${characterid}`, 
-        {
-            eventId: currentEvent._id,
-            eventDescription: currentEvent.Event_description,
-            eventConsequence:  eventOutcome? currentEvent.Event_description_success : currentEvent.Event_description_failure ,
-            eventGold: currentEvent.Event_success_gold_gain,
-            eventLoot: eventOutcome? currentEvent.Event_loot_success : currentEvent.Event_XP_loot_failure ,
-            eventXp: eventOutcome? currentEvent.Event_XP_gain_success : currentEvent.Event_XP_gain_failure 
-        }
-        ).then(() => {
-        })
-        }
-        catch(error){
-            console.log("Error updating character active quest log", error)
+            const [characterResponse, questResponse] = await Promise.all([
+                axios.get(`http://localhost:9999/api/getoneCharacter/${characterid}`),
+                axios.get(`http://localhost:9999/api/getoneQuest/${questid}`),
+            ]);
+            let character = characterResponse.data;
+            let quest = questResponse.data;
+            console.log(character)
+            console.log(quest)
+            setCharacterData(character);
+            setQuestData(quest);
+            setStartTime(character.Quest_Start_Time)
+            setCharacterHealth(character.PC_constitution * 2);
+            setGoldGain(0); // Reset gold gain at the start
+            setQuestRunning(true);
+            setEventLog(character.Active_Quest_Log)
+        } catch (err) {
+            console.error("Error fetching data:", err);
         }
     }
-    const runEventChecks = (character, eventchecks) => {
-        if(
-        character.PC_strength >= eventchecks.Event_str_check &&
-        character.PC_constitution >= eventchecks.Event_con_check &&
-        character.PC_agility >= eventchecks.Event_agi_check &&
-        character.PC_perception >= eventchecks.Event_per_check &&
-        character.PC_intellect >= eventchecks.Event_int_check &&
-        character.PC_wisdom >= eventchecks.Event_wis_check &&
-        character.PC_magick >= eventchecks.Event_mag_check
-        )
-            return(
-                setGoldGain( questgold + eventchecks.Event_success_gold_gain), 
-                setCurrentXP(characterxp + eventchecks.Event_XP_gain_success),
-                setEventLog((prevEventLog) => [...prevEventLog, eventchecks.Event_description_success]),
-                addExperience(eventchecks.Event_XP_gain_success),
-                updateActiveQuestLog(eventchecks, true)
-            )
-        else
-            return(
-                setCharacterHealth(characterhealth - eventchecks.Event_failure_health_loss),
-                setCurrentXP(characterxp + eventchecks.Event_XP_gain_failure),
-                setEventLog((prevEventLog) => [...prevEventLog, eventchecks.Event_description_failure]),
-                addExperience(eventchecks.Event_XP_gain_failure),
-                updateActiveQuestLog(eventchecks, false)
-            )
-
-    }
-
-    const checkCharacterStatus = (healthstatus) => {
-        if (healthstatus <= 0 ) {
-            setQuestRunning(false)
-            setCharacterHealth(0)
-            setCharacterDied(true)
-        }
-        else{
-            setQuestRunning(true)
-        }
-    }
-
-
-    useEffect(()=> {   
-        const getCharacterOnQuest = async() => {
-            await axios.get(`http://localhost:9999/api/getoneCharacter/${characterid}`)
-            .then((res) => {
-                setCharacterData(res.data)
-                setStartTime(res.data.Quest_Start_Time)
-                setCharacterLevel(res.data.PC_level)
-                setCharacterHealth(res.data.PC_constitution)
-                setCurrentXP(res.data.PC_experience)
-                setThresholdXP(Math.floor(100 * Math.pow(res.data.PC_level, 1.5)))
-            }).catch((err) => {
-                console.log(err);
-            })
-        }
-        const getQuest = async() => {
-            await axios.get(`http://localhost:9999/api/getoneQuest/${questid}`)
-            .then((res) =>{
-                setQuestData(res.data);
-                getQuestTerrain(res.data.Quest_biome);
-                setQuestTime("0" + res.data.Quest_time_hours + ":" + res.data.Quest_time_minutes)
-                setQuestTimeMiliseconds(formatQuestTime("0" + res.data.Quest_time_hours + ":" + res.data.Quest_time_minutes))
-            }).catch((err) => {
-                console.log(err);
-            })
-        }
-        const getQuestSpecificEvents = async() => {
-            await axios.get(`http://localhost:9999/api/getallQuestSpecificEvents/${questid}`)
-            .then(
-                (res) => {
-                    setQuestSpecificEvents(res.data)
-                    return questspecificevents
-                }).catch((err) => {
-                console.log(err);
-                })
-        }
-        getCharacterOnQuest().then( getQuest()).then(getQuestSpecificEvents()).then( setQuestRunning(true))
-    }, [])
+    useEffect(() => {
+        fetchCharacterAndQuestData()
+    }, [characterid, questid])
 
     useEffect(() => {
-        const updateCharacterData = async () => {
-            try {
-                const response = await axios.get(`http://localhost:9999/api/getoneCharacter/${characterid}`);
-                const { PC_experience, PC_level } = response.data;
-                setCurrentXP(PC_experience);
-                setCharacterLevel(PC_level);
-                
-                setThresholdXP(Math.floor(100 * Math.pow(PC_level, 1.5)))
-            } catch (error) {
-                console.error("Error updating character data:", error);
+        const updateView = async (currenttime, currenthours, currentminutes, currentseconds) => {
+            if (!questRunning) return
+            else {
+                getTime(currenttime)
+                fetchCharacterAndQuestData()
             }
-            try{
 
-            }
-            catch(error){
-                console.log("Error updating character log")
-            }
         };
 
-        const interval = setInterval(updateCharacterData, 10000); // Update every 10 seconds
-        return () => clearInterval(interval);
-    }, [characterid]);
-    
-    useEffect(() => {
-        const updateQuest = async (currenttime, eventbiomes, events, currenthours, currentminutes, currentseconds) => {
-            checkCharacterStatus(characterhealth);
-            if (!questRunning) return
-           
-            getTime(currenttime)
-           
-            if(questRunning == true){
-                if (currentseconds % 10 === 0 && currentseconds !== 0){              // set interval for quest event frequency
-                const eventAtTime = events.map((item) => item).find(
-                    (item) => 
-                        item.Quest_specific_hour === currenthours &&
-                        item.Quest_specific_minute === currentminutes &&
-                        item.Quest_specific_second === currentseconds
-                );
-                if (eventAtTime) {
-                        handleQuestEvent(eventAtTime)
-                } else {
-                    // If no specific event is found, fetch a random event based on the current biome
-                        fetchRandomEvent(eventbiomes)
-                    }
-                    }
-                }                                // Set function for window either in the log or an alert saying "your character has died, revive for some number of coins"
-        };     
-    
-        const nextevent = setInterval (() => updateQuest(starttime, questbiomes, questspecificevents, hours, minutes, seconds), 1000)
-        return () => { 
+        const nextevent = setInterval(() => updateView(starttime, questbiomes, questspecificevents, hours, minutes, seconds), 1000)
+        return () => {
             //   clearInterval(interval);
             clearInterval(nextevent);
-            }
-        }, [starttime, hours, minutes, seconds], [questbiomes])
+        }
+    }, [starttime, hours, minutes, seconds], [questbiomes])
 
-    return(
+    return (
 
-    <>
-    <div className="dashboard-area">
-          <div className= "dashboard-header">
-            <div class = "col"><Header message={"Welcome"} username={user}/></div>
-            <div class = "col"><LogoutButton /></div>
-            <div class = "col"><AbandonQuestButton characterid = {characterid} questid = {questid} userid = {token}/></div>
-          </div>
-        <div className = "dashboard-content">
-            <div class = "active-quest-HUD">
-                <Timer hours = {hours} minutes = {minutes} seconds = {seconds}/>
+        <>
+            <div className="dashboard-area">
+                <div className="dashboard-header">
+                    <div class="col"><Header message={"Welcome"} username={user} /></div>
+                    <div class="col"><LogoutButton /></div>
+                    <div class="col"><AbandonQuestButton characterid={characterid} questid={questid} userid={token} /></div>
+                </div>
+                <div className="dashboard-content">
+                    <div class="active-quest-HUD">
+                        <Timer hours={hours} minutes={minutes} seconds={seconds} />
 
-                <CharacterHUD image = {characterdata.PC_image} firstname = {characterdata.PC_firstname} lastname = {characterdata.PC_lastname}
-                                gold = {questgold} race = {characterdata.PC_race}  health = {characterhealth}
-                                pronouns = {characterdata.PC_pronouns} strength = {characterdata.PC_strength} 
-                                constitution = {characterdata.PC_constitution} agility = {characterdata.PC_agility} perception = {characterdata.PC_perception}
-                                intellect = {characterdata.PC_intellect} magick = {characterdata.PC_magick}
-                                wisdom = {characterdata.PC_wisdom}  currentlevel = {characterlevel} currentxp = {characterxp} xptolevelup = {characterxpThreshold} />
-                
-                <ButtonToDashboard/>
-                {hasdied? <p>{characterdata.PC_firstname} has died!</p>:<></> }
+                        <CharacterHUD image={characterdata.PC_image} firstname={characterdata.PC_firstname} lastname={characterdata.PC_lastname}
+                            gold={questgold} race={characterdata.PC_race} health={characterhealth}
+                            pronouns={characterdata.PC_pronouns} strength={characterdata.PC_strength}
+                            constitution={characterdata.PC_constitution} agility={characterdata.PC_agility} perception={characterdata.PC_perception}
+                            intellect={characterdata.PC_intellect} magick={characterdata.PC_magick}
+                            wisdom={characterdata.PC_wisdom} currentlevel={characterlevel} currentxp={characterxp} xptolevelup={characterxpThreshold} />
+
+                        <ButtonToDashboard />
+                        {hasdied ? <p>{characterdata.PC_firstname} has died!</p> : <></>}
+                    </div>
+                    <div class="active-quest-ticker">
+                        <Tabs tabs={tabData} content={tabData.content} onChangeTab={handleQuestChatTabs} activeTab={activeTab} />
+                    </div>
+                </div>
             </div>
-            <div class = "active-quest-ticker">
-                <Tabs tabs = {tabData} content = {tabData.content} onChangeTab={handleQuestChatTabs} activeTab={activeTab}/>
-            </div>
-      </div>
-      </div>
-    </>
+        </>
 
-)
+    )
 }
+
 
 export default ActiveQuest;

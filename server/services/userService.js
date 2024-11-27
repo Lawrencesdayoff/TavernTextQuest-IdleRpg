@@ -31,20 +31,17 @@ export const updateCharacterActiveQuestLog = async () => {
           const currentMinutes = Math.floor((timeElapsed % 3600) / 60);
           const currentSeconds = timeElapsed % 60;
           const currrentQuest = await Quest.findById(character.Current_Quest)
+          console.log(currrentQuest)
           // Check if quest is finished
           if ((currrentQuest.Quest_time_hours <= currentHours) && (currrentQuest.Quest_time_minutes <= currentMinutes)) {
             await Character.findByIdAndUpdate(character._id, { Completed_quest: true })
             console.log("Quest completed")
           }
-          else if ((currrentQuest.Quest_time_hours >= currentHours) && (currrentQuest.Quest_time_minutes >= currentMinutes)) {
-
-            // Check if at least 10 seconds have passed since the last event check
-            if (secondsSinceLastCheck >= 10) {
-
-
-              // Extract current hours, minutes, and seconds
-
-
+          else {
+            if (secondsSinceLastCheck < 0) {
+              console.log("Negative time detected. Resetting Last_event_checked.");
+              await Character.findByIdAndUpdate(character._id, { Last_event_checked: currentTime });
+            } else if (secondsSinceLastCheck >= 10) {
               console.log("Checking for events at 10-second intervals");
               // Find an event from the character's Quest_event_queue that matches the current time
               const eventAtTime = character.Quest_event_queue.find(

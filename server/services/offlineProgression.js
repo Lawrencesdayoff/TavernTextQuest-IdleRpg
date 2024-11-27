@@ -64,7 +64,7 @@ export const handleOfflineProgress = async (userId) => {
             console.log("Quest completed during offline time processing.");
             return; // Skip further processing for this quest
          }
-         else if(questTimeElapsed < totalQuestTime){
+         else if (questTimeElapsed < totalQuestTime) {
             const iterations = Math.floor(secondsSinceLastCheck / 10);
             for (let i = 1; i <= iterations; i++) {
                // Time elapsed in the current iteration (in seconds)
@@ -118,10 +118,12 @@ const runEventStatChecks = (character, event) => {
       )
 }
 
-//constCheckCharacterStatus = aysnc (characterid, ) => {
-//    
-//
-//
+//constCheckCharacterStatus = aysnc (character) => {
+//    if (character.Active_Quest_Log.
+//    use  a reduce method to add the sum of character Active_Quest_Log.Damage
+//    check if this value is greater than PC*constitution *2
+//      if so set PC_incapacitated to true
+
 //
 //}
 
@@ -176,3 +178,28 @@ const fetchRandomEvent = (character) => {
 // subtract time away from questhours/questminutes conversion
 // run quests checks
 //
+
+const calculateTotalDamage = async (characterId) => {
+   try {
+      // Use aggregation to calculate the total damage
+      const result = await Character.aggregate([
+         { $match: { _id: characterId } }, // Match the specific character
+         { $unwind: "$Active_Quest_Log" }, // Deconstruct the Active_Quest_Log array
+         {
+            $group: {
+               _id: "$_id",
+               totalDamage: { $sum: "$Active_Quest_Log.Damage" } // Sum up the Damage values
+            }
+         }
+      ]);
+
+      // If there's no damage log, default to 0
+      const totalDamage = result.length > 0 ? result[0].totalDamage : 0;
+
+      console.log(`Total Damage for character ${characterId}:`, totalDamage);
+      return totalDamage;
+   } catch (error) {
+      console.error("Error calculating total damage:", error);
+      return 0; // Return 0 in case of an error
+   }
+};
