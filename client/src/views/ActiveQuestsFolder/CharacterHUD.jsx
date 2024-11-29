@@ -14,7 +14,7 @@ const CharacterHUD = (props) => {
         <p>{firstname} {lastname}</p>
         <p>Gold : {gold}</p>
         <p>Level: {currentlevel}</p>
-        <HealthBar hp = {health} maxHp = {constitution}></HealthBar>
+        <HealthBar hp = {health} maxHp = {constitution * 2}></HealthBar>
         <XPBar  xp = {currentxp} xpLevel  = {xptolevelup}/>
         </>
     )
