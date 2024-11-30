@@ -57,6 +57,10 @@ const ActiveQuest = (props) => {
         }
     ]
 
+    const handleEventLog = () => {
+        
+    }
+
     function getCurrentTime() {
         const now = new Date();
         const isoString = now.toISOString(); // Generates 2024-05-19T09:02:32.496Z
