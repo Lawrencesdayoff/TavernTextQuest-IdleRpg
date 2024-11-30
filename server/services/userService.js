@@ -87,15 +87,15 @@ const updateActiveQuestLog = async (characterid, currentEvent, eventOutcome) => 
             event_id: currentEvent._id,
             Description: currentEvent.Event_description,
             Consequence: eventOutcome ? currentEvent.Event_description_success : currentEvent.Event_description_failure,
-            Damage: eventOutcome ? 0 : currentEvent.Event_failure_health_loss,
-            Gold: currentEvent.Event_success_gold_gain,
+            Damage: eventOutcome ? 0 : currentEvent.Event_failure_health_loss ?? 0,
+            Gold: currentEvent.Event_success_gold_gain ?? 0,
             Loot: eventOutcome ? currentEvent.Event_loot_success : currentEvent.Event_XP_loot_failure,
-            XP: eventOutcome ? currentEvent.Event_XP_gain_success : currentEvent.Event_XP_gain_failure
+            XP: eventOutcome ? currentEvent.Event_XP_gain_success ?? 0 : currentEvent.Event_XP_gain_failure ?? 0     
           }
         }
       }, { new: true }
-    ).then(() => {
-    })
+    )      
+    updateCharacterXP(characterid, eventOutcome ? currentEvent.Event_XP_gain_success : currentEvent.Event_XP_gain_failure )
   }
   catch (error) {
     console.log("Error updating character active quest log", error)
@@ -139,3 +139,12 @@ const fetchRandomEvent = (character) => {
     console.log("Error fetching random event:", error);
   }
 };
+
+const updateCharacterXP = async (character, additionalXP) => {
+  const updatedCharacter = await Character.findByIdAndUpdate(
+    character._id,
+    { $inc: { PC_experience: additionalXP }, isExperienceUpdate: true },
+    { new: true },
+);
+  return updatedCharacter
+}

@@ -40,7 +40,10 @@ const ActiveQuest = (props) => {
     const [characterxpThreshold, setThresholdXP] = useState(0);
     const [characterlevel, setCharacterLevel] = useState(0);
 
-
+    const baseExp = 100;
+    const levelExponent = 1.5;
+    
+    
     const handleQuestChatTabs = (change) => {
         setActiveTab(change);
     }
@@ -112,6 +115,9 @@ const ActiveQuest = (props) => {
             setGoldGain(0); // Reset gold gain at the start
             setQuestRunning(true);
             setEventLog(character.Active_Quest_Log)
+            setCharacterLevel(character.PC_level)
+            setCurrentXP(character.PC_experience)
+            setThresholdXP(Math.floor(baseExp * Math.pow(character.PC_level, levelExponent)))
         } catch (err) {
             console.error("Error fetching data:", err);
         }

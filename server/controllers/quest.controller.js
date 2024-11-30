@@ -19,7 +19,6 @@ async function createQuest(req, res) {
 
 async function getOneQuest(req, res) {
     try {
-        console.log("Get one Quests");
         const oneQuest = await Quest.findById(req.params.id, req.body);
         res.json(oneQuest);
     }

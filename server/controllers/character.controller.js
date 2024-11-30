@@ -41,7 +41,6 @@ async function createPC(req, res) {
 
 async function getOnePC(req, res) {
     try {
-        console.log("Get one PCs");
         const onePC = await Character.findById(req.params.id, req.body);
         res.json(onePC);
     }
