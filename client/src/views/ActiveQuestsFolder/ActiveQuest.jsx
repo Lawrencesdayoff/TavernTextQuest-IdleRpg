@@ -50,7 +50,11 @@ const ActiveQuest = (props) => {
     const handleQuestChatTabs = (change) => {
         setActiveTab(change);
     }
-
+    const checkCharacterStatus = () => {
+        if(characterdata.PC_Incapacitated === true){
+            setCharacterDied(true);
+        }
+    }
     const tabData = [
         {
             label: questdata.Quest_name,
@@ -137,6 +141,7 @@ const ActiveQuest = (props) => {
                 getTime(currenttime)
                 fetchCharacterAndQuestData()
                 handleEncounterLog()
+                checkCharacterStatus()
             }
 
         };
