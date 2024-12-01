@@ -1,5 +1,5 @@
 import Character from '../models/character.model.js'
-import { createQuestEventQueue } from '../services/questStart.js'
+import { createQuestEventQueue, initializeCharacterStatus } from '../services/questStart.js'
 
 
 async function createPC(req, res) {
@@ -148,6 +148,7 @@ async function startQuest(req, res) {
         const id = req.params.id
         const { questid } = req.body
         createQuestEventQueue(id, questid)
+        initializeCharacterStatus(id)
     }
     catch (error) {
         console.log(err)

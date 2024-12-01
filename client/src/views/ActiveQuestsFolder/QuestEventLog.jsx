@@ -5,12 +5,14 @@ const QuestEventLog = (props) => {
     const { questid, questterrain, race,
         pronouns, strength,
         constitution, agility, perception,
-        intellect, magick, wisdom, eventlog } = props
-    return (
+        intellect, magick, wisdom, encounterlog } = props
+
+    
+        return (
         <>
             <div className="scrollable-div">
 
-                {eventlog.map((item, index) => (<LogItem key={index} logtext={item.Description} />, <LogItem key={index} logtext={item.Consequence} />))}
+                {encounterlog.map((item, index) => (<LogItem key={index} logtext={item} />))}
 
             </div>
 

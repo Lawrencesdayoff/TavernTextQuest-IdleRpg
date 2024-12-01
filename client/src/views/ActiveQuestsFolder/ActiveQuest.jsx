@@ -24,7 +24,9 @@ const ActiveQuest = (props) => {
     const [starttime, setStartTime] = useState("");
     const [questspecificevents, setQuestSpecificEvents] = useState([])
     const [questbiomes, setQuestBiomes] = useState([]);
-    const [eventlog, setEventLog] = useState([]);
+    const [eventhistory, setEventHistory] = useState([]);
+    const [encounterlog, setEncounterLog] = useState([]);
+
     const [days, setDays] = useState(0);
     const [hours, setHours] = useState(0);
     const [minutes, setMinutes] = useState(0);
@@ -35,6 +37,7 @@ const ActiveQuest = (props) => {
     const [questRunning, setQuestRunning] = useState(false)
 
     const [questgold, setGoldGain] = useState(0);
+    const [characterhealthMax, setCharacterMaxHealth] = useState(0);
     const [characterhealth, setCharacterHealth] = useState(0);
     const [characterxp, setCurrentXP] = useState(0);
     const [characterxpThreshold, setThresholdXP] = useState(0);
@@ -52,17 +55,17 @@ const ActiveQuest = (props) => {
         {
             label: questdata.Quest_name,
             content: <QuestEventLog user={user} token={token}
-                questid={questid} eventlog={eventlog} />
+                questid={questid} encounterlog={encounterlog} />
         },
         {
             label: "Quest Chat",
             content: < QuestChat user={user} token={token} />
         }
     ]
-
-    const handleEventLog = () => {
-        
-    }
+    const handleEncounterLog = () => {
+        const newEncounterLog = eventhistory.flatMap((item) => [item.Description, item.Consequence]);
+        setEncounterLog(newEncounterLog);
+    };
 
     function getCurrentTime() {
         const now = new Date();
@@ -111,10 +114,11 @@ const ActiveQuest = (props) => {
             setCharacterData(character);
             setQuestData(quest);
             setStartTime(character.Quest_Start_Time)
-            setCharacterHealth(character.PC_constitution * 2);
+            setCharacterHealth(character.PC_health)
+            setCharacterMaxHealth(character.PC_constitution * 2);
             setGoldGain(0); // Reset gold gain at the start
             setQuestRunning(true);
-            setEventLog(character.Active_Quest_Log)
+            setEventHistory(character.Active_Quest_Log)
             setCharacterLevel(character.PC_level)
             setCurrentXP(character.PC_experience)
             setThresholdXP(Math.floor(baseExp * Math.pow(character.PC_level, levelExponent)))
@@ -132,6 +136,7 @@ const ActiveQuest = (props) => {
             else {
                 getTime(currenttime)
                 fetchCharacterAndQuestData()
+                handleEncounterLog()
             }
 
         };
@@ -164,7 +169,7 @@ const ActiveQuest = (props) => {
                             wisdom={characterdata.PC_wisdom} currentlevel={characterlevel} currentxp={characterxp} xptolevelup={characterxpThreshold} />
 
                         <ButtonToDashboard />
-                        {hasdied ? <p>{characterdata.PC_firstname} has died!</p> : <></>}
+                        {hasdied ? <p>{characterdata.PC_firstname} is incapacitated!</p> : <></>}
                     </div>
                     <div class="active-quest-ticker">
                         <Tabs tabs={tabData} content={tabData.content} onChangeTab={handleQuestChatTabs} activeTab={activeTab} />

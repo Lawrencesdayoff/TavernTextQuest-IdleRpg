@@ -33,6 +33,9 @@ export const updateCharacterActiveQuestLog = async () => {
           const currrentQuest = await Quest.findById(character.Current_Quest)
           console.log(currrentQuest)
           // Check if quest is finished
+          if(character.PC_incapacitated === true){
+            return
+          }
           if ((currrentQuest.Quest_time_hours <= currentHours) && (currrentQuest.Quest_time_minutes <= currentMinutes)) {
             await Character.findByIdAndUpdate(character._id, { Completed_quest: true })
             console.log("Quest completed")
@@ -57,12 +60,14 @@ export const updateCharacterActiveQuestLog = async () => {
                 console.log("Found quest-specific event:", eventAtTime);
                 // Run the stat checks for the event
                 runEventStatChecks(character, eventAtTime);
+                checkCharacterStatus(character)
               }
               else {
                 console.log("Pulling random-event")
                 const randomEvent = fetchRandomEvent(character)
                 console.log(randomEvent)
                 runEventStatChecks(character, randomEvent)
+                checkCharacterStatus(character)
               }
             }
           }
@@ -90,12 +95,13 @@ const updateActiveQuestLog = async (characterid, currentEvent, eventOutcome) => 
             Damage: eventOutcome ? 0 : currentEvent.Event_failure_health_loss ?? 0,
             Gold: currentEvent.Event_success_gold_gain ?? 0,
             Loot: eventOutcome ? currentEvent.Event_loot_success : currentEvent.Event_XP_loot_failure,
-            XP: eventOutcome ? currentEvent.Event_XP_gain_success ?? 0 : currentEvent.Event_XP_gain_failure ?? 0     
+            XP: eventOutcome ? currentEvent.Event_XP_gain_success ?? 0 : currentEvent.Event_XP_gain_failure ?? 0
           }
         }
       }, { new: true }
-    )      
-    updateCharacterXP(characterid, eventOutcome ? currentEvent.Event_XP_gain_success : currentEvent.Event_XP_gain_failure )
+    )
+    updateCharacterXP(characterid, eventOutcome ? currentEvent.Event_XP_gain_success : currentEvent.Event_XP_gain_failure)
+    handleCharacterHealth(characterid, eventOutcome ? 0 : currentEvent.Event_failure_health_loss ?? 0 )
   }
   catch (error) {
     console.log("Error updating character active quest log", error)
@@ -145,6 +151,41 @@ const updateCharacterXP = async (character, additionalXP) => {
     character._id,
     { $inc: { PC_experience: additionalXP }, isExperienceUpdate: true },
     { new: true },
-);
+  );
   return updatedCharacter
+}
+
+const calculateTotalDamage = async (characterId) => {
+  try {
+    // Use aggregation to calculate the total damage
+    const result = await Character.aggregate([
+      { $match: { _id: characterId } }, // Match the specific character
+      { $unwind: "$Active_Quest_Log" }, // Deconstruct the Active_Quest_Log array
+      {
+        $group: {
+          _id: "$_id",
+          totalDamage: { $sum: "$Active_Quest_Log.Damage" } // Sum up the Damage values
+        }
+      }
+    ]);
+
+    // If there's no damage log, default to 0
+    const totalDamage = result.length > 0 ? result[0].totalDamage : 0;
+
+    console.log(`Total Damage for character ${characterId}:`, totalDamage);
+    return totalDamage;
+  } catch (error) {
+    console.error("Error calculating total damage:", error);
+    return 0; // Return 0 in case of an error
+  }
+};
+
+const handleCharacterHealth = async (characterId, eventDamage) => {
+  await Character.findByIdAndUpdate(characterId, {$inc: {PC_health: - eventDamage}});
+}
+const checkCharacterStatus = async (character) => {
+  if (character.PC_health <= 0){
+    await Character.findByIdAndUpdate(character._id, {PC_incapacitated: true})
+  }
+  
 }

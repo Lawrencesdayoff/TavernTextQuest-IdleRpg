@@ -52,11 +52,14 @@ export const handleOfflineProgress = async (userId) => {
                if (questSpecificEvent) {
                   console.log(`Processing quest-specific event at time ${timeElapsed} seconds.`);
                   runEventStatChecks(character, questSpecificEvent);
+                  checkCharacterStatus(character)
                } else {
                   // If no quest-specific event, pull a random non-specific event
                   const randomEvent = fetchRandomEvent(character);
                   console.log("Processing random event during offline time.");
                   runEventStatChecks(character, randomEvent);
+                  checkCharacterStatus(character)
+
                }
             }
             // Mark quest as completed
@@ -78,11 +81,14 @@ export const handleOfflineProgress = async (userId) => {
                if (questSpecificEvent) {
                   console.log(`Processing quest-specific event at time ${timeElapsed} seconds.`);
                   runEventStatChecks(character, questSpecificEvent);
+                  checkCharacterStatus(character)
+
                } else {
                   // If no quest-specific event, pull a random non-specific event
                   const randomEvent = fetchRandomEvent(character);
                   console.log("Processing random event during offline time.");
                   runEventStatChecks(character, randomEvent);
+                  checkCharacterStatus(character)
                }
             }
          }
@@ -145,6 +151,8 @@ const updateActiveQuestLog = async (characterid, currentEvent, eventOutcome) => 
             }
          }, { new: true }
       )
+      updateCharacterXP(characterid, eventOutcome ? currentEvent.Event_XP_gain_success : currentEvent.Event_XP_gain_failure)
+      handleCharacterHealth(characterid, eventOutcome ? 0 : currentEvent.Event_failure_health_loss ?? 0)
    }
    catch (error) {
       console.log("Error updating character active quest log", error)
@@ -203,3 +211,25 @@ const calculateTotalDamage = async (characterId) => {
       return 0; // Return 0 in case of an error
    }
 };
+
+
+const updateCharacterXP = async (character, additionalXP) => {
+   const updatedCharacter = await Character.findByIdAndUpdate(
+      character._id,
+      { $inc: { PC_experience: additionalXP }, isExperienceUpdate: true },
+      { new: true },
+   );
+   return updatedCharacter
+}
+
+
+const handleCharacterHealth = async (characterId, eventDamage) => {
+   await Character.findByIdAndUpdate(characterId, { $inc: { PC_health: - eventDamage } });
+}
+
+const checkCharacterStatus = async (character) => {
+   if (character.PC_health <= 0) {
+      await Character.findByIdAndUpdate(character._id, { PC_incapacitated: true })
+   }
+
+}

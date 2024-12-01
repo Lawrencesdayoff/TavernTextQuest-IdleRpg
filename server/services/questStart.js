@@ -65,3 +65,14 @@ export const setQuestStart = async (characterid, questid) => {
 
 
 }
+
+
+export const initializeCharacterStatus = async (characterid) => {
+    const character = await Character.findById(characterid);
+    if (character) {
+        const updatedHealth = character.PC_constitution * 2;
+        await Character.findByIdAndUpdate(characterid, { $set: { PC_health: updatedHealth } });
+    } else {
+        console.log("Character not found");
+    }
+};
