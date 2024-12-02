@@ -3,7 +3,7 @@ import XPBar from "../../components/XPBar";
 
 
 const CharacterHUD = (props) => {
-    const {image, firstname, lastname, health, race, gold, 
+    const {image, firstname, lastname, health, maxHp, race, gold, 
          pronouns, strength, 
         constitution, agility, perception, 
         intellect, magick, wisdom, currentlevel, currentxp, xptolevelup} = props
@@ -14,7 +14,7 @@ const CharacterHUD = (props) => {
         <p>{firstname} {lastname}</p>
         <p>Gold : {gold}</p>
         <p>Level: {currentlevel}</p>
-        <HealthBar hp = {health} maxHp = {constitution * 2}></HealthBar>
+        <HealthBar hp = {health} maxHp = {maxHp}></HealthBar>
         <XPBar  xp = {currentxp} xpLevel  = {xptolevelup}/>
         </>
     )

@@ -11,8 +11,6 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Timer from "../../components/Timer";
-import HealthBar from "../../components/HealthBar";
-import LogItem from "./LogItem";
 import AbandonQuestButton from "../../components/AbandonQuestButton";
 
 const ActiveQuest = (props) => {
@@ -51,7 +49,7 @@ const ActiveQuest = (props) => {
         setActiveTab(change);
     }
     const checkCharacterStatus = () => {
-        if(characterdata.PC_Incapacitated === true){
+        if(characterdata.PC_incapacitated === true){
             setCharacterDied(true);
         }
     }
@@ -113,8 +111,6 @@ const ActiveQuest = (props) => {
             ]);
             let character = characterResponse.data;
             let quest = questResponse.data;
-            console.log(character)
-            console.log(quest)
             setCharacterData(character);
             setQuestData(quest);
             setStartTime(character.Quest_Start_Time)
@@ -126,32 +122,40 @@ const ActiveQuest = (props) => {
             setCharacterLevel(character.PC_level)
             setCurrentXP(character.PC_experience)
             setThresholdXP(Math.floor(baseExp * Math.pow(character.PC_level, levelExponent)))
+            checkCharacterStatus()
         } catch (err) {
             console.error("Error fetching data:", err);
         }
     }
+
     useEffect(() => {
         fetchCharacterAndQuestData()
     }, [characterid, questid])
 
     useEffect(() => {
-        const updateView = async (currenttime, currenthours, currentminutes, currentseconds) => {
+        if (eventhistory.length > 0) {
+            const newEncounterLog = eventhistory.flatMap((item) => [item.Description, item.Consequence]);
+            setEncounterLog(newEncounterLog);
+        }
+    }, [eventhistory]);
+
+    useEffect(() => {
+        const updateView = async (currenttime) => {
             if (!questRunning) return
             else {
                 getTime(currenttime)
                 fetchCharacterAndQuestData()
-                handleEncounterLog()
                 checkCharacterStatus()
             }
 
         };
 
-        const nextevent = setInterval(() => updateView(starttime, questbiomes, questspecificevents, hours, minutes, seconds), 1000)
+        const nextevent = setInterval(() => updateView(starttime), 1000)
         return () => {
             //   clearInterval(interval);
             clearInterval(nextevent);
         }
-    }, [starttime, hours, minutes, seconds], [questbiomes])
+    }, [starttime, hours, minutes, seconds])
 
     return (
 
@@ -167,14 +171,16 @@ const ActiveQuest = (props) => {
                         <Timer hours={hours} minutes={minutes} seconds={seconds} />
 
                         <CharacterHUD image={characterdata.PC_image} firstname={characterdata.PC_firstname} lastname={characterdata.PC_lastname}
-                            gold={questgold} race={characterdata.PC_race} health={characterhealth}
+                            gold={questgold} race={characterdata.PC_race} health={characterhealth} maxHp = {characterhealth}
                             pronouns={characterdata.PC_pronouns} strength={characterdata.PC_strength}
                             constitution={characterdata.PC_constitution} agility={characterdata.PC_agility} perception={characterdata.PC_perception}
                             intellect={characterdata.PC_intellect} magick={characterdata.PC_magick}
                             wisdom={characterdata.PC_wisdom} currentlevel={characterlevel} currentxp={characterxp} xptolevelup={characterxpThreshold} />
+                        
+                        {hasdied ? <p>{characterdata.PC_firstname} is incapacitated!</p> : <></>}
 
                         <ButtonToDashboard />
-                        {hasdied ? <p>{characterdata.PC_firstname} is incapacitated!</p> : <></>}
+ 
                     </div>
                     <div class="active-quest-ticker">
                         <Tabs tabs={tabData} content={tabData.content} onChangeTab={handleQuestChatTabs} activeTab={activeTab} />
