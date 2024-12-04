@@ -111,7 +111,17 @@ async function updateOnePC(req, res) {
         res.status(400).json(error);
     }
 }
-
+//make this function a service of some sort later
+async function reviveCharacter(req, res){
+    try{
+        console.log("Character revived")
+        initializeCharacterStatus(req.params.id)
+    }
+    catch (error) {
+        console.log(error)
+        res.status(400).json(error)
+    }
+}
 async function deleteOnePC(req, res) {
     try {
         const deletedPC = await Character.findByIdAndDelete(req.params.id);
@@ -196,6 +206,7 @@ export {
     getUserPCs,
     getAllPCsNotOnQuest,
     getAllPCsOnQuest,
+    reviveCharacter,
     updateCharacterXP,
     updateCharacterActiveQuestLog,
     startQuest

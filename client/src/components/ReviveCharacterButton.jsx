@@ -1,7 +1,10 @@
+import axios from "axios";
+
+
 const ButtonReviveCharacter = (props) => {
     const {characterid} = props
-    const reviveCharacter = (characterid) => {
-        
+    const reviveCharacter = async (characterid) => {
+        await axios.patch(`http://localhost:9999/api/updateCharacterHealth/${characterid}`)
     } 
     return(
         <>
