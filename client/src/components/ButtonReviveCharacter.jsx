@@ -8,10 +8,10 @@ const ButtonReviveCharacter = (props) => {
     } 
     return(
         <>
-        <button>
-        <button class= "nes-btn is-primary" onClick={(e)=> reviveCharacter(e)}>Abandon Quest</button>
+        <button class= "nes-btn is-primary" onClick={(e)=> reviveCharacter(e)}> Revive Character </button>
 
-        </button>
         </>
     )
 }
+
+export default ButtonReviveCharacter;

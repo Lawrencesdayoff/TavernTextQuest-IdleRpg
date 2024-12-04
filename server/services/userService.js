@@ -183,6 +183,9 @@ const calculateTotalDamage = async (characterId) => {
 const handleCharacterHealth = async (characterId, eventDamage) => {
   await Character.findByIdAndUpdate(characterId, {$inc: {PC_health: - eventDamage}});
 }
+const handleCharacterGold = async (characterId, eventGold) => {
+  await Character.findByIdAndUpdate(characterId, {$inc: {PC_gold: + eventGold}})
+}
 const checkCharacterStatus = async (character) => {
   if (character.PC_health <= 0){
     await Character.findByIdAndUpdate(character._id, {PC_incapacitated: true})

@@ -12,6 +12,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Timer from "../../components/Timer";
 import AbandonQuestButton from "../../components/AbandonQuestButton";
+import ButtonReviveCharacter  from "../../components/ButtonReviveCharacter";
 
 const ActiveQuest = (props) => {
     const { user, token } = props;
@@ -178,7 +179,7 @@ const ActiveQuest = (props) => {
                             wisdom={characterdata.PC_wisdom} currentlevel={characterlevel} currentxp={characterxp} xptolevelup={characterxpThreshold} />
                         
                         {hasdied ? <p>{characterdata.PC_firstname} is incapacitated!</p> : <></>}
-
+                        <ButtonReviveCharacter characterid = {characterid}/>
                         <ButtonToDashboard />
  
                     </div>
