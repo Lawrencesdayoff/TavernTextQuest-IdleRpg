@@ -70,6 +70,9 @@ const ActiveQuest = (props) => {
         setEncounterLog(newEncounterLog);
     };
 
+    const handleCharacterRevive = () => {
+       return setCharacterDied(false)
+    }
     function getCurrentTime() {
         const now = new Date();
         const isoString = now.toISOString(); // Generates 2024-05-19T09:02:32.496Z
@@ -179,9 +182,8 @@ const ActiveQuest = (props) => {
                             wisdom={characterdata.PC_wisdom} currentlevel={characterlevel} currentxp={characterxp} xptolevelup={characterxpThreshold} />
                         
                         {hasdied ? <p>{characterdata.PC_firstname} is incapacitated!</p> : <></>}
-                        <ButtonReviveCharacter characterid = {characterid}/>
+                        <ButtonReviveCharacter characterid = {characterid} onReviveCharacterClick = {handleCharacterRevive()}/>
                         <ButtonToDashboard />
- 
                     </div>
                     <div class="active-quest-ticker">
                         <Tabs tabs={tabData} content={tabData.content} onChangeTab={handleQuestChatTabs} activeTab={activeTab} />

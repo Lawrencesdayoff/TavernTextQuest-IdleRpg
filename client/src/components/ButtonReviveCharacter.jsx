@@ -2,13 +2,13 @@ import axios from "axios";
 
 
 const ButtonReviveCharacter = (props) => {
-    const {characterid} = props
-    const reviveCharacter = async (characterid) => {
-        await axios.patch(`http://localhost:9999/api/updateCharacterHealth/${characterid}`)
+    const {characterid, onReviveCharacterClick} = props;
+    const onReviveCharacter = async () => {
+        await axios.patch(`http://localhost:9999/api/reviveCharacter/${characterid}`)
     } 
     return(
         <>
-        <button class= "nes-btn is-primary" onClick={(e)=> reviveCharacter(e)}> Revive Character </button>
+        <button class= "nes-btn is-primary" onClick={(e) => onReviveCharacter(e)}> Revive Character </button>
 
         </>
     )

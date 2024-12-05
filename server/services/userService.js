@@ -102,6 +102,7 @@ const updateActiveQuestLog = async (characterid, currentEvent, eventOutcome) => 
     )
     updateCharacterXP(characterid, eventOutcome ? currentEvent.Event_XP_gain_success : currentEvent.Event_XP_gain_failure)
     handleCharacterHealth(characterid, eventOutcome ? 0 : currentEvent.Event_failure_health_loss ?? 0 )
+    handleCharacterGold(characterid, eventOutcome ? 0 : currentEvent.Event_success_gold_gain ?? 0)
   }
   catch (error) {
     console.log("Error updating character active quest log", error)
@@ -176,7 +177,7 @@ const calculateTotalDamage = async (characterId) => {
     return totalDamage;
   } catch (error) {
     console.error("Error calculating total damage:", error);
-    return 0; // Return 0 in case of an error
+    return 0; // Return 0 in case of an error 
   }
 };
 

@@ -74,6 +74,9 @@ const CharacterSchema = new Schema(
         PC_health: {
             type: Number,
         },
+        PC_gold: {
+            type: Number,
+        },
         PC_incapacitated: {
             type: Boolean,
             default: false

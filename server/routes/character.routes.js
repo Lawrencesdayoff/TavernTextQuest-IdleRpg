@@ -24,8 +24,8 @@ router.route("/deleteCharacter/:id")
 router.route("/getusercharacters/:id")
     .get(CharacterController.getUserPCs)
 
-router.route("/updateCharacterHealth/:id")
-    .get(CharacterController.reviveCharacter)
+router.route("/reviveCharacter/:id")
+    .patch(CharacterController.reviveCharacter)
 
 router.route("/getcharactersonquests/:id")
     .get(CharacterController.getAllPCsOnQuest)

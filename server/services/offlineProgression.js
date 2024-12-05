@@ -153,6 +153,7 @@ const updateActiveQuestLog = async (characterid, currentEvent, eventOutcome) => 
       )
       updateCharacterXP(characterid, eventOutcome ? currentEvent.Event_XP_gain_success : currentEvent.Event_XP_gain_failure)
       handleCharacterHealth(characterid, eventOutcome ? 0 : currentEvent.Event_failure_health_loss ?? 0)
+      handleCharacterGold(characterid, eventOutcome ? 0 : currentEvent.Event_success_gold_gain?? 0)
    }
    catch (error) {
       console.log("Error updating character active quest log", error)
@@ -225,6 +226,10 @@ const updateCharacterXP = async (character, additionalXP) => {
 
 const handleCharacterHealth = async (characterId, eventDamage) => {
    await Character.findByIdAndUpdate(characterId, { $inc: { PC_health: - eventDamage } });
+}
+
+const handleCharacterGold = async (characterId, eventGold) => {
+   await Character.findByIdAndUpdate(characterId, { $inc: { PC_gold: + eventGold } })
 }
 
 const checkCharacterStatus = async (character) => {

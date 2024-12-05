@@ -71,7 +71,7 @@ export const initializeCharacterStatus = async (characterid) => {
     const character = await Character.findById(characterid);
     if (character) {
         const updatedHealth = character.PC_constitution * 2;
-        await Character.findByIdAndUpdate(characterid, { $set: { PC_health: updatedHealth , PC_incapacitate: false } });
+        await Character.findByIdAndUpdate(characterid, { $set: { PC_health: updatedHealth , PC_incapacitated: false } });
     } else {
         console.log("Character not found");
     }

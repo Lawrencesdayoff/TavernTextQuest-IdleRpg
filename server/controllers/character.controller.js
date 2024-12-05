@@ -115,7 +115,8 @@ async function updateOnePC(req, res) {
 async function reviveCharacter(req, res){
     try{
         console.log("Character revived")
-        initializeCharacterStatus(req.params.id)
+        const id = req.params.id
+        initializeCharacterStatus(id)
     }
     catch (error) {
         console.log(error)
