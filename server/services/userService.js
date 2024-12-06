@@ -21,17 +21,20 @@ export const updateCharacterActiveQuestLog = async () => {
           const character = await Character.findById(activequest.Character_id)
           const questStartTime = new Date(character.Quest_Start_Time);
           const currentTime = new Date();
-          const timeElapsed = Math.floor((currentTime - questStartTime) / 1000); // Time elapsed in seconds
+          const timeElapsed = Math.abs(Math.floor((questStartTime - currentTime) / 1000)); // Time elapsed in seconds
 
           // Ensure `Last_Event_Check` is initialized for the first run
           const lastEventCheck = character.Last_event_checked || questStartTime;
           const secondsSinceLastCheck = Math.floor((currentTime - lastEventCheck) / 1000);
 
-          const currentHours = Math.floor(timeElapsed / 3600);
-          const currentMinutes = Math.floor((timeElapsed % 3600) / 60);
-          const currentSeconds = timeElapsed % 60;
+          const currentHours = Math.abs(Math.floor(timeElapsed / 3600));
+          const currentMinutes = Math.abs(Math.floor((timeElapsed % 3600) / 60));
+          const currentSeconds = Math.abs(timeElapsed % 60);
           const currrentQuest = await Quest.findById(character.Current_Quest)
-          console.log(currrentQuest)
+          console.log(timeElapsed)
+          console.log(currentHours)
+          console.log(currentMinutes)
+          console.log(currentSeconds)
           // Check if quest is finished
           if(character.PC_incapacitated === true){
             return
@@ -65,7 +68,6 @@ export const updateCharacterActiveQuestLog = async () => {
               else {
                 console.log("Pulling random-event")
                 const randomEvent = fetchRandomEvent(character)
-                console.log(randomEvent)
                 runEventStatChecks(character, randomEvent)
                 checkCharacterStatus(character)
               }

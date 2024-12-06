@@ -5,7 +5,7 @@ const ButtonReviveCharacter = (props) => {
     const {characterid, onReviveCharacterClick} = props;
     const onReviveCharacter = async () => {
         await axios.patch(`http://localhost:9999/api/reviveCharacter/${characterid}`)
-        onReviveCharacter()
+        onReviveCharacterClick()
     } 
     return(
         <>

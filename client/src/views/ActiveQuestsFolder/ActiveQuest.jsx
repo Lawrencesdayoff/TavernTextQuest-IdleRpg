@@ -71,6 +71,7 @@ const ActiveQuest = (props) => {
     };
 
     const handleCharacterRevive = () => {
+        console.log("Character Revived")
        return setCharacterDied(false)
     }
     function getCurrentTime() {
@@ -182,7 +183,7 @@ const ActiveQuest = (props) => {
                             wisdom={characterdata.PC_wisdom} currentlevel={characterlevel} currentxp={characterxp} xptolevelup={characterxpThreshold} />
                         
                         {hasdied ? <p>{characterdata.PC_firstname} is incapacitated!</p> : <></>}
-                        <ButtonReviveCharacter characterid = {characterid} onReviveCharacterClick = {handleCharacterRevive()}/>
+                        <ButtonReviveCharacter characterid = {characterid} onReviveCharacterClick = {handleCharacterRevive}/>
                         <ButtonToDashboard />
                     </div>
                     <div class="active-quest-ticker">

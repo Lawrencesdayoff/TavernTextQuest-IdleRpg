@@ -23,7 +23,7 @@ export const createQuestEventQueue = async (characterid, questid) => {
         const questBiomes = quest.Quest_biome.map(item => item);
         const listOfRandomEvents = await Event.find({ Event_terrain: { $in: questBiomes } });
         const listOfQuestSpecificEvents = await Event.find({ Quest_specific: questid })
-        const totalQuestTime = (quest.Quest_time_hours * 60 * 60) + (quest.Quest_time_minutes);
+        const totalQuestTime = (quest.Quest_time_hours * 60 * 60) + (quest.Quest_time_minutes * 60);
         if (!listOfRandomEvents || listOfRandomEvents.length === 0) {
             console.error("No events found!");
             return [];
@@ -31,12 +31,12 @@ export const createQuestEventQueue = async (characterid, questid) => {
         // Shuffle the events to create a randomized queue
         const shuffledEventQueue = listOfRandomEvents.sort(() => Math.random() - 0.5);
 
-        // Define the average duration of an event (in minutes)
-        const averageEventDuration = 10; // You can adjust this value based on your game's needs
+        // Define the average duration of an event (in seconds)
+        const averageEventDuration = 100; // You can adjust this value based on your game's needs
 
         // Calculate the maximum number of events that fit within the quest time
         const maxEvents = Math.floor(totalQuestTime / averageEventDuration);
-
+        console.log("maxEvents", maxEvents)
         // Limit the shuffledEventQueue to the calculated number of events
         const limitedEventQueue = shuffledEventQueue.slice(0, maxEvents);
 
@@ -44,7 +44,6 @@ export const createQuestEventQueue = async (characterid, questid) => {
         const finalQueue = limitedEventQueue.concat(listOfQuestSpecificEvents)
         // Return or process the limited event queue as needed
 
-        console.log(finalQueue)
 
         await Character.findByIdAndUpdate(character._id, { Quest_event_queue: finalQueue })
     } catch (error) {
