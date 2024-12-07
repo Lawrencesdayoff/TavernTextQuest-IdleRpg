@@ -11,7 +11,8 @@ const AbandonQuestButton = (props) => {
                 Current_Quest: "",
                 Active_Quest_Log: "",
                 Quest_Start_Time: "" ,
-                Quest_event_queue: ""
+                Quest_event_queue: "",
+                Completed_quest: false
             }).then((res) => {
                 axios.patch(`http://localhost:9999/api/removeUserActiveQuests/${userid}`, {
                     Quest_id: questid,

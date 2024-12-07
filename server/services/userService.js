@@ -2,7 +2,18 @@ import Character from '../models/character.model.js';
 import Quest from '../models/quest.model.js'
 import User from '../models/user.model.js'
 
+function getCurrentTime() {
+  const now = new Date();
+  const isoString = now.toISOString(); // Generates 2024-05-19T09:02:32.496Z
+  const timeZoneOffset = -now.getTimezoneOffset(); // Get the timezone offset in minutes
 
+  // Format timezone offset as ±HH:mm
+  const sign = timeZoneOffset >= 0 ? "+" : "-";
+  const hours = String(Math.floor(Math.abs(timeZoneOffset) / 60)).padStart(2, "0");
+  const minutes = String(Math.abs(timeZoneOffset) % 60).padStart(2, "0");
+  
+  return `${isoString.slice(0, -1)}${sign}${hours}:${minutes}`; 
+}
 
 export const updateCharacterActiveQuestLog = async () => {
   console.log("Updating character progress");
@@ -20,8 +31,14 @@ export const updateCharacterActiveQuestLog = async () => {
           // Assuming the character model has a field that tracks when the quest started
           const character = await Character.findById(activequest.Character_id)
           const questStartTime = new Date(character.Quest_Start_Time);
-          const currentTime = new Date();
-          const timeElapsed = Math.abs(Math.floor((questStartTime - currentTime) / 1000)); // Time elapsed in seconds
+          console.log(questStartTime)
+          // const currentTime = new Date().toISOString();
+          // const timeElapsed = Math.abs(Math.floor((currentTime - questStartTime) / 1000)); // Time elapsed in seconds
+
+          const currentTime = getCurrentTime()
+          const timeElapsed = Math.abs(Math.floor((new Date(currentTime) - new Date(character.Quest_Start_Time)) / 1000));
+          console.log(currentTime)
+
 
           // Ensure `Last_Event_Check` is initialized for the first run
           const lastEventCheck = character.Last_event_checked || questStartTime;
@@ -36,7 +53,7 @@ export const updateCharacterActiveQuestLog = async () => {
           console.log(currentMinutes)
           console.log(currentSeconds)
           // Check if quest is finished
-          if(character.PC_incapacitated === true){
+          if (character.PC_incapacitated === true) {
             return
           }
           if ((currrentQuest.Quest_time_hours <= currentHours) && (currrentQuest.Quest_time_minutes <= currentMinutes)) {
@@ -60,7 +77,7 @@ export const updateCharacterActiveQuestLog = async () => {
               await Character.findByIdAndUpdate(character._id, { Last_event_checked: currentTime });
 
               if (eventAtTime) {
-                console.log("Found quest-specific event:", eventAtTime);
+                // console.log("Found quest-specific event:", eventAtTime);
                 // Run the stat checks for the event
                 runEventStatChecks(character, eventAtTime);
                 checkCharacterStatus(character)
@@ -103,7 +120,7 @@ const updateActiveQuestLog = async (characterid, currentEvent, eventOutcome) => 
       }, { new: true }
     )
     updateCharacterXP(characterid, eventOutcome ? currentEvent.Event_XP_gain_success : currentEvent.Event_XP_gain_failure)
-    handleCharacterHealth(characterid, eventOutcome ? 0 : currentEvent.Event_failure_health_loss ?? 0 )
+    handleCharacterHealth(characterid, eventOutcome ? 0 : currentEvent.Event_failure_health_loss ?? 0)
     handleCharacterGold(characterid, eventOutcome ? 0 : currentEvent.Event_success_gold_gain ?? 0)
   }
   catch (error) {
@@ -184,14 +201,14 @@ const calculateTotalDamage = async (characterId) => {
 };
 
 const handleCharacterHealth = async (characterId, eventDamage) => {
-  await Character.findByIdAndUpdate(characterId, {$inc: {PC_health: - eventDamage}});
+  await Character.findByIdAndUpdate(characterId, { $inc: { PC_health: - eventDamage } });
 }
 const handleCharacterGold = async (characterId, eventGold) => {
-  await Character.findByIdAndUpdate(characterId, {$inc: {PC_gold: + eventGold}})
+  await Character.findByIdAndUpdate(characterId, { $inc: { PC_gold: + eventGold } })
 }
 const checkCharacterStatus = async (character) => {
-  if (character.PC_health <= 0){
-    await Character.findByIdAndUpdate(character._id, {PC_incapacitated: true})
+  if (character.PC_health <= 0) {
+    await Character.findByIdAndUpdate(character._id, { PC_incapacitated: true })
   }
-  
+
 }
