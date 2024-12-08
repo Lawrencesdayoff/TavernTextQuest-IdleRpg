@@ -41,7 +41,7 @@ export const updateCharacterActiveQuestLog = async () => {
 
 
           // Ensure `Last_Event_Check` is initialized for the first run
-          const lastEventCheck = character.Last_event_checked || questStartTime;
+          const lastEventCheck = character.Last_event_checked || new Date(character.Quest_Start_Time);
           const secondsSinceLastCheck = Math.abs(Math.floor((new Date(currentTime) - new Date(lastEventCheck)) / 1000));
 
           const currentHours = Math.abs(Math.floor(timeElapsed / 3600));
