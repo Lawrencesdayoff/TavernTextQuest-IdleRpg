@@ -42,18 +42,21 @@ export const updateCharacterActiveQuestLog = async () => {
 
           // Ensure `Last_Event_Check` is initialized for the first run
           const lastEventCheck = character.Last_event_checked || questStartTime;
-          const secondsSinceLastCheck = Math.floor((currentTime - lastEventCheck) / 1000);
+          const secondsSinceLastCheck = Math.abs(Math.floor((new Date(currentTime) - new Date(lastEventCheck)) / 1000));
 
           const currentHours = Math.abs(Math.floor(timeElapsed / 3600));
           const currentMinutes = Math.abs(Math.floor((timeElapsed % 3600) / 60));
           const currentSeconds = Math.abs(timeElapsed % 60);
           const currrentQuest = await Quest.findById(character.Current_Quest)
+          console.log(lastEventCheck)
+          console.log(secondsSinceLastCheck)
           console.log(timeElapsed)
           console.log(currentHours)
           console.log(currentMinutes)
           console.log(currentSeconds)
           // Check if quest is finished
           if (character.PC_incapacitated === true) {
+            console.log(character.PC_firstname, "incapacitated")
             return
           }
           if ((currrentQuest.Quest_time_hours <= currentHours) && (currrentQuest.Quest_time_minutes <= currentMinutes)) {
@@ -77,7 +80,7 @@ export const updateCharacterActiveQuestLog = async () => {
               await Character.findByIdAndUpdate(character._id, { Last_event_checked: currentTime });
 
               if (eventAtTime) {
-                // console.log("Found quest-specific event:", eventAtTime);
+                console.log("Found quest-specific event:", eventAtTime);
                 // Run the stat checks for the event
                 runEventStatChecks(character, eventAtTime);
                 checkCharacterStatus(character)
@@ -91,6 +94,8 @@ export const updateCharacterActiveQuestLog = async () => {
             }
           }
         }
+        console.log("something is wrong")
+
       }
     }
     else if (usersLoggedIn.length == 0) { console.log("No users currently logged in") }
