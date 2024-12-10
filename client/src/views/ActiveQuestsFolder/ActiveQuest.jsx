@@ -15,7 +15,7 @@ import AbandonQuestButton from "../../components/AbandonQuestButton";
 import ButtonReviveCharacter  from "../../components/ButtonReviveCharacter";
 
 const ActiveQuest = (props) => {
-    const { user, token } = props;
+    const { user, token} = props;
     const { questid: questid, characterid: characterid } = useParams();
     const [characterdata, setCharacterData] = useState([]);
     const [questdata, setQuestData] = useState([]);
@@ -41,6 +41,13 @@ const ActiveQuest = (props) => {
     const [characterxp, setCurrentXP] = useState(0);
     const [characterxpThreshold, setThresholdXP] = useState(0);
     const [characterlevel, setCharacterLevel] = useState(0);
+
+    const getRandomPicture = (array) => {
+        const randompic = array[Math.floor(Math.random()* array.length)];
+        return randompic
+    }
+
+    const [randompicture, setRandomPicture] = useState("")
 
     const baseExp = 100;
     const levelExponent = 1.5;
@@ -87,6 +94,7 @@ const ActiveQuest = (props) => {
         return `${isoString.slice(0, -1)}${sign}${hours}:${minutes}`;
     }
 
+
     const getTime = (start) => {
         const startTime = Date.parse(start);
         console.log(start)
@@ -118,6 +126,7 @@ const ActiveQuest = (props) => {
             let quest = questResponse.data;
             setCharacterData(character);
             setQuestData(quest);
+            setRandomPicture(getRandomPicture(quest.Quest_images[0]))
             setStartTime(character.Quest_Start_Time)
             setCharacterHealth(character.PC_health)
             setCharacterMaxHealth(character.PC_constitution * 2);
@@ -186,7 +195,11 @@ const ActiveQuest = (props) => {
                         <ButtonReviveCharacter characterid = {characterid} onReviveCharacterClick = {handleCharacterRevive}/>
                         <ButtonToDashboard />
                     </div>
-                    <div class="active-quest-ticker">
+                    <div className ="active-quest-ticker">
+                        <div>
+                            <img src={randompicture}/>
+                            
+                        </div>
                         <Tabs tabs={tabData} content={tabData.content} onChangeTab={handleQuestChatTabs} activeTab={activeTab} />
                     </div>
                 </div>

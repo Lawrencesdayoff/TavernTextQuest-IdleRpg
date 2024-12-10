@@ -9,13 +9,14 @@ const QuestEventLog = (props) => {
 
 
     return (
-        <div className="scrollable-div">
+            
+            <div className = "quest-log">
             {encounterlog.length > 0 ? (
                 encounterlog.map((item, index) => <LogItem key={index} logtext={item} />)
             ) : (
                 <p>Every adventure begins with a single step...</p> // Use <p> for non-table content
             )}
-        </div>
+            </div>
     );
 };
 export default QuestEventLog;

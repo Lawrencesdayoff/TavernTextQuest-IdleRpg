@@ -10,7 +10,7 @@ const CharacterHUD = (props) => {
     //    const xptolevelup = Math.floor(100 * Math.pow(currentlevel, 1.5))
     return(
         <>
-        <img src={image} width= "200px" height = "200px"/>
+        <img className= "character-portrait" src={image} />
         <p>{firstname} {lastname}</p>
         <p>Gold : {gold}</p>
         <p>Level: {currentlevel}</p>
