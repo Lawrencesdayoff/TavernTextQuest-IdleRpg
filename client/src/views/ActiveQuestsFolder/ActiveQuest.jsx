@@ -126,7 +126,7 @@ const ActiveQuest = (props) => {
             let quest = questResponse.data;
             setCharacterData(character);
             setQuestData(quest);
-            setRandomPicture(getRandomPicture(quest.Quest_images[0]))
+            setRandomPicture(getRandomPicture(quest.Quest_images[0].images))
             setStartTime(character.Quest_Start_Time)
             setCharacterHealth(character.PC_health)
             setCharacterMaxHealth(character.PC_constitution * 2);
@@ -174,8 +174,8 @@ const ActiveQuest = (props) => {
     return (
 
         <>
-            <div className="dashboard-area">
-                <div className="dashboard-header">
+            <div className="dashboard-area-activequest">
+                <div className="dashboard-header-activequest">
                     <div class="col"><Header message={"Welcome"} username={user} /></div>
                     <div class="col"><LogoutButton /></div>
                     <div class="col"><AbandonQuestButton characterid={characterid} questid={questid} userid={token} /></div>
@@ -195,15 +195,16 @@ const ActiveQuest = (props) => {
                         <ButtonReviveCharacter characterid = {characterid} onReviveCharacterClick = {handleCharacterRevive}/>
                         <ButtonToDashboard />
                     </div>
+                    <div><img src={randompicture} width= "800px" height= "200px"/>
                     <div className ="active-quest-ticker">
-                        <div>
-                            <img src={randompicture}/>
                             
-                        </div>
                         <Tabs tabs={tabData} content={tabData.content} onChangeTab={handleQuestChatTabs} activeTab={activeTab} />
+                    </div>
                     </div>
                 </div>
             </div>
+            
+
         </>
 
     )
