@@ -96,7 +96,7 @@ const Dashboard = (props) => {
               <AvailableQuestItem key = {index} _id = {item._id} questname = {item.Quest_name} questlevel ={item.Quest_level}/>))} />
         </div>
         <div class = "dashboard-char-column">
-            <CharacterContainer Actions = {<ButtonCreateCharacter/>} Heading= "Characters" Content =  {usercharacterlist.map((item, index) => (<CharacterItem key = {index} _id = {item._id} image = {item.PC_image} firstname = {item.PC_firstname} lastname = {item.PC_lastname} />))}
+            <CharacterContainer Actions = {<ButtonCreateCharacter/>} Heading= "Characters" Content =  {usercharacterlist.map((item, index) => (<CharacterItem key = {index} _id = {item._id} image = {item.PC_image} firstname = {item.PC_firstname} lastname = {item.PC_lastname} levelup = {item.PC_levelup_points}/>))}
             />
           {/* <AudioPlayer/> */}
 

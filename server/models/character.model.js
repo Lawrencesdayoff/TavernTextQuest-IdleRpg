@@ -111,6 +111,10 @@ const CharacterSchema = new Schema(
         PC_experience: {
             type: Number,
             default: 0
+        },
+        PC_levelup_points: {
+            type: Number,
+            default: 0
         }
     },
     { timestamps: true}
@@ -132,7 +136,7 @@ CharacterSchema.pre('findOneAndUpdate', async function (next) {
         const docToUpdate = await this.model.findOne(this.getQuery());
 
         // Calculate new experience and level values
-        let { PC_experience, PC_level } = docToUpdate;
+        let { PC_experience, PC_level, PC_levelup_points } = docToUpdate;
         PC_experience += update.$inc.PC_experience; // Add increment to current experience
 
         // Level-up logic
@@ -140,11 +144,12 @@ CharacterSchema.pre('findOneAndUpdate', async function (next) {
         while (PC_experience >= nextLevelExp) {
             PC_experience -= nextLevelExp;
             PC_level += 1;
+            PC_levelup_points += 1;
             nextLevelExp = experienceToLevelUp(PC_level);
         }
 
         // Apply $set to update PC_experience and PC_level without conflict
-        update.$set = { PC_experience, PC_level };
+        update.$set = { PC_experience, PC_level, PC_levelup_points };
         delete update.$inc.PC_experience; // Ensure $inc is removed to prevent conflict
     }
 
