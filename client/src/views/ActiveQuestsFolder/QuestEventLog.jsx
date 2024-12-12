@@ -11,12 +11,12 @@ const QuestEventLog = (props) => {
     return (
 
         <div className="quest-log">
-                      <svg>
+                      {/* <svg>
                 <filter id="wavy2">
                     <feTurbulence x="0" y="0" baseFrequency="0.01" numOctaves="5" seed="1" />
                     <feDisplacementMap in="SourceGraphic" scale="20" />
                 </filter>
-            </svg>
+            </svg> */}
             <div id="parchment">
                 <div class="parchment-filter"></div>
                 <div class="parchment-text">

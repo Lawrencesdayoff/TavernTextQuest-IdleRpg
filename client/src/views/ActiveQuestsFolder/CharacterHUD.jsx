@@ -10,15 +10,18 @@ const CharacterHUD = (props) => {
     //    const xptolevelup = Math.floor(100 * Math.pow(currentlevel, 1.5))
     return(
         <>
-        <div id="parchment">
-            <div className="parchment-filter"></div>
-        <img className= "character-portrait" src={image} />
+   
+        <img className= "character-portrait-activequest" src={image} />
         <p>{firstname} {lastname}</p>
         <p>Gold : {gold}</p>
         <p>Level: {currentlevel}</p>
+        <div>
+            <img src="\public\UI\pixel-heart-2779422_640.png" height = "40px"></img>
         <HealthBar hp = {health} maxHp = {maxHp}></HealthBar>
-        <XPBar  xp = {currentxp} xpLevel  = {xptolevelup}/>
         </div>
+        
+        <XPBar  xp = {currentxp} xpLevel  = {xptolevelup}/>
+        
         </>
     )
 }

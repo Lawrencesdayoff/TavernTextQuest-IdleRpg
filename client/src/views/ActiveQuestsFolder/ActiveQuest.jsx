@@ -180,12 +180,15 @@ const ActiveQuest = (props) => {
                     <div class="col"><LogoutButton /></div>
                     <div class="col"><AbandonQuestButton characterid={characterid} questid={questid} userid={token} /></div>
                 </div>
-                <div className="dashboard-content">
+                <div className="dashboard-content-activequest">
                     <div class="active-quest-HUD">
+                    <div id = "DungeonWallBorder">
+                    <div id="parchment">
+                    <div className="parchment-filter"></div>
                         <Timer hours={hours} minutes={minutes} seconds={seconds} />
 
                         <CharacterHUD image={characterdata.PC_image} firstname={characterdata.PC_firstname} lastname={characterdata.PC_lastname}
-                            gold={questgold} race={characterdata.PC_race} health={characterhealth} maxHp = {characterhealth}
+                            gold={questgold} race={characterdata.PC_race} health={characterhealth} maxHp = {characterhealthMax}
                             pronouns={characterdata.PC_pronouns} strength={characterdata.PC_strength}
                             constitution={characterdata.PC_constitution} agility={characterdata.PC_agility} perception={characterdata.PC_perception}
                             intellect={characterdata.PC_intellect} magick={characterdata.PC_magick}
@@ -194,6 +197,8 @@ const ActiveQuest = (props) => {
                         {hasdied ? <p>{characterdata.PC_firstname} is incapacitated!</p> : <></>}
                         <ButtonReviveCharacter characterid = {characterid} onReviveCharacterClick = {handleCharacterRevive}/>
                         <ButtonToDashboard />
+                        </div>
+                    </div>
                     </div>
                     <div><img src={randompicture} width= "800px" height= "200px"/>
                     <div className ="active-quest-ticker">
