@@ -8,6 +8,7 @@ const CharacterDetails = (props) => {
     const [details, setcharacterDetails] = useState([])
     const navigate = useNavigate();    
     const { id } = useParams();
+    const [PC_image, setImage] = useState();
     const [PC_firstname, setFirstname] = useState("");
     const [PC_lastname, setLastname] = useState("");
     const [PC_race, setRace] = useState("grassman")
@@ -21,14 +22,11 @@ const CharacterDetails = (props) => {
     const [PC_magick, setMagick] = useState(5);
     const [PC_wisdom, setWisdom] = useState(5);
     const [userPoints, setUserPoints] = useState(25)
-    const [portraitIndex, setPortraitIndex] = useState(0)
     const [user_firstnameError, setFirstnameError] = useState("");
     const [user_lastnameError, setLastnameError] = useState("");
     const [userPointsError, setPointsError] = useState("")
     const user_id = sessionStorage.getItem("token");
 
-    const PortraitList = Array.from(ProfilePictures.map((item) => (item.image)))
-    const [PC_image, setImage] = useState(PortraitList[Math.floor(Math.random() * PortraitList.length)])
     useEffect(() => {
         console.log(id)
         axios.get(`http://localhost:9999/api/getoneCharacter/${id}`)
@@ -64,13 +62,14 @@ const CharacterDetails = (props) => {
         }
     }
 
-    const onDecrement = (e, value, funcDecrement) => {
+    const onDecrement = (e, value, statValue, funcDecrement) => {
+    
         e.preventDefault();
-        if (value <= 5) {
+        if (value <= statValue) {
             console.log("cannot decrease stat further")
-            funcDecrement(5)
+            funcDecrement(statValue)
         }
-        else if (userPoints >= 25) {
+        else if (userPoints >= leveluppoints) {
             console.log("Point reserve full")
             setPointsError("You are at the maximum available skill points.")
             setUserPoints(25)
@@ -81,54 +80,12 @@ const CharacterDetails = (props) => {
         }
     }
 
-    const resetStats = (e) => {
-        e.preventDefault()
-        setUserPoints(25)
-        setStrength(5)
-        setAgility(5)
-        setConstitution(5)
-        setPerception(5)
-        setIntellect(5)
-        setMagick(5)
-        setWisdom(5)
-    }
-    const randomizeStats = (e) => {
-        resetStats(e)
-        e.preventDefault()
-        const stats = [0, 0, 0, 0, 0, 0, 0]
-        // const FunctionArray = {setStr: function () {}, setCon: function () {setConstitution(PC_constitution + 1)}, setAgi: function () {setAgility(PC_agility+1)}, 
-        //   setPer: function () {setPerception(PC_perception + 1)}, setInt: function () {setIntellect(PC_intellect + 1)}, setMag: function () {setMagick(PC_magick + 1)}, setWis: function () {setWisdom(PC_wisdom + 1)}}
-        // const function_list = Object.keys(FunctionArray)
-        for (let i = 0; i <= 25; i++) {
-            // const randomFunction = function_list[Math.floor(Math.random() * function_list.length)]
-            // FunctionArray[randomFunction]()
-            // console.log(FunctionArray[randomFunction])
-            let random_index = Math.floor(Math.random() * stats.length)
-            stats[random_index] = stats[random_index] + 1
-            console.log(i)
-        }
-        setUserPoints(0)
-        setStrength(5 + stats[0])
-        setAgility(5 + stats[1])
-        setConstitution(5 + stats[2])
-        setPerception(5 + stats[3])
-        setIntellect(5 + stats[4])
-        setMagick(5 + stats[5])
-        setWisdom(5 + stats[6])
-        console.log(stats)
-    }
     useEffect(() => { },)
     const createPC = (e) => {
         e.preventDefault();
 
-        axios.post("http://localhost:9999/api/newCharacter", {
+        axios.post("http://localhost:9999/api/", {
             user_id: user_id,
-            PC_image: PC_image,
-            PC_firstname: PC_firstname,
-            PC_lastname: PC_lastname,
-            PC_race: PC_race,
-            PC_pronouns: PC_pronouns,
-            PC_bio: PC_bio,
             PC_strength: PC_strength,
             PC_constitution: PC_constitution,
             PC_agility: PC_agility,
@@ -150,49 +107,29 @@ const CharacterDetails = (props) => {
             <div class="char-screen">
 
 
-                <form onSubmit={createPC} id="charactercreation">
-                    <a><button class="nes-btn is-primary" onClick={(e) => movePrevious(e)}> Arrow Left </button></a>
-                    <img src={PC_image} alt="alternate text"></img>
-                    <input type="hidden" name="PC_image" form="charactercreator" value={PC_image} />
-                    <a><button class="nes-btn is-primary" onClick={(e) => moveNext(e)}> Arrow Right </button></a>
                     <div class="char-column">
                         <div>
                             <label> Character Portrait </label>
+                                <img src={PC_}/>
                         </div>
                         <div>
                             <label> First Name: </label>
-                            <input type="text" form="charactercreation" value={PC_firstname} onChange={(e) =>
-                                handleFirstName(e.target.value)} />
+                            <p>{PC_firstname}</p>
                         </div>
                         <div>
                             <label> Last Name: </label>
-                            <input type="text" form="charactercreation" value={PC_lastname} onChange={(e) =>
-                                handleLastName(e.target.value)} />
+
                         </div>
                         <div>
                             <label for="Race">Race:</label>
-                            <select name="PC_race" id="race" form="charactercreation" onChange={(e) => setRace(e.target.value)}>
-                                <option value="Grassman"> Grassman</option>
-                                <option value="High Elf"> High Elf </option>
-                                <option value="Dwarg"> Dwarg </option>
-                                <option value="Duende"> Duende </option>
-                                <option value="Iceman"> Iceman </option>
-                                <option value="Scorchlander"> Scorchlander </option>
-                                <option value="Titan"> Titan </option>
-                            </select>
+
                         </div>
                         <div>
                             <label for="Pronouns">Pronouns:</label>
-                            <select name="PC_pronouns" id="pronouns" form="charactercreation" onChange={(e) => setPronouns(e.target.value)}>
-                                <option value="she/her">She/ her</option>
-                                <option value="he/him">He/ him</option>
-                                <option value="they/them">They/ them</option>
-                            </select>
                         </div>
                         <label> Character Bio:</label>
-                        <textarea name="PC_bio" cols="20" rows="5" onChange={(e) => setBio(e.target.value)}></textarea>
-                        {/* For errors I think it would be better to have a symbol beside the field change depending on if its valid or not
-             once users hover over the symbol the errors can be displayed */}
+
+
                     </div>
                     <div class="skill-column">
                         <p> Availble Points: {userPoints} </p>
@@ -246,7 +183,6 @@ const CharacterDetails = (props) => {
                         <button class="nes-btn is-primary" onClick={returnToHome}>to Dashboard</button>
                         <input type="submit" class="nes-btn is-primary" form="charactercreation" value="Finish" />
                     </div>
-                </form>
             </div>
         </>
     )
