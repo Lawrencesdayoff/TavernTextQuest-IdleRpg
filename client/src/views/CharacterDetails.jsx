@@ -6,38 +6,79 @@ import { useNavigate } from "react-router-dom"
 const CharacterDetails = (props) => {
     const { charactername, characterage, symptoms } = props;
     const [details, setcharacterDetails] = useState([])
-    const navigate = useNavigate();    
+    const navigate = useNavigate();
     const { id } = useParams();
-    const [PC_image, setImage] = useState();
+    const [PC_image, setImage] = useState("");
     const [PC_firstname, setFirstname] = useState("");
     const [PC_lastname, setLastname] = useState("");
-    const [PC_race, setRace] = useState("grassman")
-    const [PC_pronouns, setPronouns] = useState("she/her");
+    const [PC_race, setRace] = useState("")
+    const [PC_pronouns, setPronouns] = useState("");
     const [PC_bio, setBio] = useState("");
     const [PC_strength, setStrength] = useState(5);
     const [PC_constitution, setConstitution] = useState(5);
-    const [PC_agility, setAgility] = useState(5);
-    const [PC_perception, setPerception] = useState(5);
+    const [PC_agility, setAgility] = useState(0);
+    const [PC_perception, setPerception] = useState();
     const [PC_intellect, setIntellect] = useState(5);
     const [PC_magick, setMagick] = useState(5);
     const [PC_wisdom, setWisdom] = useState(5);
     const [userPoints, setUserPoints] = useState(25)
-    const [user_firstnameError, setFirstnameError] = useState("");
-    const [user_lastnameError, setLastnameError] = useState("");
+
+    const [PC_initstrength, setInitStrength] = useState(5);
+    const [PC_initconstitution, setInitConstitution] = useState(5);
+    const [PC_initagility, setInitAgility] = useState(0);
+    const [PC_initperception, setInitPerception] = useState();
+    const [PC_initintellect, setInitIntellect] = useState(5);
+    const [PC_initmagick, setInitMagick] = useState(5);
+    const [PC_initwisdom, setInitWisdom] = useState(5);
+
     const [userPointsError, setPointsError] = useState("")
     const user_id = sessionStorage.getItem("token");
 
-    useEffect(() => {
+    const fetchCharacterData = async () => {
         console.log(id)
-        axios.get(`http://localhost:9999/api/getoneCharacter/${id}`)
-            .then((res) => {
-                console.log(res.data);
-                setcharacterDetails(res.data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }, [])
+        try {
+            const [characterResponse] = await Promise.all([
+                axios.get(`http://localhost:9999/api/getoneCharacter/${id}`)])
+            let character = characterResponse.data;
+            setImage(character.PC_image);
+            setFirstname(character.PC_firstname);
+            setLastname(character.PC_lastname);
+            setRace(character.PC_race);
+            setBio(character.PC_bio);
+
+
+
+            setStrength(character.PC_strength);
+            setConstitution(character.PC_constitution);
+            setAgility(character.PC_agility);
+            setPerception(character.PC_perception);
+            setIntellect(character.PC_intellect);
+            setMagick(character.PC_magick);
+            setWisdom(character.PC_wisdom);
+
+            
+            setInitStrength(character.PC_strength);
+            setInitConstitution(character.PC_constitution);
+            setInitAgility(character.PC_agility);
+            setInitPerception(character.PC_perception);
+            setInitIntellect(character.PC_intellect);
+            setInitMagick(character.PC_magick);
+            setInitWisdom(character.PC_wisdom);
+
+            setUserPoints(character.PC_levelup_points)
+
+        }
+
+
+        catch (err) {
+            console.error("Error fetching data:", err);
+        }
+    }
+
+
+    useEffect(() => {
+        fetchCharacterData()
+    }, [userPoints])
 
 
 
@@ -63,7 +104,7 @@ const CharacterDetails = (props) => {
     }
 
     const onDecrement = (e, value, statValue, funcDecrement) => {
-    
+
         e.preventDefault();
         if (value <= statValue) {
             console.log("cannot decrease stat further")
@@ -80,11 +121,10 @@ const CharacterDetails = (props) => {
         }
     }
 
-    useEffect(() => { },)
-    const createPC = (e) => {
+    const levelUp = (e) => {
         e.preventDefault();
 
-        axios.post("http://localhost:9999/api/", {
+        axios.patch("http://localhost:9999/api/", {
             user_id: user_id,
             PC_strength: PC_strength,
             PC_constitution: PC_constitution,
@@ -97,7 +137,7 @@ const CharacterDetails = (props) => {
             .then((res) => {
                 console.log(res);
                 console.log(res.data);
-                navigate("/dashboard");
+                navigate(`/character/${id}`);
             });
     };
 
@@ -107,30 +147,31 @@ const CharacterDetails = (props) => {
             <div class="char-screen">
 
 
-                    <div class="char-column">
-                        <div>
-                            <label> Character Portrait </label>
-                                <img src={PC_}/>
-                        </div>
-                        <div>
-                            <label> First Name: </label>
-                            <p>{PC_firstname}</p>
-                        </div>
-                        <div>
-                            <label> Last Name: </label>
-
-                        </div>
-                        <div>
-                            <label for="Race">Race:</label>
-
-                        </div>
-                        <div>
-                            <label for="Pronouns">Pronouns:</label>
-                        </div>
-                        <label> Character Bio:</label>
-
+                <div class="char-column">
+                    <div>
+                        <label> Character Portrait </label>
+                        <img src={PC_image} />
+                    </div>
+                    <div>
+                        <label> First Name: </label>
+                        <p>{PC_firstname}</p>
+                    </div>
+                    <div>
+                        <label> Last Name: </label>
 
                     </div>
+                    <div>
+                        <label for="Race">Race:</label>
+
+                    </div>
+                    <div>
+                        <label for="Pronouns">Pronouns:</label>
+                    </div>
+                    <label> Character Bio:</label>
+
+
+                </div>
+                {userPoints > 0 ? (
                     <div class="skill-column">
                         <p> Availble Points: {userPoints} </p>
                         <div class="skill-field">
@@ -175,14 +216,47 @@ const CharacterDetails = (props) => {
                             <p>{PC_wisdom}</p> <input type="hidden" name="PC_wisdom" form="charactercreator" value={PC_wisdom} />
                             <a><button class="nes-btn is-primary vertical-center" onClick={(e) => onIncrement(e, PC_wisdom, setWisdom)}> + </button></a>
                         </div>
-                        <button class="nes-btn is-primary" onClick={(e) => { resetStats(e) }}>Reset</button>
-                        <button class="nes-btn is-primary" onClick={(e) => { randomizeStats(e) }}>Randomize</button>
-                    </div>
-                    <br />
-                    <div class="cc-footer">
-                        <button class="nes-btn is-primary" onClick={returnToHome}>to Dashboard</button>
-                        <input type="submit" class="nes-btn is-primary" form="charactercreation" value="Finish" />
-                    </div>
+                        <button class="nes-btn is-primary" onClick={(e) => { levelUp(e) }}>Randomize</button>
+                    </div>)
+                    : (
+                        <div class="skill-column">
+                            <div class="skill-field">
+                                <label>Strength: </label>
+                                <p>{PC_strength}</p>
+                            </div>
+                            <div class="skill-field">
+                                <label>Constitution: </label>
+                                <p>{PC_constitution}</p>
+                            </div>
+                            <div class="skill-field">
+                                <label>Agility: </label>
+                                <p>{PC_agility}</p>
+                            </div>
+                            <div class="skill-field">
+                                <label>Perception: </label>
+                                <p>{PC_perception}</p>
+                            </div>
+                            <div class="skill-field">
+                                <label>Intellect: </label>
+                                <p>{PC_intellect}</p>
+                            </div>
+                            <div class="skill-field">
+                                <label>Magick: </label>
+                                <p>{PC_magick}</p>
+                            </div>
+                            <div class="skill-field">
+                                <label>Wisdom: </label>
+                                <p>{PC_wisdom}</p>
+                            </div>
+                        </div>
+                    )
+                }
+
+                <br />
+                <div class="cc-footer">
+                    <button class="nes-btn is-primary" onClick={returnToHome}>to Dashboard</button>
+                    <input type="submit" class="nes-btn is-primary" form="charactercreation" value="Finish" />
+                </div>
             </div>
         </>
     )
