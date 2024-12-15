@@ -21,7 +21,8 @@ const CharacterDetails = (props) => {
     const [PC_intellect, setIntellect] = useState(5);
     const [PC_magick, setMagick] = useState(5);
     const [PC_wisdom, setWisdom] = useState(5);
-    const [userPoints, setUserPoints] = useState(25)
+    const [PC_initUserPoints, setInitUserPoints] = useState(25)
+
 
     const [PC_initstrength, setInitStrength] = useState(5);
     const [PC_initconstitution, setInitConstitution] = useState(5);
@@ -30,6 +31,8 @@ const CharacterDetails = (props) => {
     const [PC_initintellect, setInitIntellect] = useState(5);
     const [PC_initmagick, setInitMagick] = useState(5);
     const [PC_initwisdom, setInitWisdom] = useState(5);
+    const [PC_userPoints, setUserPoints] = useState(25)
+
 
     const [userPointsError, setPointsError] = useState("")
     const user_id = sessionStorage.getItem("token");
@@ -38,7 +41,7 @@ const CharacterDetails = (props) => {
         console.log(id)
         try {
             const [characterResponse] = await Promise.all([
-                axios.get(`http://localhost:9999/api/getoneCharacter/${id}`)])
+            axios.get(`http://localhost:9999/api/getoneCharacter/${id}`)])
             let character = characterResponse.data;
             setImage(character.PC_image);
             setFirstname(character.PC_firstname);
@@ -78,7 +81,7 @@ const CharacterDetails = (props) => {
 
     useEffect(() => {
         fetchCharacterData()
-    }, [userPoints])
+    }, [])
 
 
 
@@ -89,16 +92,12 @@ const CharacterDetails = (props) => {
 
     const onIncrement = (e, value, funcIncrement) => {
         e.preventDefault();
-        if (value < 5) {
-            funcIncrement(5)
-        }
-
-        else if (userPoints <= 0) {
+        if (PC_userPoints <= 0) {
             console.log("No more points left")
             setUserPoints(0)
         }
         else {
-            setUserPoints(userPoints - 1);
+            setUserPoints(PC_userPoints - 1);
             funcIncrement(value + 1)
         }
     }
@@ -110,13 +109,13 @@ const CharacterDetails = (props) => {
             console.log("cannot decrease stat further")
             funcDecrement(statValue)
         }
-        else if (userPoints >= leveluppoints) {
+        else if (PC_userPoints >= leveluppoints) {
             console.log("Point reserve full")
             setPointsError("You are at the maximum available skill points.")
             setUserPoints(25)
         }
         else {
-            setUserPoints(userPoints + 1);
+            setUserPoints(PC_userPoints + 1);
             funcDecrement(value - 1)
         }
     }
@@ -171,36 +170,36 @@ const CharacterDetails = (props) => {
 
 
                 </div>
-                {userPoints > 0 ? (
+                {PC_initUserPoints > 0 ? (
                     <div class="skill-column">
-                        <p> Availble Points: {userPoints} </p>
+                        <p> Availble Points: {PC_userPoints} </p>
                         <div class="skill-field">
                             <label>Strength: </label>
-                            <a><button class="nes-btn is-primary vertical-center" onClick={(e) => onDecrement(e, PC_strength, setStrength)}> - </button></a>
+                            <a><button class="nes-btn is-primary vertical-center" onClick={(e) => onDecrement(e, PC_strength, PC_initstrength, setStrength)}> - </button></a>
                             <p>{PC_strength}</p>  <input type="hidden" name="PC_strength" form="charactercreator" value={PC_strength} />
                             <a><button class="nes-btn is-primary vertical-center" onClick={(e) => onIncrement(e, PC_strength, setStrength)}> + </button></a>
                         </div>
                         <div class="skill-field">
                             <label>Constitution: </label>
-                            <a><button class="nes-btn is-primary vertical-center" onClick={(e) => onDecrement(e, PC_constitution, setConstitution)}> - </button></a>
+                            <a><button class="nes-btn is-primary vertical-center" onClick={(e) => onDecrement(e, PC_constitution, PC_initconstitution, setConstitution)}> - </button></a>
                             <p>{PC_constitution}</p>  <input type="hidden" name="PC_constitution" form="charactercreator" value={PC_constitution} />
                             <a><button class="nes-btn is-primary vertical-center" onClick={(e) => onIncrement(e, PC_constitution, setConstitution)}> + </button></a>
                         </div>
                         <div class="skill-field">
                             <label>Agility: </label>
-                            <a><button class="nes-btn is-primary vertical-center" onClick={(e) => onDecrement(e, PC_agility, setAgility)}> - </button></a>
+                            <a><button class="nes-btn is-primary vertical-center" onClick={(e) => onDecrement(e, PC_agility, PC_initagility, setAgility)}> - </button></a>
                             <p>{PC_agility}</p>  <input type="hidden" name="PC_agility" form="charactercreator" value={PC_agility} />
                             <a><button class="nes-btn is-primary vertical-center" onClick={(e) => onIncrement(e, PC_agility, setAgility)}> + </button></a>
                         </div>
                         <div class="skill-field">
                             <label>Perception: </label>
-                            <a><button class="nes-btn is-primary vertical-center" onClick={(e) => onDecrement(e, PC_perception, setPerception)}> - </button></a>
+                            <a><button class="nes-btn is-primary vertical-center" onClick={(e) => onDecrement(e, PC_perception, PC_initperception, setPerception)}> - </button></a>
                             <p>{PC_perception}</p>  <input type="hidden" name="PC_perception" form="charactercreator" value={PC_perception} />
                             <a><button class="nes-btn is-primary vertical-center" onClick={(e) => onIncrement(e, PC_perception, setPerception)}> + </button></a>
                         </div>
                         <div class="skill-field">
                             <label>Intellect: </label>
-                            <a><button class="nes-btn is-primary vertical-center" onClick={(e) => onDecrement(e, PC_intellect, setIntellect)}> - </button></a>
+                            <a><button class="nes-btn is-primary vertical-center" onClick={(e) => onDecrement(e, PC_intellect, PC_initintellect, setIntellect)}> - </button></a>
                             <p>{PC_intellect}</p>  <input type="hidden" name="PC_intellect" form="charactercreator" value={PC_intellect} />
                             <a><button class="nes-btn is-primary vertical-center" onClick={(e) => onIncrement(e, PC_intellect, setIntellect)}> + </button></a>
                         </div>
@@ -216,7 +215,7 @@ const CharacterDetails = (props) => {
                             <p>{PC_wisdom}</p> <input type="hidden" name="PC_wisdom" form="charactercreator" value={PC_wisdom} />
                             <a><button class="nes-btn is-primary vertical-center" onClick={(e) => onIncrement(e, PC_wisdom, setWisdom)}> + </button></a>
                         </div>
-                        <button class="nes-btn is-primary" onClick={(e) => { levelUp(e) }}>Randomize</button>
+                        <button class="nes-btn is-primary" onClick={(e) => { levelUp(e) }}>Submit Level Up</button>
                     </div>)
                     : (
                         <div class="skill-column">
