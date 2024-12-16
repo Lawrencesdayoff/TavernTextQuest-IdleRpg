@@ -365,3 +365,7 @@ input[type="range"] {
 
   border-image: url("/public/UI/DungeonWall2.jpg") 30 round;
 }
+
+.changed-stat {
+  color: red;
+}
